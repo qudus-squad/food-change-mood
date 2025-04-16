@@ -11,13 +11,13 @@ interface FoodMenu {
     fun filterProteinMeals(mealItems: List<MealItem>, protein: Int): List<MealItem>
     fun filterCaloriesMeals(mealItems: List<MealItem>, calories: Int): List<MealItem>
     fun filterMealsByCountry(mealItems: List<MealItem>, country: String): List<MealItem>
+
+
     fun getMealsByName(mealItems: List<MealItem>, foodName: String): List<MealItem>
-
-
     fun getMealsByIngredientsNumber(mealItems: List<MealItem>, ingredientsNumbers: Int): List<MealItem>
     fun getMealsByStepsNumber(mealItems: List<MealItem>, stepsNumber: Int): List<MealItem>
-    fun getMealByIngredient(mealItems: List<MealItem>, ingredientsName: String): MealItem
-    fun getMealByIngredients(mealItems: List<MealItem>, ingredients: List<String>): MealItem
+    fun getMealsByIngredient(mealItems: List<MealItem>, ingredientsName: String): List<MealItem>
+    fun getMealsByIngredients(mealItems: List<MealItem>, ingredients: List<String>):List<MealItem>
     fun getMealsByDate(mealItems: List<MealItem>, date: String): List<MealItem>
 
 }
