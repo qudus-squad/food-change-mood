@@ -66,20 +66,20 @@ class DataSource : FoodMenu {
         }
     }
 
-    override fun getMealByIngredient(mealItems: List<MealItem>, ingredientsName: String): MealItem {
-        return mealItems.first { meal ->
-            meal.ingredients.any { tag ->
-                tag.equals(ingredientsName, ignoreCase = true)
+    override fun getMealsByIngredient(mealItems: List<MealItem>, ingredientsName: String): List<MealItem> {
+        return mealItems.filter { meal ->
+            meal.ingredients.any {  ingredient->
+                ingredient.equals(ingredientsName, ignoreCase = true)
             }
         }
     }
 
-
-    override fun getMealByIngredients(mealItems: List<MealItem>, ingredients: List<String>): MealItem {
-        return mealItems.first { meal ->
-            ingredients.any { ingredient ->
-                ingredient.equals(ingredient, ignoreCase = true)
-
+    override fun getMealsByIngredients(mealItems: List<MealItem>, ingredients: List<String>): List<MealItem> {
+        return mealItems.filter { meal ->
+            meal.ingredients.any {
+                ingredients.any { ingredient ->
+                    ingredient.equals(ingredient, ignoreCase = true)
+                }
             }
         }
     }
