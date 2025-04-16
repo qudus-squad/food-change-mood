@@ -3,7 +3,7 @@ package logic
 import model.MealItem
 import model.Nutrition
 
-class EasyFoodSuggestionUseCase(private val mealRepository: MealRepository) {
+class EasyFoodSuggestionUseCase(private val dataSource: FoodMenu) {
 
     // TODO Need Implement from Meal Repo
     private val meals: List<MealItem> = listOf(
@@ -63,19 +63,26 @@ class EasyFoodSuggestionUseCase(private val mealRepository: MealRepository) {
 
     fun suggestEasyMeals(numberOfSuggest: Int): List<MealItem> {
 
-        return meals.filter { getIsEasyMeal(it) }.shuffled().take(numberOfSuggest)
+        return meals.filter {
+            getIsEasyMeal(
+                meal = it,
+                preparationTime = 30,
+                numOfIngredients = 5,
+                numOfPreparationSteps = 6
+            )
+        }.shuffled().take(numberOfSuggest)
 
     }
 
-    private fun getIsEasyMeal(meal: MealItem): Boolean {
-        return meal.minutes <= PREPARATION_TIME &&
-                meal.ingredients.size <= NUMBER_OF_INGREDIENTS &&
-                meal.steps.size <= NUMBER_PREPARATION_STEPS
+    private fun getIsEasyMeal(
+        meal: MealItem,
+        preparationTime: Int,
+        numOfIngredients: Int,
+        numOfPreparationSteps: Int,
+    ): Boolean {
+        return meal.minutes <= preparationTime &&
+                meal.ingredients.size <= numOfIngredients &&
+                meal.steps.size <= numOfPreparationSteps
     }
 
-    companion object {
-        const val PREPARATION_TIME = 30
-        const val NUMBER_OF_INGREDIENTS = 5
-        const val NUMBER_PREPARATION_STEPS = 6
-    }
 }
