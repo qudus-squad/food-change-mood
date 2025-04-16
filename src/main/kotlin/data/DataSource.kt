@@ -68,16 +68,18 @@ class DataSource : FoodMenu {
 
     override fun getMealsByIngredient(mealItems: List<MealItem>, ingredientsName: String): List<MealItem> {
         return mealItems.filter { meal ->
-            meal.ingredients.any { tag ->
-                tag.equals(ingredientsName, ignoreCase = true)
+            meal.ingredients.any {  ingredient->
+                ingredient.equals(ingredientsName, ignoreCase = true)
             }
         }
     }
 
     override fun getMealsByIngredients(mealItems: List<MealItem>, ingredients: List<String>): List<MealItem> {
         return mealItems.filter { meal ->
-            ingredients.any { ingredient ->
-                ingredient.equals(ingredient, ignoreCase = true)
+            meal.ingredients.any {
+                ingredients.any { ingredient ->
+                    ingredient.equals(ingredient, ignoreCase = true)
+                }
             }
         }
     }
