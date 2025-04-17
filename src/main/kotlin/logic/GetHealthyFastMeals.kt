@@ -1,6 +1,7 @@
 package logic
 
 import data.DataSource
+import kotlinx.datetime.LocalDate
 import model.MealItem
 import model.Nutrition
 import utils.Utils.printMealDetails
@@ -14,7 +15,7 @@ class GetHealthyFastMealsUseCase(private val dataSource: FoodMenu){
             name = "arriba baked winter squash mexican style",
             minutes = 15,
             contributorId = 47892,
-            submitted = "2005-09-16",
+            submitted = LocalDate.parse("2005-09-16"),
             tags = listOf(
                 "fast-food",
                 "60-minutes-or-less",
@@ -72,7 +73,7 @@ class GetHealthyFastMealsUseCase(private val dataSource: FoodMenu){
             name = "spicy chicken fajitas",
             minutes = 12,
             contributorId = 10293,
-            submitted = "2011-08-23",
+            submitted = LocalDate.parse("2011-08-23"),
             tags = listOf(
                 "60-minutes-or-less",
                 "time-to-make",
@@ -128,7 +129,7 @@ class GetHealthyFastMealsUseCase(private val dataSource: FoodMenu){
             name = "a bit different breakfast pizza",
             minutes = 13,
             contributorId = 26278,
-            submitted = "2002-06-17",
+            submitted = LocalDate.parse("2002-06-17"),
             tags = listOf(
                 "30-minutes-or-less",
                 "time-to-make",
@@ -183,7 +184,7 @@ class GetHealthyFastMealsUseCase(private val dataSource: FoodMenu){
             name = "vegetable stir-fry",
             minutes = 30,
             contributorId = 23456,
-            submitted = "2015-02-07",
+            submitted = LocalDate.parse("2015-02-07"),
             tags = listOf(
                 "30-minutes-or-less",
                 "time-to-make",
