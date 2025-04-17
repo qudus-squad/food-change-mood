@@ -1,6 +1,6 @@
 package logic
 
-import data.DataSource
+import kotlinx.datetime.LocalDate
 import model.MealItem
 import model.Nutrition
 
@@ -13,7 +13,7 @@ class CountryFoodUseCase(dataSource: FoodMenu) {
             name = "arriba baked winter squash mexican style",
             minutes = 55,
             contributorId = 47892,
-            submitted = "2005-09-16",
+            submitted = LocalDate.parse("2005-09-16"),
             tags = listOf("60-minutes-or-less", "vegetarian", "mexican"),
             nutrition = Nutrition(
                 calories = 51.5,
@@ -39,7 +39,7 @@ class CountryFoodUseCase(dataSource: FoodMenu) {
             name = "a bit different breakfast pizza",
             minutes = 30,
             contributorId = 26278,
-            submitted = "2002-06-17",
+            submitted = LocalDate.parse("2002-06-17"),
             tags = listOf("30-minutes-or-less", "breakfast", "italian"),
             nutrition = Nutrition(
                 calories = 173.4,

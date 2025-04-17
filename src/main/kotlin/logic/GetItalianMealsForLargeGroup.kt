@@ -3,6 +3,7 @@ package logic
 import model.MealItem
 import model.Nutrition
 import data.DataSource
+import kotlinx.datetime.LocalDate
 
 class GetItalianMealsForLargeGroup(private val dataSource: DataSource = DataSource()) {
 
@@ -12,7 +13,7 @@ private val meals: List<MealItem> = listOf(
             name = "Tiramisu Tray for Groups",
             minutes = 30,
             contributorId = 20002,
-            submitted = "2022-01-10",
+            submitted = LocalDate.parse("2022-01-10"),
             tags = listOf("for-large-groups", "italian", "dessert", "no-cook", "coffee"),
             nutrition = Nutrition(
                 calories = 300.0,
@@ -39,7 +40,7 @@ private val meals: List<MealItem> = listOf(
             name = "Spaghetti Bolognese for a Crowd",
             minutes = 40,
             contributorId = 20001,
-            submitted = "2021-03-15",
+            submitted = LocalDate.parse("2021-03-15"),
             tags = listOf("for-large-groups", "italian", "pasta", "main-dish", "meat", "dinner"),
             nutrition = Nutrition(
                 calories = 350.0,
@@ -67,7 +68,7 @@ private val meals: List<MealItem> = listOf(
             name = "Caprese Salad Platter",
             minutes = 15,
             contributorId = 20003,
-            submitted = "2023-05-20",
+            submitted = LocalDate.parse("2023-05-20"),
             tags = listOf("for-large-groups", "italian", "salad", "vegetarian", "no-cook", "appetizer"),
             nutrition = Nutrition(
                 calories = 150.0,
@@ -93,7 +94,7 @@ private val meals: List<MealItem> = listOf(
             name = "Pesto Pasta for Groups",
             minutes = 25,
             contributorId = 20004,
-            submitted = "2020-08-12",
+            submitted = LocalDate.parse("2020-08-12"),
             tags = listOf("for-large-groups", "italian", "pasta", "vegetarian", "main-dish", "easy"),
             nutrition = Nutrition(
                 calories = 280.0,

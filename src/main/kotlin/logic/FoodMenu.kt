@@ -18,6 +18,5 @@ interface FoodMenu {
     fun getMealsByStepsNumber(mealItems: List<MealItem>, stepsNumber: Int): List<MealItem>
     fun getMealsByIngredient(mealItems: List<MealItem>, ingredientsName: String): List<MealItem>
     fun getMealsByIngredients(mealItems: List<MealItem>, ingredients: List<String>):List<MealItem>
-    fun getMealsByDate(mealItems: List<MealItem>, date: String): List<MealItem>
 
 }
