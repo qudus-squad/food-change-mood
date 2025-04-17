@@ -1,5 +1,7 @@
 package logic
 
-interface MealRepository{
+import model.MealItem
 
+interface MealRepository{
+    fun getAllMeals() : List<MealItem>
 }
