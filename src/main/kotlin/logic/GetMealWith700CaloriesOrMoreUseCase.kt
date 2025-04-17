@@ -5,7 +5,9 @@ import model.MealItem
 import model.Nutrition
 import utils.Utils.printMealDetails
 
-class GetMealsLess15MinutesAndLessTotalFats(private val dataSource: FoodMenu) {
+
+class GetMealWith700CaloriesOrMoreUseCase(private val data: FoodMenu) {
+
     private val mealsList = listOf(
         MealItem(
             id = 137739,
@@ -14,6 +16,7 @@ class GetMealsLess15MinutesAndLessTotalFats(private val dataSource: FoodMenu) {
             contributorId = 47892,
             submitted = "2005-09-16",
             tags = listOf(
+                "fast-food",
                 "60-minutes-or-less",
                 "time-to-make",
                 "course",
@@ -64,60 +67,6 @@ class GetMealsLess15MinutesAndLessTotalFats(private val dataSource: FoodMenu) {
             ),
             ingredientNumbers = 7
         ), MealItem(
-            id = 31490,
-            name = "a bit different breakfast pizza",
-            minutes = 13,
-            contributorId = 26278,
-            submitted = "2002-06-17",
-            tags = listOf(
-                "30-minutes-or-less",
-                "time-to-make",
-                "course",
-                "main-ingredient",
-                "cuisine",
-                "preparation",
-                "occasion",
-                "north-american",
-                "breakfast",
-                "main-dish",
-                "pork",
-                "american",
-                "oven",
-                "easy",
-                "kid-friendly",
-                "pizza",
-                "dietary",
-                "northeastern-united-states",
-                "meat",
-                "equipment"
-            ),
-            nutrition = Nutrition(
-                calories = 173.4,
-                totalFat = 18.0,
-                sugar = 0.0,
-                sodium = 17.0,
-                protein = 22.0,
-                saturatedFat = 35.0,
-                carbohydrates = 1.0
-            ),
-            stepNumbers = 9,
-            steps = listOf(
-                "preheat oven to 425 degrees f",
-                "press dough into the bottom and sides of a 12 inch pizza pan",
-                "bake for 5 minutes until set but not browned",
-                "cut sausage into small pieces",
-                "whisk eggs and milk in a bowl until frothy",
-                "spoon sausage over baked crust and sprinkle with cheese",
-                "pour egg mixture slowly over sausage and cheese",
-                "s& p to taste",
-                "bake 15-20 minutes or until eggs are set and crust is brown"
-            ),
-            description = "This recipe calls for the crust to be prebaked a bit before adding ingredients. Feel free to change sausage to ham or bacon. This warms well in the microwave for those late risers.",
-            ingredients = listOf(
-                "prepared pizza crust", "sausage patty", "eggs", "milk", "salt and pepper", "cheese"
-            ),
-            ingredientNumbers = 6
-        ), MealItem(
             id = 89012,
             name = "spicy chicken fajitas",
             minutes = 12,
@@ -131,6 +80,7 @@ class GetMealsLess15MinutesAndLessTotalFats(private val dataSource: FoodMenu) {
                 "cuisine",
                 "preparation",
                 "occasion",
+                "fast-food",
                 "mexican",
                 "chicken",
                 "easy",
@@ -140,7 +90,7 @@ class GetMealsLess15MinutesAndLessTotalFats(private val dataSource: FoodMenu) {
                 "southwest"
             ),
             nutrition = Nutrition(
-                calories = 119.0,
+                calories = 800.0,
                 totalFat = 9.0,
                 sugar = 3.0,
                 sodium = 600.0,
@@ -172,11 +122,11 @@ class GetMealsLess15MinutesAndLessTotalFats(private val dataSource: FoodMenu) {
             ),
             ingredientNumbers = 8
         ), MealItem(
-            id = 45678,
-            name = "classic spaghetti carbonara",
-            minutes = 25,
-            contributorId = 56789,
-            submitted = "2008-11-15",
+            id = 31490,
+            name = "a bit different breakfast pizza",
+            minutes = 13,
+            contributorId = 26278,
+            submitted = "2002-06-17",
             tags = listOf(
                 "30-minutes-or-less",
                 "time-to-make",
@@ -185,32 +135,45 @@ class GetMealsLess15MinutesAndLessTotalFats(private val dataSource: FoodMenu) {
                 "cuisine",
                 "preparation",
                 "occasion",
-                "italian",
-                "pasta",
+                "fast-food",
+                "north-american",
+                "breakfast",
+                "main-dish",
+                "pork",
+                "american",
+                "oven",
                 "easy",
-                "quick"
+                "kid-friendly",
+                "pizza",
+                "dietary",
+                "northeastern-united-states",
+                "meat",
+                "equipment"
             ),
             nutrition = Nutrition(
-                calories = 320.0,
-                totalFat = 14.0,
-                sugar = 2.0,
-                sodium = 400.0,
-                protein = 15.0,
-                saturatedFat = 6.0,
-                carbohydrates = 38.0
+                calories = 760.31,
+                totalFat = 18.0,
+                sugar = 0.0,
+                sodium = 17.0,
+                protein = 22.0,
+                saturatedFat = 35.0,
+                carbohydrates = 1.0
             ),
-            stepNumbers = 7,
+            stepNumbers = 9,
             steps = listOf(
-                "cook spaghetti according to package instructions",
-                "in a bowl, whisk eggs and grated parmesan cheese",
-                "in a pan, cook pancetta until crispy",
-                "drain pasta and reserve some cooking water",
-                "mix pasta with egg mixture, adding a little pasta water to thicken sauce",
-                "add pancetta and toss until well combined",
-                "season with black pepper and serve immediately"
+                "preheat oven to 425 degrees f",
+                "press dough into the bottom and sides of a 12 inch pizza pan",
+                "bake for 5 minutes until set but not browned",
+                "cut sausage into small pieces",
+                "whisk eggs and milk in a bowl until frothy",
+                "spoon sausage over baked crust and sprinkle with cheese",
+                "pour egg mixture slowly over sausage and cheese",
+                "bake 15-20 minutes or until eggs are set and crust is brown"
             ),
-            description = "A rich and creamy Italian carbonara recipe made with eggs, pancetta, and Parmesan. Ready in just 25 minutes!",
-            ingredients = listOf("spaghetti", "pancetta", "eggs", "parmesan cheese", "black pepper", "olive oil"),
+            description = "This recipe calls for the crust to be prebaked a bit before adding ingredients. Feel free to change sausage to ham or bacon. This warms well in the microwave for those late risers.",
+            ingredients = listOf(
+                "prepared pizza crust", "sausage patty", "eggs", "milk", "salt and pepper", "cheese"
+            ),
             ingredientNumbers = 6
         ), MealItem(
             id = 54321,
@@ -234,7 +197,7 @@ class GetMealsLess15MinutesAndLessTotalFats(private val dataSource: FoodMenu) {
                 "vegetables"
             ),
             nutrition = Nutrition(
-                calories = 150.0,
+                calories = 700.0,
                 totalFat = 5.0,
                 sugar = 8.0,
                 sodium = 300.0,
@@ -259,29 +222,58 @@ class GetMealsLess15MinutesAndLessTotalFats(private val dataSource: FoodMenu) {
             ingredientNumbers = 7
         )
     )
-    fun getHealthyFastMeals(
-        preparingMinutes: Int,
-        totalFat: Int, saturatedFat: Double,
-        carbohydrates: Double
-    ): List<MealItem> {
-        return dataSource.filterPreparedTimeMeals(mealsList, preparingMinutes).filter { meal ->
-            meal.nutrition.totalFat < totalFat &&
-                    meal.nutrition.saturatedFat < saturatedFat &&
-                    meal.nutrition.carbohydrates < carbohydrates
+    private val suggestedMealIds = mutableSetOf<Int>()
+
+    fun suggestMeal(): MealItem? {
+
+        val availableMeals = mealsList.filter {
+            it.nutrition.calories >= 700 && it.id !in suggestedMealIds
         }
+
+        if (availableMeals.isEmpty()) {
+            return null
+        }
+
+        val suggestedMeal = availableMeals.random()
+        suggestedMealIds.add(suggestedMeal.id)
+        return suggestedMeal
     }
+
+
 }
+
 fun main() {
-    val dataSource: FoodMenu = DataSource()
-    val getMealsLess15MinutesAndLessTotalFats = GetMealsLess15MinutesAndLessTotalFats(dataSource)
-    println("healthy fast food meals that can be prepared in 15 minutes or less:")
-    getMealsLess15MinutesAndLessTotalFats.getHealthyFastMeals(
-        preparingMinutes = 15,
-        totalFat = 10,
-        saturatedFat = 20.0,
-        carbohydrates = 10.0
-    ).forEachIndexed { index, mealItem ->
-        println("* Meal number ${index + 1} *")
-        printMealDetails(mealItem)
+
+    val dataSource = DataSource()
+    val suggester = GetMealWith700CaloriesOrMoreUseCase(dataSource)
+    var suggestedMeal = suggester.suggestMeal()
+
+    try {
+        while (suggestedMeal != null) {
+            println("Suggested Meal: ${suggestedMeal.name} \n${suggestedMeal.description}")
+            println("Press 1 for Like or 0 for Dislike")
+            val userResponse = readln().toInt()
+            when (userResponse) {
+                1 -> {
+                    printMealDetails(suggestedMeal)
+                    break
+                }
+                0 -> {
+                    suggestedMeal = suggester.suggestMeal()
+                    if (suggestedMeal == null) {
+                        println("No more available meals .")
+                    }
+                }
+                else -> {
+                    throw InvalidUserInputException("Invalid Input")
+                }
+            }
+        }
+    } catch (e: InvalidUserInputException) {
+        println(e.message)
+    } catch (e: Exception) {
+        println("An unexpected error occurred: ${e.message}")
     }
 }
+
+class InvalidUserInputException(message: String) : Exception(message)
