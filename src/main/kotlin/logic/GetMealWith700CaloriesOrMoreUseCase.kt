@@ -6,7 +6,7 @@ import model.Nutrition
 import utils.Utils.printMealDetails
 
 
-class GetMealWith700CaloriesOrMoreUseCase(private val data: FoodMenu) {
+class GetMealWith700CaloriesOrMoreUseCase(private val dataSource: FoodMenu) {
 
     private val mealsList = listOf(
         MealItem(
