@@ -84,9 +84,5 @@ class DataSource : FoodMenu {
         }
     }
 
-    override fun getMealsByDate(mealItems: List<MealItem>, date: String): List<MealItem> {
-        return mealItems.filter { meal ->
-            meal.submitted.equals(date, ignoreCase = true)
-        }
-    }
+
 }
