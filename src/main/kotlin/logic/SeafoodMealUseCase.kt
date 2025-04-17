@@ -3,10 +3,10 @@ package logic
 import kotlinx.datetime.LocalDate
 import model.MealItem
 import model.Nutrition
+import model.SeafoodMealItem
 import utils.ListUtils.orThrowIfEmpty
 
-
-class CountryFoodUseCase(private val dataSource: FoodMenu) {
+class SeafoodMealUseCase(private val dataSource: FoodMenu) {
 
     // TODO Need Implement from dataSource
     private val meals: List<MealItem> = listOf(
@@ -38,11 +38,11 @@ class CountryFoodUseCase(private val dataSource: FoodMenu) {
         ),
         MealItem(
             id = 31490,
-            name = "a bit different breakfast pizza",
+            name = "shrimp and crab salad",
             minutes = 30,
             contributorId = 26278,
             submitted = LocalDate.parse("2002-06-17"),
-            tags = listOf("30-minutes-or-less", "breakfast", "italian"),
+            tags = listOf("30-minutes-or-less", "seafood"),
             nutrition = Nutrition(
                 calories = 173.4,
                 totalFat = 18.0,
@@ -52,45 +52,47 @@ class CountryFoodUseCase(private val dataSource: FoodMenu) {
                 saturatedFat = 35.0,
                 carbohydrates = 1.0
             ),
-            stepNumbers = 9,
+            stepNumbers = 5,
             steps = listOf(
-                "preheat oven",
-                "press dough",
-                "bake crust"
+                "mix ingredients",
+                "chill in fridge",
+                "serve cold"
             ),
-            description = "Breakfast pizza that can be reheated, inspired by Italian cuisine.",
-            ingredients = listOf("prepared pizza crust", "sausage"),
-            ingredientNumbers = 2
+            description = "A refreshing seafood salad with shrimp and crab.",
+            ingredients = listOf("shrimp", "crab", "mayonnaise", "lemon"),
+            ingredientNumbers = 4
         )
     )
 
-    // get randomly ordered meals related to that country.
-    fun getRandomlyCountryMeals(countryName: String, numOfRandomlyMeals: Int): List<MealItem> {
-
-        val normalizedCountry = countryName
-            .takeIf { it.isNotBlank() && it.matches(Regex("[a-zA-Z\\s]+")) }
-            ?.trim()
-            ?.lowercase()
-            ?: throw InvalidCountryException("Country name is empty or contains invalid characters")
-
+    fun getSeafoodMeals(): List<SeafoodMealItem> {
         return meals
-            .filter { isCountryRelated(it, normalizedCountry) }
-            .orThrowIfEmpty { NoMealsFoundException("No meals found for country: $countryName") }
-            .shuffled()
-            .take(numOfRandomlyMeals)
-
-
-    }
-
-    // Checks whether a meal is associated with a specific country based on tags or description.
-    private fun isCountryRelated(meal: MealItem, country: String): Boolean {
-
-        return meal.tags.any { it.contains(country, ignoreCase = true) }
-                || meal.description.contains(country, ignoreCase = true)
+            .filter { isSeafoodMeal(it) }
+            .orThrowIfEmpty { NoSeafoodMealsFoundException("No seafood meals found") }
+            .sortedByDescending { it.nutrition.protein }
+            // Converts meals to SeafoodMealItem with ranking based on protein order.
+            .mapIndexed { index, meal ->
+                SeafoodMealItem(
+                    rank = index + 1,
+                    name = meal.name,
+                    protein = meal.nutrition.protein
+                )
+            }
 
     }
+
+
+    // Checks if the meal contains any seafood-related ingredient based on known keywords.
+    private fun isSeafoodMeal(meal: MealItem): Boolean {
+        val seafoodKeywords = listOf(
+            "fish", "shrimp", "crab", "lobster", "salmon", "tuna", "clam", "oyster", "scallop", "squid"
+        )
+        return meal.ingredients.any { ingredient ->
+            seafoodKeywords.any { keyword ->
+                ingredient.lowercase().contains(keyword)
+            }
+        }
+    }
+
 }
 
-class InvalidCountryException(message: String) : Exception(message)
-
-class NoMealsFoundException(message: String) : Exception(message)
+class NoSeafoodMealsFoundException(message: String) : Exception(message)
