@@ -6,7 +6,7 @@ import model.Nutrition
 
 class EasyFoodSuggestionUseCase(private val dataSource: FoodMenu) {
 
-    // TODO Need Implement from Meal Repo
+    // TODO Need Implement from dataSource
     private val meals: List<MealItem> = listOf(
         MealItem(
             id = 137739,
