@@ -1,26 +1,27 @@
 package logic
+import di.appModule
+import model.MealItem
+import org.koin.core.context.startKoin
+import org.koin.mp.KoinPlatform.getKoin
 
-import kotlin.random.Random
+class GuessGameUseCase(
+    private val dataSource: FoodChangeModeDataSource
+) {
 
-data class Meal(val name: String, val time: Int)
-
-class GuessGame {
-    private val meals = listOf(
-        Meal("Pizza", 2),
-        Meal("Pasta", 3),
-        Meal("Kebab", 4),
-        Meal("Kota", 5),
-        Meal("Salad", 6)
-    )
+    private val meals = dataSource.getAllMeals()
     private val maxAttempts = 3
 
     fun playGuessGame() {
+        if (meals.isEmpty()) {
+            println("No meals available to play the game.")
+            return
+        }
         if (!runGuessingRound()) {
             println("Game Over")
         }
     }
 
-    private fun generateRandomMeal(): Meal {
+    private fun generateRandomMeal(): MealItem {
         return meals.random()
     }
 
@@ -29,17 +30,17 @@ class GuessGame {
         println("Guess the preparation time for ${selectedMeal.name} to get prepared (You have $maxAttempts attempts)")
 
         for (attemptsLeft in maxAttempts downTo 1) {
-            val guess = getUserGuess() ?: continue // If null, skip to the next iteration
+            val guess = getUserGuess() ?: continue
 
             if (isCorrectGuess(guess, selectedMeal)) {
                 println("Congratulations! Your guess is correct.")
                 return true
             } else {
-                displayHint(guess, selectedMeal.time, attemptsLeft)
+                displayHint(guess, selectedMeal.minutes, attemptsLeft)
             }
         }
 
-        println("You have run out of attempts. The correct preparation time was ${selectedMeal.time} minutes.")
+        println("You have run out of attempts. The correct preparation time was ${selectedMeal.minutes} minutes.")
         return false
     }
 
@@ -48,21 +49,25 @@ class GuessGame {
         return readlnOrNull()?.toIntOrNull()
     }
 
-    private fun isCorrectGuess(guess: Int, selectedMeal: Meal): Boolean {
-        return guess == selectedMeal.time
+    private fun isCorrectGuess(guess: Int, selectedMeal: MealItem): Boolean {
+        return guess == selectedMeal.minutes
     }
 
     private fun displayHint(guess: Int, correctTime: Int, remainingAttempts: Int) {
         val hint = when {
             guess > correctTime -> "Your guess is a bit higher."
             guess < correctTime -> "Your guess is a bit lower."
-            else -> "" // Should not happen if isCorrectGuess is checked first
+            else -> ""
         }
         println("$hint $remainingAttempts attempts remaining.")
     }
 }
 
 fun main() {
-    val game = GuessGame()
+    startKoin {
+        modules(appModule)
+    }
+    val dataSource: FoodChangeModeDataSource = getKoin().get()
+    val game = GuessGameUseCase(dataSource)
     game.playGuessGame()
 }
