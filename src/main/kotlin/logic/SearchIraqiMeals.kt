@@ -1,8 +1,5 @@
 package logic
-import di.appModule
 import model.MealItem
-import org.koin.core.context.startKoin
-import org.koin.mp.KoinPlatform.getKoin
 
 class GetIraqMealsUsingDescription(private val dataSource: FoodChangeModeDataSource) {
 
@@ -15,21 +12,5 @@ class GetIraqMealsUsingDescription(private val dataSource: FoodChangeModeDataSou
         }
         if (iraqMeals.isEmpty()) return emptyList()
         return iraqMeals
-    }
-}
-
-fun main() {
-    startKoin {
-        modules(appModule)
-    }
-    val dataSource: FoodChangeModeDataSource = getKoin().get()
-    val iraqMeals = GetIraqMealsUsingDescription(dataSource).getIraqMeals()
-
-    if (iraqMeals.isEmpty()) println("iraqi meals not found")
-    else {
-        println("iraqi meals found : ")
-        iraqMeals.forEach { meal ->
-            Utils.printMealDetails(meal)
-        }
     }
 }
