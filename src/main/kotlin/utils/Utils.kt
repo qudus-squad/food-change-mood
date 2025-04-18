@@ -32,5 +32,4 @@ object Utils {
         println("Sodium: ${meal.nutrition.sodium}mg")
         println("Protein: ${meal.nutrition.protein}g")
     }
-
 }
