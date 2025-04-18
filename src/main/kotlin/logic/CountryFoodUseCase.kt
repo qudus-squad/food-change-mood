@@ -6,7 +6,7 @@ import model.Nutrition
 import utils.ListUtils.orThrowIfEmpty
 
 
-class CountryFoodUseCase(private val dataSource: FoodMenu) {
+class CountryFoodUseCase(private val dataSource: FoodChangeModeDataSource) {
 
     // TODO Need Implement from dataSource
     private val meals: List<MealItem> = listOf(
