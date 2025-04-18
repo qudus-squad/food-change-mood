@@ -1,13 +1,9 @@
 package logic
-import di.appModule
 import model.MealItem
-import org.koin.core.context.startKoin
-import org.koin.mp.KoinPlatform.getKoin
 
 class GuessGameUseCase(
     private val dataSource: FoodChangeModeDataSource
 ) {
-
     private val meals = dataSource.getAllMeals()
     private val maxAttempts = 3
 
@@ -61,13 +57,4 @@ class GuessGameUseCase(
         }
         println("$hint $remainingAttempts attempts remaining.")
     }
-}
-
-fun main() {
-    startKoin {
-        modules(appModule)
-    }
-    val dataSource: FoodChangeModeDataSource = getKoin().get()
-    val game = GuessGameUseCase(dataSource)
-    game.playGuessGame()
 }

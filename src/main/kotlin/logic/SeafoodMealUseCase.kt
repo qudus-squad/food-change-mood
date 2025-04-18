@@ -5,7 +5,6 @@ import model.SeafoodMealItem
 import utils.ListUtils.orThrowIfEmpty
 
 class SeafoodMealUseCase(dataSource: FoodChangeModeDataSource) {
-
     private val meals = dataSource.getAllMeals()
 
     fun getSeafoodMeals(): List<SeafoodMealItem> {
@@ -13,7 +12,6 @@ class SeafoodMealUseCase(dataSource: FoodChangeModeDataSource) {
             .filter { isSeafoodMeal(it) }
             .orThrowIfEmpty { NoSeafoodMealsFoundException("No seafood meals found") }
             .sortedByDescending { it.nutrition.protein }
-            // Converts meals to SeafoodMealItem with ranking based on protein order.
             .mapIndexed { index, meal ->
                 SeafoodMealItem(
                     rank = index + 1,
@@ -21,11 +19,8 @@ class SeafoodMealUseCase(dataSource: FoodChangeModeDataSource) {
                     protein = meal.nutrition.protein
                 )
             }
-
     }
 
-
-    // Checks if the meal contains any seafood-related ingredient based on known keywords.
     private fun isSeafoodMeal(meal: MealItem): Boolean {
         val seafoodKeywords = listOf(
             "fish", "shrimp", "crab", "lobster", "salmon", "tuna", "clam", "oyster", "scallop", "squid"
@@ -36,7 +31,6 @@ class SeafoodMealUseCase(dataSource: FoodChangeModeDataSource) {
             }
         }
     }
-
 }
 
 class NoSeafoodMealsFoundException(message: String) : Exception(message)

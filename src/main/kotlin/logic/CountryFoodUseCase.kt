@@ -5,11 +5,8 @@ import utils.ListUtils.orThrowIfEmpty
 
 class CountryFoodUseCase(private val dataSource: FoodChangeModeDataSource) {
 
-    // TODO Need Implement from dataSource
     private val meals = dataSource.getAllMeals()
 
-
-    // get randomly ordered meals related to that country.
     fun getRandomlyCountryMeals(countryName: String, numOfRandomlyMeals: Int): List<MealItem> {
 
         val normalizedCountry = countryName
@@ -23,16 +20,12 @@ class CountryFoodUseCase(private val dataSource: FoodChangeModeDataSource) {
             .orThrowIfEmpty { NoMealsFoundException("No meals found for country: $countryName") }
             .shuffled()
             .take(numOfRandomlyMeals)
-
-
     }
 
-    // Checks whether a meal is associated with a specific country based on tags or description.
     private fun isCountryRelated(meal: MealItem, country: String): Boolean {
 
         return meal.tags.any { it.contains(country, ignoreCase = true) }
                 || meal.description.contains(country, ignoreCase = true)
-
     }
 }
 
