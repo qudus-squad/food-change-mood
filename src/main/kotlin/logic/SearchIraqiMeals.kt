@@ -1,21 +1,21 @@
 package logic
+
 import di.appModule
 import model.MealItem
 import org.koin.core.context.startKoin
 import org.koin.mp.KoinPlatform.getKoin
+import utils.Utils
 
 class GetIraqMealsUsingDescription(private val dataSource: FoodChangeModeDataSource) {
 
-    fun getIraqMeals(): List<MealItem> {
+    fun getIraqMeals(country: String = "iraq"): List<MealItem> {
         val iraqMeals = dataSource.getAllMeals().filter {
             it.description.contains(
-                "iraqi",
+                country,
                 ignoreCase = true
-            ) || it.description.contains("Iraq", ignoreCase = true)
+            )
         }
-
         if (iraqMeals.isEmpty()) return emptyList()
-
         return iraqMeals
     }
 }
@@ -30,8 +30,8 @@ fun main() {
     if (iraqMeals.isEmpty()) println("iraqi meals not found")
     else {
         println("iraqi meals found : ")
-        iraqMeals.forEach {
-            println("${it.name}: ${it.description}")
+        iraqMeals.forEach { meal ->
+            Utils.printMealDetails(meal)
         }
     }
 }
