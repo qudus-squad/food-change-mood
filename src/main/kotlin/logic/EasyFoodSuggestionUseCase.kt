@@ -4,7 +4,7 @@ import kotlinx.datetime.LocalDate
 import model.MealItem
 import model.Nutrition
 
-class EasyFoodSuggestionUseCase(private val dataSource: FoodMenu) {
+class EasyFoodSuggestionUseCase(private val dataSource: FoodChangeModeDataSource) {
 
     // TODO Need Implement from dataSource
     private val meals: List<MealItem> = listOf(

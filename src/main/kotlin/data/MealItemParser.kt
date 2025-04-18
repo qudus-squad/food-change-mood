@@ -3,6 +3,7 @@ package data
 import kotlinx.datetime.LocalDate
 import model.MealItem
 import model.Nutrition
+
 class MealsCsvParser {
 
     fun parseOneLine(line: String): MealItem {
@@ -45,11 +46,12 @@ class MealsCsvParser {
 
     private fun constructListFromString(string: String): List<String> {
         return string
-            .removePrefix("[")
-            .removeSuffix("]")
+            .replace("[", "")
+            .replace("]", "")
             .split(",")
-            .map { it.trim().removeSurrounding(",") }
-            .toList()
+            .map {
+                it.trim().removeSurrounding("'")
+            }
     }
 
     private fun smartCsvParser(line: String): List<String> {
@@ -68,6 +70,7 @@ class MealsCsvParser {
                         insideQuotes = !insideQuotes
                     }
                 }
+
                 ',' -> {
                     if (!insideQuotes) {
                         mealEntities.add(currentEntity.toString().trim())
@@ -76,6 +79,7 @@ class MealsCsvParser {
                         currentEntity.append(char)
                     }
                 }
+
                 else -> currentEntity.append(char)
             }
             i++
