@@ -3,6 +3,7 @@ import logic.*
 import model.MealItem
 import org.koin.core.context.startKoin
 import org.koin.mp.KoinPlatform.getKoin
+import utils.Utils
 import utils.Utils.printMealDetails
 
 fun main() {
@@ -61,13 +62,13 @@ fun getFastHealthyMeals() {
 
 fun getIraqiMeals() {
     val dataSource: FoodChangeModeDataSource = getKoin().get()
-    val iraqMeals = GetIraqMealsUsingDescription(dataSource).getIraqMeals()
+    val meals = GetIraqMealsUsingDescription(dataSource).getIraqMeals()
 
-    if (iraqMeals.isEmpty()) println("iraqi meals not found")
+    if (meals.isEmpty()) println("meals not found")
     else {
-        println("iraqi meals found : ")
-        iraqMeals.forEach {
-            println("${it.name}: ${it.description}")
+        println("meals found : ")
+        meals.forEach { meal ->
+            Utils.printMealNameAndDescription(meal)
         }
     }
 }
@@ -105,12 +106,14 @@ fun getMealsWith700Calories() {
                     printMealDetails(suggestedMeal)
                     break
                 }
+
                 0 -> {
                     suggestedMeal = suggester.suggestMeal()
                     if (suggestedMeal == null) {
                         println("No more available meals .")
                     }
                 }
+
                 else -> {
                     throw InvalidUserInputException("Invalid Input")
                 }
@@ -196,7 +199,19 @@ fun searchFood() {
     }
 }
 
-fun searchFoodByCountry() {}
+fun searchFoodByCountry() {
+
+    val dataSource: FoodChangeModeDataSource = getKoin().get()
+    val iraqMeals = GetIraqMealsUsingDescription(dataSource).getIraqMeals()
+
+    if (iraqMeals.isEmpty()) println("iraqi meals not found")
+    else {
+        println("iraqi meals found : ")
+        iraqMeals.forEach { meal ->
+            Utils.printMealDetails(meal)
+        }
+    }
+}
 
 fun searchFoodByAddDate() {
     println("Enter Meal Submitted Date in : YY-MM-DD ")

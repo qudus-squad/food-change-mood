@@ -1,5 +1,6 @@
 package logic
 
+import InvalidUserInputException
 import di.appModule
 import model.MealItem
 import org.koin.core.context.startKoin

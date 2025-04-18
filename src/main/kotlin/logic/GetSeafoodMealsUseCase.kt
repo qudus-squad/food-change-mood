@@ -1,7 +1,10 @@
 package logic
 
+import di.appModule
 import model.MealItem
 import model.SeafoodMealItem
+import org.koin.core.context.startKoin
+import org.koin.mp.KoinPlatform.getKoin
 import utils.ListUtils.orThrowIfEmpty
 
 class GetSeafoodMealsUseCase(dataSource: FoodChangeModeDataSource) {
@@ -13,19 +16,19 @@ class GetSeafoodMealsUseCase(dataSource: FoodChangeModeDataSource) {
         )
     ): List<SeafoodMealItem> {
         return meals
-            .filter { isSeafoodMeal(it , seafoodKeywords) }
+            .filter { isSeafoodMeal(it, seafoodKeywords) }
             .orThrowIfEmpty { NoSeafoodMealsFoundException("No seafood meals found") }
             .sortedByDescending { it.nutrition.protein }
             .mapIndexed { index, meal ->
                 SeafoodMealItem(
-                    rank = index + 1,
+                    id = index + 1,
                     name = meal.name,
                     protein = meal.nutrition.protein
                 )
             }
     }
 
-    private fun isSeafoodMeal(meal: MealItem ,seafoodKeywords : List<String> ): Boolean {
+    private fun isSeafoodMeal(meal: MealItem, seafoodKeywords: List<String>): Boolean {
 
         return meal.ingredients.any { ingredient ->
             seafoodKeywords.any { keyword ->
@@ -36,3 +39,16 @@ class GetSeafoodMealsUseCase(dataSource: FoodChangeModeDataSource) {
 }
 
 class NoSeafoodMealsFoundException(message: String) : Exception(message)
+
+fun main() {
+    startKoin {
+        modules(appModule)
+
+    }
+    val dataSource: FoodChangeModeDataSource = getKoin().get()
+    val meals = GetSeafoodMealsUseCase(dataSource).getSeafoodMeals()
+
+    meals.forEach { meal ->
+        println(meal.name + meal.id)
+    }
+}
