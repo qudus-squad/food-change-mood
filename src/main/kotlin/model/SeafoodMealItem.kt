@@ -1,7 +1,7 @@
 package model
 
 data class SeafoodMealItem(
-    val rank: Int,
+    val id: Int,
     val name: String,
     val protein: Double,
 )

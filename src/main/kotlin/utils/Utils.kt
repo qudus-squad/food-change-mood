@@ -32,4 +32,12 @@ object Utils {
         println("Sodium: ${meal.nutrition.sodium}mg")
         println("Protein: ${meal.nutrition.protein}g")
     }
+
+    fun printMealNameAndDescription(meal: MealItem){
+        println("---- Meal Details ----")
+        println("Name: ${meal.name}")
+        println("Description:")
+        println(meal.description + "\n")
+    }
+
 }
