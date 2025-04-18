@@ -3,11 +3,9 @@ import model.MealItem
 
 class EasyFoodSuggestionUseCase(dataSource: FoodChangeModeDataSource) {
 
-    // TODO Need Implement from dataSource
     private val meals = dataSource.getAllMeals()
 
     fun suggestEasyMeals(numberOfSuggest: Int): List<MealItem> {
-
         return meals.filter {
             getIsEasyMeal(
                 meal = it,
@@ -16,7 +14,6 @@ class EasyFoodSuggestionUseCase(dataSource: FoodChangeModeDataSource) {
                 numOfPreparationSteps = 6
             )
         }.shuffled().take(numberOfSuggest)
-
     }
 
     private fun getIsEasyMeal(
@@ -29,5 +26,4 @@ class EasyFoodSuggestionUseCase(dataSource: FoodChangeModeDataSource) {
                 meal.ingredients.size <= numOfIngredients &&
                 meal.steps.size <= numOfPreparationSteps
     }
-
 }
