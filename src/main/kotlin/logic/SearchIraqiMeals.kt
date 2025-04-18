@@ -9,9 +9,9 @@ class GetIraqMealsUsingDescription(private val dataSource: FoodChangeModeDataSou
     fun getIraqMeals(): List<MealItem> {
         val iraqMeals = dataSource.getAllMeals().filter {
             it.description.contains(
-                "124234523423423423423",
+                "iraqi",
                 ignoreCase = true
-            ) || it.description.contains("124234523423423423423", ignoreCase = true)
+            ) || it.description.contains("Iraq", ignoreCase = true)
         }
 
         if (iraqMeals.isEmpty()) return emptyList()
