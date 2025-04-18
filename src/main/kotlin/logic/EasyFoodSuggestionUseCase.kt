@@ -1,13 +1,13 @@
 package logic
 import model.MealItem
 
-class EasyFoodSuggestionUseCase(dataSource: FoodChangeModeDataSource) {
+class EasyFoodSuggestionUseCase(private val dataSource: FoodChangeModeDataSource) {
 
     private val meals = dataSource.getAllMeals()
 
-    fun suggestEasyMeals(numberOfSuggest: Int): List<MealItem> {
+    fun getSuggestEasyMeals(numberOfSuggest: Int): List<MealItem> {
         return meals.filter {
-            getIsEasyMeal(
+            isEasyFood(
                 meal = it,
                 preparationTime = 30,
                 numOfIngredients = 5,
@@ -16,7 +16,7 @@ class EasyFoodSuggestionUseCase(dataSource: FoodChangeModeDataSource) {
         }.shuffled().take(numberOfSuggest)
     }
 
-    private fun getIsEasyMeal(
+    private fun isEasyFood(
         meal: MealItem,
         preparationTime: Int,
         numOfIngredients: Int,

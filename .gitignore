@@ -43,9 +43,8 @@ bin/
 
 ### Mac OS ###
 .DS_Store
-/food (1).csv
+/food.csv
 /build.gradle.kts
-/food (1).csv
 /gradle.properties
 /gradlew
 /gradlew.bat

@@ -105,12 +105,14 @@ fun getMealsWith700Calories() {
                     printMealDetails(suggestedMeal)
                     break
                 }
+
                 0 -> {
                     suggestedMeal = suggester.suggestMeal()
                     if (suggestedMeal == null) {
                         println("No more available meals .")
                     }
                 }
+
                 else -> {
                     throw InvalidUserInputException("Invalid Input")
                 }
@@ -173,7 +175,16 @@ fun getMealsForKetoDiet() {}
 /////////////////////////////////////// MEALS SUGGESTION  ////////////////////////////////////( 0 -> 10 )
 
 fun getMealsSuggestions() {
+    val dataSource: FoodChangeModeDataSource = getKoin().get()
 
+    val easyFoodSuggestions = EasyFoodSuggestionUseCase(dataSource)
+    val easyMeals = easyFoodSuggestions.getSuggestEasyMeals(numberOfSuggest = 10)
+    println("Suggested Easy Meals:")
+    easyMeals.forEach {
+        println(
+            "- ${it.name} "
+        )
+    }
 
 }
 
