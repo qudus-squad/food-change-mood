@@ -35,7 +35,7 @@ fun main() {
             "6" -> getSeafoodMeals() // seafood
             "7" -> getItalianFoodForLargeGroups()
             "8" -> getMealsForGymHelper()
-            "9" -> getMealsForKetoDiet() // not found
+            "9" -> getKetoRandomMeal()
             "10" -> getMealsSuggestions() //suggestion
             "11" -> searchFood() // search food by country
             "12" -> foodGames()
@@ -168,9 +168,17 @@ fun getMealsForGymHelper() {
     }
 }
 
-/////////////////////////////////////// KETO DIET MEALS  ////////////////////////////////////( 0 -> 9 )
+/////////////////////////////////////// Random KETO DIET MEAL  ////////////////////////////////////( 0 -> 9 )
 
-fun getMealsForKetoDiet() {}
+fun getKetoRandomMeal() {
+    val dataSource: FoodChangeModeDataSource = getKoin().get()
+    val meal = GetKetoRandomMeal(dataSource).getRandomKetoMealUseCase()
+    if(meal == null){
+        println("There is No keto meals")
+        return
+    }
+    println("Keto Meal => Name: ${meal.name}, Description: ${meal.description}")
+}
 
 
 /////////////////////////////////////// MEALS SUGGESTION  ////////////////////////////////////( 0 -> 10 )
