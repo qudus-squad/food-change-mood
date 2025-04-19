@@ -15,18 +15,18 @@ class MealsCsvParser {
         }
 
         return MealItem(
-            name = fields[ColumnIndex.NAME],
-            id = fields[ColumnIndex.ID].toInt(),
-            minutes = fields[ColumnIndex.MINUTES].toInt(),
-            contributorId = fields[ColumnIndex.CONTRIBUTOR_ID].toInt(),
-            submitted = LocalDate.parse(fields[ColumnIndex.SUBMITTED]),
-            tags = constructListFromString(fields[ColumnIndex.TAGS]),
-            nutrition = constructNutritionObject(fields[ColumnIndex.NUTRITION]),
-            stepNumbers = fields[ColumnIndex.NUMBER_OF_STEPS].toInt(),
-            steps = constructListFromString(fields[ColumnIndex.STEPS]),
-            description = fields[ColumnIndex.DESCRIPTION],
-            ingredients = constructListFromString(fields[ColumnIndex.INGREDIENTS]),
-            ingredientNumbers = fields[ColumnIndex.NUMBER_OF_INGREDIENTS].toInt()
+            name = fields[ColumnIndex.NAME.index],
+            id = fields[ColumnIndex.ID.index].toInt(),
+            minutes = fields[ColumnIndex.MINUTES.index].toInt(),
+            contributorId = fields[ColumnIndex.CONTRIBUTOR_ID.index].toInt(),
+            submitted = LocalDate.parse(fields[ColumnIndex.SUBMITTED.index]),
+            tags = constructListFromString(fields[ColumnIndex.TAGS.index]),
+            nutrition = constructNutritionObject(fields[ColumnIndex.NUTRITION.index]),
+            stepNumbers = fields[ColumnIndex.NUMBER_OF_STEPS.index].toInt(),
+            steps = constructListFromString(fields[ColumnIndex.STEPS.index]),
+            description = fields[ColumnIndex.DESCRIPTION.index],
+            ingredients = constructListFromString(fields[ColumnIndex.INGREDIENTS.index]),
+            ingredientNumbers = fields[ColumnIndex.NUMBER_OF_INGREDIENTS.index].toInt()
         )
     }
 
@@ -34,13 +34,13 @@ class MealsCsvParser {
         val nutrition = constructListFromString(nutritionField).map { it.toDouble() }
 
         return Nutrition(
-            calories = nutrition[NutritionEntityIndex.CALORIES],
-            totalFat = nutrition[NutritionEntityIndex.TOTAL_FAT],
-            sugar = nutrition[NutritionEntityIndex.SUGAR],
-            sodium = nutrition[NutritionEntityIndex.SODIUM],
-            protein = nutrition[NutritionEntityIndex.PROTEIN],
-            saturatedFat = nutrition[NutritionEntityIndex.SATURATED_FAT],
-            carbohydrates = nutrition[NutritionEntityIndex.CARBOHYDRATES]
+            calories = nutrition[NutritionEntityIndex.CALORIES.index],
+            totalFat = nutrition[NutritionEntityIndex.TOTAL_FAT.index],
+            sugar = nutrition[NutritionEntityIndex.SUGAR.index],
+            sodium = nutrition[NutritionEntityIndex.SODIUM.index],
+            protein = nutrition[NutritionEntityIndex.PROTEIN.index],
+            saturatedFat = nutrition[NutritionEntityIndex.SATURATED_FAT.index],
+            carbohydrates = nutrition[NutritionEntityIndex.CARBOHYDRATES.index]
         )
     }
 
