@@ -3,9 +3,9 @@ package logic
 import model.MealItem
 import kotlin.math.abs
 
-class GetGymGoerMealsUseCase(dataSource: FoodChangeModeDataSource) {
+class GetGymFriendlyMealsUseCase(dataSource: FoodChangeModeDataSource) {
     private val mealsList = dataSource.getAllMeals()
-    fun getGymGoerMeals(
+    fun findGymFriendlyMealsUseCase(
         calories: Double,
         protein: Double,
         caloriesTolerance: Int = 50,
