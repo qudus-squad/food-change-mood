@@ -9,11 +9,9 @@ class GetHealthyFastMealsUseCase(dataSource: FoodChangeModeDataSource) {
     fun getHealthyFastMeals(): List<MealItem> {
 
         val validMeals = mealsList.filter { meal ->
-            meal.minutes <= 15 &&
-                    meal.description.contains("fast-food")
+            meal.minutes <= 15
         }
         if (validMeals.isEmpty()) {
-            println("No valid meals found (prepTime <= 15, fast-food, non-null nutrition).")
             return emptyList()
         }
         val thresholdPercentile = 0.2
@@ -40,5 +38,7 @@ class GetHealthyFastMealsUseCase(dataSource: FoodChangeModeDataSource) {
             .filter { it.second == maxScore && it.second >= 2 }
             .map { it.first }
             .sortedBy { it.nutrition.totalFat + it.nutrition.saturatedFat + it.nutrition.carbohydrates }
+            .shuffled()
+            .take(5)
     }
 }
