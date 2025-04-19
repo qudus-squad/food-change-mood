@@ -39,16 +39,3 @@ class GetSeafoodMealsUseCase(dataSource: FoodChangeModeDataSource) {
 }
 
 class NoSeafoodMealsFoundException(message: String) : Exception(message)
-
-fun main() {
-    startKoin {
-        modules(appModule)
-
-    }
-    val dataSource: FoodChangeModeDataSource = getKoin().get()
-    val meals = GetSeafoodMealsUseCase(dataSource).getSeafoodMeals()
-
-    meals.forEach { meal ->
-        println(meal.name + meal.id)
-    }
-}

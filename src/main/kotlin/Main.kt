@@ -130,7 +130,14 @@ class InvalidUserInputException(message: String) : Exception(message)
 
 ///////////////////////////////////////  SEAFOOD MEALS   ////////////////////////////////////( 0 -> 6 )
 
-fun getSeafoodMeals() {}
+fun getSeafoodMeals() {
+    val dataSource: FoodChangeModeDataSource = getKoin().get()
+    val meals = GetSeafoodMealsUseCase(dataSource).getSeafoodMeals()
+
+    meals.forEach { meal ->
+        println(meal.name + meal.id)
+    }
+}
 
 /////////////////////////////////////// ITALIAN MEALS FOR LARGE GROUPS  ////////////////////////////////////( 0 -> 7 )
 fun getItalianFoodForLargeGroups() {
@@ -176,8 +183,12 @@ fun getMealsForKetoDiet() {}
 /////////////////////////////////////// MEALS SUGGESTION  ////////////////////////////////////( 0 -> 10 )
 
 fun getMealsSuggestions() {
+    val dataSource: FoodChangeModeDataSource = getKoin().get()
+    val suggestMeals = GetFoodSuggestion(dataSource).suggestEasyMeals()
 
-
+    suggestMeals.forEach { meal ->
+      printMealDetails(meal)
+    }
 }
 
 /////////////////////////////////////// SEARCH FOOD MEALS ////////////////////////////////////( 0 -> 11 )
@@ -208,7 +219,7 @@ fun searchFoodByCountry() {
     else {
         println("iraqi meals found : ")
         iraqMeals.forEach { meal ->
-            Utils.printMealDetails(meal)
+            printMealDetails(meal)
         }
     }
 }
