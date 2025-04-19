@@ -176,7 +176,7 @@ fun getMealsForKetoDiet() {}
 
 fun getMealsSuggestions() {
     val dataSource: FoodChangeModeDataSource = getKoin().get()
-    val easyMeals = EasyFoodSuggestionUseCase(dataSource).getSuggestEasyMeals(numberOfSuggest = 10)
+    val easyMeals = GetFoodSuggestion(dataSource).suggestEasyMeals(numberOfSuggest = 10)
 
     if (easyMeals.isEmpty()) {
         println("\n❗ No easy meals found.")
@@ -217,19 +217,19 @@ fun searchFoodByCountry() {
         val input = readlnOrNull()?.trim().orEmpty()
 
         if (input == "0") {
-            println("🔙 Returning to the main menu.")
+            println("Returning to the main menu.")
             break
         }
 
         try {
             val meals = countryFoodUseCase.getRandomlyCountryMeals(countryName = input, numOfRandomlyMeals = 20)
-            println("🍽 Meals for \"$input\":")
+            println("Meals for \"$input\":")
             meals.forEach { println("- ${it.name}") }
             break
         } catch (e: InvalidCountryException) {
-            println("❌ Invalid input: ${e.message}")
+            println("Invalid input: ${e.message}")
         } catch (e: NoMealsFoundException) {
-            println("⚠️ ${e.message}")
+            println("${e.message}")
         }
 
         println("Please try again.\n")
