@@ -3,7 +3,6 @@ import logic.*
 import model.MealItem
 import org.koin.core.context.startKoin
 import org.koin.mp.KoinPlatform.getKoin
-import utils.Utils
 import utils.Utils.printMealDetails
 
 fun main() {
@@ -62,13 +61,13 @@ fun getFastHealthyMeals() {
 
 fun getIraqiMeals() {
     val dataSource: FoodChangeModeDataSource = getKoin().get()
-    val meals = GetIraqMealsUsingDescription(dataSource).getIraqMeals()
+    val iraqMeals = GetIraqMealsUsingDescription(dataSource).getIraqMeals()
 
-    if (meals.isEmpty()) println("meals not found")
+    if (iraqMeals.isEmpty()) println("iraqi meals not found")
     else {
-        println("meals found : ")
-        meals.forEach { meal ->
-            Utils.printMealNameAndDescription(meal)
+        println("iraqi meals found : ")
+        iraqMeals.forEach {
+            println("${it.name}: ${it.description}")
         }
     }
 }
@@ -176,8 +175,18 @@ fun getMealsForKetoDiet() {}
 /////////////////////////////////////// MEALS SUGGESTION  ////////////////////////////////////( 0 -> 10 )
 
 fun getMealsSuggestions() {
+    val dataSource: FoodChangeModeDataSource = getKoin().get()
+    val easyMeals = GetFoodSuggestion(dataSource).suggestEasyMeals(numberOfSuggest = 10)
 
+    if (easyMeals.isEmpty()) {
+        println("\n❗ No easy meals found.")
+        return
+    }
 
+    println("\n🍽️ ${easyMeals.size} Easy Meals Suggestions:")
+    easyMeals.forEachIndexed { index, meal ->
+        println("${index + 1}. ${meal.name}")
+    }
 }
 
 /////////////////////////////////////// SEARCH FOOD MEALS ////////////////////////////////////( 0 -> 11 )
@@ -200,16 +209,30 @@ fun searchFood() {
 }
 
 fun searchFoodByCountry() {
-
     val dataSource: FoodChangeModeDataSource = getKoin().get()
-    val iraqMeals = GetIraqMealsUsingDescription(dataSource).getIraqMeals()
+    val countryFoodUseCase = CountryFoodUseCase(dataSource)
 
-    if (iraqMeals.isEmpty()) println("iraqi meals not found")
-    else {
-        println("iraqi meals found : ")
-        iraqMeals.forEach { meal ->
-            Utils.printMealDetails(meal)
+    while (true) {
+        println("\nPlease enter a country name (or type 0 to go back):")
+        val input = readlnOrNull()?.trim().orEmpty()
+
+        if (input == "0") {
+            println("Returning to the main menu.")
+            break
         }
+
+        try {
+            val meals = countryFoodUseCase.getRandomlyCountryMeals(countryName = input, numOfRandomlyMeals = 20)
+            println("Meals for \"$input\":")
+            meals.forEach { println("- ${it.name}") }
+            break
+        } catch (e: InvalidCountryException) {
+            println("Invalid input: ${e.message}")
+        } catch (e: NoMealsFoundException) {
+            println("${e.message}")
+        }
+
+        println("Please try again.\n")
     }
 }
 
