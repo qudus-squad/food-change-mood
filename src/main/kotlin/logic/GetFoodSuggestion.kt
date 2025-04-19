@@ -1,12 +1,16 @@
 package logic
 
+import di.appModule
 import model.MealItem
+import org.koin.core.context.startKoin
+import org.koin.mp.KoinPlatform.getKoin
+import utils.Utils
 
 class GetFoodSuggestion(dataSource: FoodChangeModeDataSource) {
 
     private val meals = dataSource.getAllMeals()
 
-    fun suggestEasyMeals(numberOfSuggest: Int): List<MealItem> {
+    fun suggestEasyMeals(numberOfSuggest: Int = 10): List<MealItem> {
         return meals.filter { meal ->
             isEasyMeal(meal = meal)
         }.shuffled().take(numberOfSuggest)

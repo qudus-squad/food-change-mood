@@ -129,7 +129,14 @@ class InvalidUserInputException(message: String) : Exception(message)
 
 ///////////////////////////////////////  SEAFOOD MEALS   ////////////////////////////////////( 0 -> 6 )
 
-fun getSeafoodMeals() {}
+fun getSeafoodMeals() {
+    val dataSource: FoodChangeModeDataSource = getKoin().get()
+    val meals = GetSeafoodMealsUseCase(dataSource).getSeafoodMeals()
+
+    meals.forEach { meal ->
+        println(meal.name + meal.id)
+    }
+}
 
 /////////////////////////////////////// ITALIAN MEALS FOR LARGE GROUPS  ////////////////////////////////////( 0 -> 7 )
 fun getItalianFoodForLargeGroups() {
@@ -184,6 +191,12 @@ fun getKetoRandomMeal() {
 
 fun getMealsSuggestions() {
     val dataSource: FoodChangeModeDataSource = getKoin().get()
+
+    val suggestMeals = GetFoodSuggestion(dataSource).suggestEasyMeals()
+
+    suggestMeals.forEach { meal ->
+      printMealDetails(meal)
+
     val easyMeals = GetFoodSuggestion(dataSource).suggestEasyMeals(numberOfSuggest = 10)
 
     if (easyMeals.isEmpty()) {
@@ -194,6 +207,7 @@ fun getMealsSuggestions() {
     println("\n🍽️ ${easyMeals.size} Easy Meals Suggestions:")
     easyMeals.forEachIndexed { index, meal ->
         println("${index + 1}. ${meal.name}")
+
     }
 }
 
@@ -220,6 +234,12 @@ fun searchFoodByCountry() {
     val dataSource: FoodChangeModeDataSource = getKoin().get()
     val countryFoodUseCase = CountryFoodUseCase(dataSource)
 
+    if (iraqMeals.isEmpty()) println("iraqi meals not found")
+    else {
+        println("iraqi meals found : ")
+        iraqMeals.forEach { meal ->
+            printMealDetails(meal)
+
     while (true) {
         println("\nPlease enter a country name (or type 0 to go back):")
         val input = readlnOrNull()?.trim().orEmpty()
@@ -238,6 +258,7 @@ fun searchFoodByCountry() {
             println("Invalid input: ${e.message}")
         } catch (e: NoMealsFoundException) {
             println("${e.message}")
+
         }
 
         println("Please try again.\n")
