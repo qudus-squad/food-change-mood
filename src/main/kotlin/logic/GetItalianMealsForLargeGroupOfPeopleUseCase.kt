@@ -2,11 +2,11 @@ package logic
 
 import model.MealItem
 
-class GetItalianMealsForLargeGroup(dataSource: FoodChangeModeDataSource) {
+class GetItalianMealsForLargeGroupOfPeopleUseCase(dataSource: FoodChangeModeDataSource) {
 
     private val meals: List<MealItem> = dataSource.getAllMeals()
 
-    fun getSuggestedMeals(): List<MealItem> {
+    fun getSuggestediIalianMeals(): List<MealItem> {
         val italianMeals = filterMealsByCountry(meals)
         return italianMeals.filter { meal ->
             meal.tags.contains("for-large-groups")
