@@ -1,15 +1,15 @@
 package logic
 
 
-class FoodSearchAlgorithm(dataSource: FoodChangeModeDataSource) {
+class SearchMealsByNameUseCase(dataSource: FoodChangeModeDataSource) {
     private val searchAlgorithm = SearchAlgorithm()
-    private val mealsList = dataSource.getAllMeals()
+    private val meals = dataSource.getAllMeals()
 
-    fun searchFoodFromDataSource(searchInput: String): List<Pair<Int, String>> {
+    fun searchMealsByName(searchInput: String): List<Pair<Int, String>> {
         val bestMatches = mutableListOf<Pair<Int, String>>()
         val maxDistance = 3
         val minimumSimilarity = 60
-        mealsList.forEach { meal ->
+        meals.forEach { meal ->
             meal.name
             if (meal.name.isNotEmpty()) {
                 if (searchAlgorithm.knuthMorris(meal.name, searchInput)) {

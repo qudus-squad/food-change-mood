@@ -262,9 +262,9 @@ fun searchFoodByAddDate() {
 
 fun searchFoodByName() {
     val dataSource: FoodChangeModeDataSource = getKoin().get()
-    val foodSearchAlgorithm = FoodSearchAlgorithm(dataSource)
+    val searchMealsByNameUseCase = SearchMealsByNameUseCase(dataSource)
     val searchedName = readlnOrNull()?.trim() ?: ""
-    val result = foodSearchAlgorithm.searchFoodFromDataSource(searchedName)
+    val result = searchMealsByNameUseCase.searchMealsByName(searchedName)
     result.take(10).forEach { MealAndId -> println(MealAndId) }
 }
 
