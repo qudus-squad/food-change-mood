@@ -154,7 +154,7 @@ fun getItalianFoodForLargeGroups() {
 
 fun getMealsForGymHelper() {
     val dataSource: FoodChangeModeDataSource = getKoin().get()
-    val getGymGoerMealsUseCase = GetGymGoerMealsUseCase(dataSource)
+    val getMealsForGymUseCase = GetMealsForGymUseCase(dataSource)
     println("Gym Helper: Enter your desired meal parameters")
     print("Target Calories: ")
     val targetCalories = readlnOrNull()?.toDoubleOrNull() ?: 0.0
@@ -164,7 +164,7 @@ fun getMealsForGymHelper() {
         println("Please enter valid positive numbers for calories and protein.")
         return
     }
-    val suggestions = getGymGoerMealsUseCase.getGymGoerMeals(calories = targetCalories, protein = targetProtein)
+    val suggestions = getMealsForGymUseCase.getMealsForGym(calories = targetCalories, protein = targetProtein)
     if (suggestions.isEmpty()) {
         println("No meals found matching your criteria (within ±50 calories and protein). Try adjusting your targets.")
     } else {
