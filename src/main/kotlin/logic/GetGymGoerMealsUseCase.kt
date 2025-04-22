@@ -3,18 +3,20 @@ package logic
 import model.MealItem
 import kotlin.math.abs
 
-class GetGymGoerMealsUseCase(dataSource: FoodChangeModeDataSource) {
-    private val mealsList = dataSource.getAllMeals()
-    fun getGymGoerMeals(
+class GetMealsForGymUseCase(dataSource: FoodChangeModeDataSource) {
+    private val meals = dataSource.getAllMeals()
+    fun getMealsForGym(
         calories: Double,
         protein: Double,
+        numberOfMeals: Int = 10,
         caloriesTolerance: Int = 50,
         proteinTolerance: Int = 15
     ): List<MealItem> {
-        return mealsList.filter { meal ->
+        return meals.filter { meal ->
             val calorieDiff = abs(meal.nutrition.calories - calories)
             val proteinDiff = abs(meal.nutrition.protein - protein)
             calorieDiff <= caloriesTolerance && proteinDiff <= proteinTolerance
-        }.take(10)
+        }   .shuffled()
+            .take(numberOfMeals)
     }
 }
