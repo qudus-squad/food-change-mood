@@ -1,6 +1,8 @@
 import di.appModule
 import logic.*
+import model.InvalidCountryException
 import model.MealItem
+import model.NoMealsFoundException
 import org.koin.core.context.startKoin
 import org.koin.mp.KoinPlatform.getKoin
 import utils.Utils.printMealDetails
@@ -225,7 +227,7 @@ fun searchFood() {
 
 fun searchFoodByCountry() {
     val dataSource: FoodChangeModeDataSource = getKoin().get()
-    val countryFoodUseCase = CountryFoodUseCase(dataSource)
+    val getRandomMealsByCountryName = GetRandomMealsByCountryName(dataSource)
 
     while (true) {
         println("\nPlease enter a country name (or type 0 to go back):")
@@ -237,7 +239,7 @@ fun searchFoodByCountry() {
         }
 
         try {
-            val meals = countryFoodUseCase.getRandomlyCountryMeals(countryName = input, numOfRandomlyMeals = 20)
+            val meals = getRandomMealsByCountryName.getRandomMealsByCountry(countryName = input, randomMealsNumber = 20)
             println("Meals for \"$input\":")
             meals.forEach { println("- ${it.name}") }
             break

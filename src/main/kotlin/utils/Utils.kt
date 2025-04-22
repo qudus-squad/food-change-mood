@@ -41,3 +41,8 @@ object Utils {
     }
 
 }
+
+object Messages {
+    const val INVALID_COUNTRY_NAME = "Country name is empty or contains invalid characters"
+    const val NO_MEALS_FOND_FOR_COUNTRY = "No meals found for country: "
+}
