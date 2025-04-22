@@ -2,7 +2,7 @@ package logic
 
 import model.MealItem
 
-class GetItalianMealsForLargeGroupOfPeople(dataSource: FoodChangeModeDataSource) {
+class GetItalianMealsForLargeGroupOfPeopleUseCase(dataSource: FoodChangeModeDataSource) {
 
     private val meals: List<MealItem> = dataSource.getAllMeals()
 
