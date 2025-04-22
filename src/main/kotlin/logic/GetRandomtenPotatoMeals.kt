@@ -2,7 +2,7 @@ package logic
 
 import model.MealItem
 
-class GetRandomMealsWithPotato(dataSource: FoodChangeModeDataSource) {
+class GetRandomMealsWithPotatoUseCase(dataSource: FoodChangeModeDataSource) {
     private val meals = dataSource.getAllMeals()
 
     fun getPotatoMeals(numberForRandomMeal:Int=10): List<MealItem> {
