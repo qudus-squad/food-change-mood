@@ -2,7 +2,7 @@ package logic
 
 import model.MealItem
 
-class GetFoodSuggestion(dataSource: FoodChangeModeDataSource) {
+class GetFoodSuggestionUseCase(dataSource: FoodChangeModeDataSource) {
 
     private val meals = dataSource.getAllMeals()
 
