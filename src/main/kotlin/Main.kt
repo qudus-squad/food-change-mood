@@ -191,7 +191,7 @@ fun getKetoRandomMeal() {
 
 fun getMealsSuggestions() {
     val dataSource: FoodChangeModeDataSource = getKoin().get()
-    val easyMeals = GetFoodSuggestion(dataSource).suggestEasyMeals(numberOfSuggest = 10)
+    val easyMeals = GetMealsSuggestionUseCase(dataSource).suggestEasyMeals(numberOfSuggestion = 10)
 
     if (easyMeals.isEmpty()) {
         println("\n❗ No easy meals found.")
