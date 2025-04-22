@@ -80,7 +80,7 @@ fun getSweetsWithEggs() {}
 
 fun getMealsWithPotatoes() {
     val dataSource: FoodChangeModeDataSource = getKoin().get()
-    val potatoMeals = GetRandomTenPotatoMeals(dataSource)
+    val potatoMeals = GetRandomMealsWithPotato(dataSource)
     println("The best potato meals for you:")
     val randomPotatoMeals = potatoMeals.getPotatoMeals()
     randomPotatoMeals.forEach { meal ->
