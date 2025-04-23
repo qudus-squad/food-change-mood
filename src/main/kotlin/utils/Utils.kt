@@ -59,7 +59,7 @@ object Messages {
     const val MEALS_NUMBER_CANNOT_BE_NEGATIVE="Meal number cannot be negative"
     const val NO_MORE_HIGH_CALORIE_MEALS = "No more high-calorie meals available to suggest."
     const val NO_SEAFOOD_MEALS_FOUND = "No more high-calorie meals available to suggest."
-
+    const val NO_MEALS_FOR_KETO_DIET = "There are no meals suitable for the keto diet."
 }
 
 object Strings {
