@@ -157,7 +157,7 @@ class GetItalianMealsForLargeGroupOfPeopleUseCaseTest {
                 "tomato sauce",
                 "cheese"
             ),
-            ingredientNumbers = 3
+            ingredientNumbers = 6
         )
     )
 
