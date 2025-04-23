@@ -83,7 +83,7 @@ class GetRandomMealsWithPotatoUseCaseTest {
         }
     }
     @Test
-    fun `should return all meals if available meals are fewer than requested`() {
+    fun `should return all meals when available meals are fewer than requested`() {
         // Given
         val mealsWithPotato = listOf(getMealsItem().first(), getMealsItem().first())
         every { dataSource.getAllMeals() } returns mealsWithPotato
