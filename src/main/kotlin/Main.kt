@@ -176,7 +176,7 @@ fun getSeafoodMeals() {
 fun getItalianFoodForLargeGroups() {
     val dataSource: FoodChangeModeDataSource = getKoin().get()
     val mealFetcher = GetItalianMealsForLargeGroupOfPeopleUseCase(dataSource)
-    val suggestedMeals = mealFetcher.getSuggestediIalianMeals()
+    val suggestedMeals = mealFetcher.getItalianMealsForLargeGroupOfPeople()
     println("Recommended Italian Dishes for Large Gatherings:")
     for (meal in suggestedMeals) {
         println("- ${meal.name}: ${meal.description}")
