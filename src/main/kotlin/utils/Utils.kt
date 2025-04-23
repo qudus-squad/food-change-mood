@@ -50,12 +50,10 @@ object Messages {
     const val INVALID_PREPARATION_TIME = "Invalid meal preparation time: must be greater than 0"
     const val NUMBER_OF_INGREDIENTS = "Invalid number of ingredients: cannot be negative"
     const val NUMBER_OF_PREPARATION_STEPS = "Invalid number of preparation steps: cannot be negative"
-
     const val NO_MEALS_FOR_LARGE_GROUP_FOND_FOR_COUNTRY = "No meals found for country: "
-
-    const val No_meals_with_potato_found = "No meals with potato found"
-    const val Meal_number_cannot_be_negative = "Meal number cannot be negative"
-
+    const val NO_MEALS_WITH_POTATO_FOUND ="No meals with potato found"
+    const val MEALS_NUMBER_CANNOT_BE_NEGATIVE="Meal number cannot be negative"
+    const val NO_MORE_HIGH_CALORIE_MEALS = "No more high-calorie meals available to suggest."
 }
 
 object Strings {
