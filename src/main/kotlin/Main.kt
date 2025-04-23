@@ -127,7 +127,7 @@ fun getMealsWithPotatoes() {
 fun getMealsWith700Calories() {
 
     val dataSource: FoodChangeModeDataSource = getKoin().get()
-    val suggester = GetMealWith700CaloriesOrMoreUseCase(dataSource)
+    val suggester = GetHighCalorieMealsUseCase(dataSource)
     var suggestedMeal = suggester.suggestMeal()
     try {
         while (suggestedMeal != null) {
