@@ -4,10 +4,10 @@ import model.MealItem
 import utils.Strings.FOR_LARGE_GROUP
 import utils.Strings.ITALIAN
 
-class GetItalianMealsForLargeGroupUseCase(private val dataSource: FoodChangeModeDataSource) {
+class GetItalianMealsForLargeGroupOfPeopleUseCase(private val dataSource: FoodChangeModeDataSource) {
 
 
-    fun getItalianMealsForLargeGroup(countryName: String = ITALIAN): List<MealItem> {
+    fun getItalianMealsForLargeGroupOfPeople(countryName: String = ITALIAN): List<MealItem> {
         val italianMeals = filterMealsByCountry(dataSource.getAllMeals(), countryName)
         return italianMeals.filter { meal ->
             isMealForLargeGroup(meal)
