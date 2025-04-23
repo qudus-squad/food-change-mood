@@ -1,6 +1,10 @@
 package logic
 
 import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.matchers.collections.shouldContain
+import io.kotest.matchers.equals.shouldBeEqual
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.shouldBeSameInstanceAs
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.datetime.LocalDate
@@ -434,7 +438,7 @@ class StartIngredientGameUseCaseTest {
         val resultOfGame = startIngredientGameUseCase.startNewRound()
 
         // Then
-        assertTrue(resultOfGame.optionsOfIngredients.contains(resultOfGame.correctIngredient))
+        resultOfGame.optionsOfIngredients shouldContain resultOfGame.correctIngredient
     }
 
     @Test
@@ -451,7 +455,7 @@ class StartIngredientGameUseCaseTest {
         val processWrongGuess = startIngredientGameUseCase.processGuess(wrongGuess, gameRound.correctIngredient)
 
         // Then
-        assertTrue(processWrongGuess is GameResult.Incorrect)
+        (processWrongGuess is GameResult.Incorrect) shouldBe true
     }
 
     @Test
@@ -508,7 +512,7 @@ class StartIngredientGameUseCaseTest {
         }
 
         // Then
-        assertTrue(gameResult is GameResult.GameCompleted)
+        (gameResult is GameResult.GameCompleted) shouldBe true
     }
 
     @Test
@@ -524,8 +528,8 @@ class StartIngredientGameUseCaseTest {
             startIngredientGameUseCase.processGuess(gameRound.correctIngredient, gameRound.correctIngredient)
 
         // Then
-        assertTrue(gameResult is GameResult.Correct)
-        assertEquals(1000, (gameResult as GameResult.Correct).currentPoints)
+        (gameResult is GameResult.Correct) shouldBe true
+        (gameResult as GameResult.Correct).currentPoints shouldBe 1000
     }
 
     @Test
@@ -541,7 +545,7 @@ class StartIngredientGameUseCaseTest {
         val gameResult = startIngredientGameUseCase.processGuess(wrongGuess, gameRound.correctIngredient)
 
         // Then
-        assertTrue(gameResult is GameResult.Incorrect)
-        assertEquals(0, (gameResult as GameResult.Incorrect).currentPoints)
+        (gameResult is GameResult.Incorrect) shouldBe true
+        (gameResult as GameResult.Incorrect).currentPoints shouldBe 0
     }
 }
