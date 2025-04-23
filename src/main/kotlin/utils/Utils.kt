@@ -62,4 +62,5 @@ object Messages {
 object Strings {
     const val FOR_LARGE_GROUP = "for-large-groups"
     const val ITALIAN = "italian"
+    const val IRAQ= "iraq"
 }

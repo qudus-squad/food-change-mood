@@ -64,7 +64,7 @@ fun getFastHealthyMeals() {
 
 fun getIraqiMeals() {
     val dataSource: FoodChangeModeDataSource = getKoin().get()
-    val iraqMeals = GetIraqMealsUsingDescription(dataSource).getIraqMeals()
+    val iraqMeals = GetIraqMealsUseCase(dataSource).getIraqMeals()
 
     if (iraqMeals.isEmpty()) println("iraqi meals not found")
     else {
