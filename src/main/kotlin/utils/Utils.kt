@@ -50,7 +50,7 @@ object Messages {
 
     const val No_meals_with_potato_found ="No meals with potato found"
     const val Meal_number_cannot_be_negative="Meal number cannot be negative"
-
+    const val NO_MORE_HIGH_CALORIE_MEALS = "No more high-calorie meals available to suggest."
 }
 
 object Strings {
