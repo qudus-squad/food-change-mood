@@ -4,7 +4,7 @@ import model.MealItem
 
 object Utils {
 
-    fun printMealDetails(meal: MealItem){
+    fun printMealDetails(meal: MealItem) {
         println("---- Meal Details ----")
         println("Name: ${meal.name}")
         println("Submitted on: ${meal.submitted}")
@@ -33,7 +33,7 @@ object Utils {
         println("Protein: ${meal.nutrition.protein}g")
     }
 
-    fun printMealNameAndDescription(meal: MealItem){
+    fun printMealNameAndDescription(meal: MealItem) {
         println("---- Meal Details ----")
         println("Name: ${meal.name}")
         println("Description:")
@@ -51,6 +51,9 @@ object Messages {
     const val NUMBER_OF_INGREDIENTS = "Invalid number of ingredients: cannot be negative"
     const val NUMBER_OF_PREPARATION_STEPS = "Invalid number of preparation steps: cannot be negative"
     const val NO_MEALS_FOR_LARGE_GROUP_FOND_FOR_COUNTRY = "No meals found for country: "
+
+    const val INVALID_MEAL_NAME ="name is empty or contains invalid characters"
+    const val NO_MEALS_FOUND_FOR_NAME = "No meals found for this name"
     const val NO_MEALS_WITH_POTATO_FOUND ="No meals with potato found"
     const val MEALS_NUMBER_CANNOT_BE_NEGATIVE="Meal number cannot be negative"
     const val NO_MORE_HIGH_CALORIE_MEALS = "No more high-calorie meals available to suggest."

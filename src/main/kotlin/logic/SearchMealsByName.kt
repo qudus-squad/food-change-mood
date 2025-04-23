@@ -1,15 +1,23 @@
 package logic
 
+import model.InvalidNameMealException
+import model.NoMealsFoundException
+import utils.Messages.INVALID_MEAL_NAME
+import utils.Messages.NO_MEALS_FOUND_FOR_NAME
 
-class SearchMealsByNameUseCase(dataSource: FoodChangeModeDataSource) {
+
+class SearchMealsByNameUseCase(private val dataSource: FoodChangeModeDataSource) {
     private val searchAlgorithm = SearchAlgorithm()
-    private val meals = dataSource.getAllMeals()
+
 
     fun searchMealsByName(searchInput: String): List<Pair<Int, String>> {
+        if (searchInput.isEmpty())
+            throw InvalidNameMealException(INVALID_MEAL_NAME)
+
         val bestMatches = mutableListOf<Pair<Int, String>>()
         val maxDistance = 3
         val minimumSimilarity = 60
-        meals.forEach { meal ->
+        dataSource.getAllMeals().forEach { meal ->
             meal.name
             if (meal.name.isNotEmpty()) {
                 if (searchAlgorithm.knuthMorris(meal.name, searchInput)) {
@@ -25,6 +33,9 @@ class SearchMealsByNameUseCase(dataSource: FoodChangeModeDataSource) {
                 }
             }
         }
+        if (bestMatches.isEmpty())
+            throw NoMealsFoundException(NO_MEALS_FOUND_FOR_NAME)
+
         return bestMatches
     }
 }
