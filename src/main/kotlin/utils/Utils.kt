@@ -45,7 +45,12 @@ object Utils {
 object Messages {
     const val INVALID_COUNTRY_NAME = "Country name is empty or contains invalid characters"
     const val NO_MEALS_FOND_FOR_COUNTRY = "No meals found for country: "
+
     const val NO_MEALS_FOR_LARGE_GROUP_FOND_FOR_COUNTRY = "No meals found for country: "
+
+    const val No_meals_with_potato_found ="No meals with potato found"
+    const val Meal_number_cannot_be_negative="Meal number cannot be negative"
+
 }
 
 object Strings {
