@@ -48,8 +48,8 @@ object Messages {
 
     const val NO_MEALS_FOR_LARGE_GROUP_FOND_FOR_COUNTRY = "No meals found for country: "
 
-    const val No_meals_with_potato_found ="No meals with potato found"
-    const val Meal_number_cannot_be_negative="Meal number cannot be negative"
+    const val NO_MEALS_WITH_POTATO_FOUND ="No meals with potato found"
+    const val MEALS_NUMBER_CANNOT_BE_NEGATIVE="Meal number cannot be negative"
     const val NO_MORE_HIGH_CALORIE_MEALS = "No more high-calorie meals available to suggest."
 }
 
