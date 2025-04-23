@@ -7,7 +7,7 @@ class GetMealsSuggestionUseCase(dataSource: FoodChangeModeDataSource) {
     private val meals = dataSource.getAllMeals()
 
     fun suggestEasyMeals(
-        numberOfSuggestion: Int = 10,
+        numberOfSuggestions: Int = 10,
         preparationTime: Int = 30,
         numberOfIngredients: Int = 5,
         numberOfPreparationSteps: Int = 6,
@@ -21,7 +21,7 @@ class GetMealsSuggestionUseCase(dataSource: FoodChangeModeDataSource) {
             )
         }
             .shuffled()
-            .take(numberOfSuggestion)
+            .take(numberOfSuggestions)
     }
 
     private fun isEasyMeal(
