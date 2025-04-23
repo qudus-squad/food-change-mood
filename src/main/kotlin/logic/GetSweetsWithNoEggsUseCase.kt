@@ -1,20 +1,27 @@
 package logic
 
 import model.MealItem
+import model.NoSweetsFoundException
+import utils.ListUtils.orThrowIfEmpty
+import utils.Messages.NO_EGG_FREE_SWEETS
+import utils.Strings.EGGS_KEYWORDS
+import utils.Strings.SWEETS_KEYWORDS
 
-class GetSweetsWithNoEggsUseCase(dataSource: FoodChangeModeDataSource) {
-    private val sweetsKeywords  = "sweets"
-    private val eggsKeywords = "eggs"
-    private val allSweets = dataSource.getAllMeals().filter { mealItem -> sweetsKeywords in mealItem.tags  && eggsKeywords !in mealItem.ingredients }
-    private val suggestedSweetIds = mutableSetOf<Int>()
+class GetSweetsWithNoEggsUseCase(private val dataSource: FoodChangeModeDataSource) {
 
-    fun suggestSweetsWithNoEgg(): MealItem? {
-        val availableSweets = allSweets.filter { it.id !in suggestedSweetIds }
-        if (availableSweets.isEmpty()) {
-            return null
+    fun getAllSweets():List<MealItem>  {
+        return dataSource.getAllMeals().filter { sweet ->
+        SWEETS_KEYWORDS in sweet.tags && EGGS_KEYWORDS !in sweet.ingredients
+    }.orThrowIfEmpty { NoSweetsFoundException(NO_EGG_FREE_SWEETS) }
+    }
+
+    fun suggestSweetsWithNoEgg(randomMealNumber: Int = 10): List<MealItem> {
+        val suggestedRandomSweets = getAllSweets()
+            .shuffled()
+            .take(randomMealNumber)
+        if (suggestedRandomSweets.isEmpty()) {
+             throw NoSweetsFoundException(NO_EGG_FREE_SWEETS)
         }
-        val suggestedSweet = availableSweets.random()
-        suggestedSweetIds.add(suggestedSweet.id)
-        return suggestedSweet
+        return suggestedRandomSweets
     }
 }
