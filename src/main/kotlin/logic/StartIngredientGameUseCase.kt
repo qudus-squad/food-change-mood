@@ -3,14 +3,14 @@ package logic
 import model.GameResult
 import model.IngredientGameRound
 
-class StartIngredientGameUseCase(dataSource: FoodChangeModeDataSource) {
-    private val meals = dataSource.getAllMeals()
+class StartIngredientGameUseCase(private val dataSource: FoodChangeModeDataSource) {
+
     private var points: Int = 0
     private var correctAnswers: Int = 0
     private val playedMeals = mutableSetOf<Int>()
 
     fun startNewRound(): IngredientGameRound {
-        val availableMeals = meals
+        val availableMeals = dataSource.getAllMeals()
             .filter { meal -> meal.ingredients.isNotEmpty() }
             .filter { meal -> meal.id !in playedMeals }
 
@@ -22,11 +22,11 @@ class StartIngredientGameUseCase(dataSource: FoodChangeModeDataSource) {
         playedMeals.add(selectedMeal.id)
 
         val correctIngredient = selectedMeal.ingredients.random()
-        val otherIngredients = meals
+        val otherIngredients = dataSource.getAllMeals()
             .filter { meal -> meal.id != selectedMeal.id }
             .flatMap { meal -> meal.ingredients }
             .distinct()
-            .filter { meal -> meal != correctIngredient }
+            .filter { ingredient -> ingredient != correctIngredient }
 
         if (otherIngredients.size < 2) {
             throw NotEnoughMealsException(NOT_ENOUGH_WRONG_INGREDIENTS_EXCEPTION_MESSAGE)
@@ -36,7 +36,7 @@ class StartIngredientGameUseCase(dataSource: FoodChangeModeDataSource) {
         val options = (listOf(correctIngredient) + wrongIngredients).shuffled()
         return IngredientGameRound(
             mealName = selectedMeal.name,
-            options = options,
+            optionsOfIngredients = options,
             correctIngredient = correctIngredient
         )
     }

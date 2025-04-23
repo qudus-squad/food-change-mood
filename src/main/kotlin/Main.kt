@@ -339,7 +339,7 @@ fun startIngredientGame() {
         try {
             val round = gameUseCase.startNewRound()
             println("Guess the ingredient for: ${round.mealName}")
-            round.options.forEachIndexed { index, option ->
+            round.optionsOfIngredients.forEachIndexed { index, option ->
                 println("${index + 1}. $option")
             }
             val guessIndex = readlnOrNull()?.toIntOrNull()?.let { it - 1 } ?: -1
@@ -347,7 +347,7 @@ fun startIngredientGame() {
                 println("Invalid choice")
                 continue
             }
-            val guess = round.options[guessIndex]
+            val guess = round.optionsOfIngredients[guessIndex]
             when (val result = gameUseCase.processGuess(guess, round.correctIngredient)) {
                 is GameResult.Correct -> {
                     println("Correct! Points: ${result.currentPoints}, Correct Answers: ${result.correctAnswers}")
