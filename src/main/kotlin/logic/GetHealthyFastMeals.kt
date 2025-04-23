@@ -1,18 +1,14 @@
 package logic
-
 import model.MealItem
 
-class GetHealthyFastMealsUseCase(dataSource: FoodChangeModeDataSource) {
+class GetHealthyFastMealsUseCase(private val dataSource: FoodChangeModeDataSource) {
+    private val meals = dataSource.getAllMeals()
 
-    private val mealsList = dataSource.getAllMeals()
-
+    private val validMeals = meals.filter { meal ->
+        meal.minutes <= 15
+    }
     fun getHealthyFastMeals(): List<MealItem> {
-
-        val validMeals = mealsList.filter { meal ->
-            meal.minutes <= 15
-        }
         if (validMeals.isEmpty()) {
-            println("No valid meals found (prepTime <= 15, fast-food, non-null nutrition).")
             return emptyList()
         }
         val thresholdPercentile = 0.2
