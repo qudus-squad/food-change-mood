@@ -1,8 +1,9 @@
 package logic
 
+import model.GameResult
 import model.IngredientGameRound
 
-class IngredientGameUseCase(dataSource: FoodChangeModeDataSource) {
+class StartIngredientGameUseCase(dataSource: FoodChangeModeDataSource) {
     private val meals = dataSource.getAllMeals()
     private var points: Int = 0
     private var correctAnswers: Int = 0
@@ -10,24 +11,27 @@ class IngredientGameUseCase(dataSource: FoodChangeModeDataSource) {
 
     fun startNewRound(): IngredientGameRound {
         val availableMeals = meals
-            .filter { it.ingredients.isNotEmpty() }
-            .filter { it.id !in playedMeals }
+            .filter { meal -> meal.ingredients.isNotEmpty() }
+            .filter { meal -> meal.id !in playedMeals }
+
         if (availableMeals.isEmpty()) {
-            throw InsufficientMealsException("No more meals available to play the game")
+            throw NotEnoughMealsException(NOT_ENOUGH_MEALS_EXCEPTION_MESSAGE)
         }
 
         val selectedMeal = availableMeals.random()
         playedMeals.add(selectedMeal.id)
+
         val correctIngredient = selectedMeal.ingredients.random()
         val otherIngredients = meals
-            .filter { it.id != selectedMeal.id }
-            .flatMap { it.ingredients }
+            .filter { meal -> meal.id != selectedMeal.id }
+            .flatMap { meal -> meal.ingredients }
             .distinct()
-            .filter { it != correctIngredient }
+            .filter { meal -> meal != correctIngredient }
 
         if (otherIngredients.size < 2) {
-            throw InsufficientMealsException("Not enough ingredients to create a game round")
+            throw NotEnoughMealsException(NOT_ENOUGH_WRONG_INGREDIENTS_EXCEPTION_MESSAGE)
         }
+
         val wrongIngredients = otherIngredients.shuffled().take(2)
         val options = (listOf(correctIngredient) + wrongIngredients).shuffled()
         return IngredientGameRound(
@@ -59,15 +63,10 @@ class IngredientGameUseCase(dataSource: FoodChangeModeDataSource) {
     companion object {
         private const val POINTS_PER_CORRECT_ANSWER = 1000
         private const val MAX_CORRECT_ANSWERS = 15
+        private const val NOT_ENOUGH_MEALS_EXCEPTION_MESSAGE = "Not enough meals to start a round"
+        private const val NOT_ENOUGH_WRONG_INGREDIENTS_EXCEPTION_MESSAGE =
+            "Not enough wrong ingredients to generate options"
     }
 }
 
-sealed class GameResult {
-    data class Correct(val currentPoints: Int, val correctAnswers: Int) : GameResult()
-
-    data class Incorrect(val currentPoints: Int, val correctAnswers: Int) : GameResult()
-
-    data class GameCompleted(val currentPoints: Int) : GameResult()
-}
-
-class InsufficientMealsException(message: String) : Exception(message)
+class NotEnoughMealsException(message: String) : Exception(message)
