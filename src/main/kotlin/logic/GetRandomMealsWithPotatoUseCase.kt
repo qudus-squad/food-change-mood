@@ -4,11 +4,12 @@ import model.MealItem
 
 class GetRandomMealsWithPotatoUseCase(dataSource: FoodChangeModeDataSource) {
     private val meals = dataSource.getAllMeals()
+    private val potatoKeyword = "potato"
 
-    fun getPotatoMeals(RandomMealNumber:Int=10): List<MealItem> {
+    fun getPotatoMeals(randomMealNumber:Int=10): List<MealItem> {
         return meals
-            .filter { meal -> meal.ingredients.any { it.contains("potato", ignoreCase = true) } }
+            .filter { meal -> meal.ingredients.any { it.contains(potatoKeyword, ignoreCase = true) } }
             .shuffled()
-            .take(RandomMealNumber)
+            .take(randomMealNumber)
     }
 }

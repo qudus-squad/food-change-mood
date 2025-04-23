@@ -31,15 +31,15 @@ fun main() {
         when (readlnOrNull()?.trim()) {
             "1" -> getFastHealthyMeals()
             "2" -> getIraqiMeals()
-            "3" -> getSweetsWithEggs() //not found
+            "3" -> getSweetsWithNoEggs()
             "4" -> getMealsWithPotatoes()
             "5" -> getMealsWith700Calories()
-            "6" -> getSeafoodMeals() // seafood
+            "6" -> getSeafoodMeals()
             "7" -> getItalianFoodForLargeGroups()
             "8" -> getMealsForGymHelper()
             "9" -> getKetoRandomMeal()
-            "10" -> getMealsSuggestions() //suggestion
-            "11" -> searchFood() // search food by country
+            "10" -> getMealsSuggestions()
+            "11" -> searchFood()
             "12" -> foodGames()
         }
     }
@@ -77,7 +77,38 @@ fun getIraqiMeals() {
 
 /////////////////////////////////////// SWEETS WITH NO EGGS  ////////////////////////////////////( 0 -> 3 )
 
-fun getSweetsWithEggs() {}
+
+fun getSweetsWithNoEggs() {
+    val dataSource: FoodChangeModeDataSource = getKoin().get()
+    val sweetSuggester = GetSweetsWithNoEggsUseCase(dataSource)
+    var suggestedSweet = sweetSuggester.suggestSweetsWithNoEgg()
+    try {
+        while (suggestedSweet != null) {
+            println("Suggested Egg-Free Sweet: ${suggestedSweet.name} \n${suggestedSweet.description}")
+            println("Press 1 for Like or 0 for Dislike")
+            val userResponse = readln().toInt()
+            when (userResponse) {
+                1 -> {
+                    printMealDetails(suggestedSweet)
+                    break
+                }
+                0 -> {
+                    suggestedSweet = sweetSuggester.suggestSweetsWithNoEgg()
+                    if (suggestedSweet == null) {
+                        println("No more available egg-free sweets.")
+                    }
+                }
+                else -> {
+                    throw InvalidUserInputException("Invalid Input")
+                }
+            }
+        }
+    } catch (e: InvalidUserInputException) {
+        println(e.message)
+    } catch (e: Exception) {
+        println("An unexpected error occurred: ${e.message}")
+    }
+}
 
 /////////////////////////////////////// MEALS WITH POTATOES  ////////////////////////////////////( 0 -> 4 )
 
@@ -194,7 +225,7 @@ fun getKetoRandomMeal() {
 
 fun getMealsSuggestions() {
     val dataSource: FoodChangeModeDataSource = getKoin().get()
-    val easyMeals = GetMealsSuggestionUseCase(dataSource).suggestEasyMeals(numberOfSuggestion = 10)
+    val easyMeals = GetMealsSuggestionUseCase(dataSource).suggestEasyMeals(numberOfSuggestions = 10)
 
     if (easyMeals.isEmpty()) {
         println("\n❗ No easy meals found.")
