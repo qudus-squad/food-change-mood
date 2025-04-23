@@ -31,7 +31,7 @@ fun main() {
         when (readlnOrNull()?.trim()) {
             "1" -> getFastHealthyMeals()
             "2" -> getIraqiMeals()
-            "3" -> getSweetsWithEggs() //not found
+            "3" -> getSweetsWithNoEggs() //not found
             "4" -> getMealsWithPotatoes()
             "5" -> getMealsWith700Calories()
             "6" -> getSeafoodMeals() // seafood
@@ -77,7 +77,8 @@ fun getIraqiMeals() {
 
 /////////////////////////////////////// SWEETS WITH NO EGGS  ////////////////////////////////////( 0 -> 3 )
 
-fun getSweetsWithEggs() {
+
+fun getSweetsWithNoEggs() {
     val dataSource: FoodChangeModeDataSource = getKoin().get()
     val sweetSuggester = GetSweetsWithNoEggsUseCase(dataSource)
     var suggestedSweet = sweetSuggester.suggestSweetsWithNoEgg()
