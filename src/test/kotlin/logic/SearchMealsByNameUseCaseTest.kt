@@ -99,6 +99,7 @@ class SearchMealsByNameUseCaseTest {
         //given
         every { dataSource.getAllMeals() } returns getTestMeals()
         val mealName = "classic mashed potatoes"
+
         // When
         val result = searchMealsByNameUseCase.searchMealsByName("classic mashed potatoes")
 
