@@ -1,0 +1,6 @@
+numberOfSuggestions,preparationTime,numberOfIngredients,numberOfPreparationSteps,expectedMealNames
+10,30,5,6,quick veggie stir fry
+10,30,6,6,quick veggie stir fry|simple green salad
+10,30,8,7,quick veggie stir fry|classic beef burger|simple green salad|chocolate chip cookies
+10,15,5,5,quick veggie stir fry
+10,10,6,3,simple green salad

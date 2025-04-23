@@ -12,7 +12,7 @@ class GetHealthyFastMealsUseCase(dataSource: FoodChangeModeDataSource) {
             meal.minutes <= 15
         }
         if (validMeals.isEmpty()) {
-            println("No valid meals found (prepTime <= 15, fast-food, non-null nutrition).")
+
             return emptyList()
         }
         val thresholdPercentile = 0.2
