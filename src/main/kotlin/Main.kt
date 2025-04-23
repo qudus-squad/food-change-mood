@@ -1,5 +1,6 @@
 import di.appModule
 import logic.*
+import model.GameResult
 import model.InvalidCountryNameException
 import model.MealItem
 import model.NoMealsFoundException
@@ -296,7 +297,7 @@ fun startGuessGame() {
 
 fun startIngredientGame() {
     val dataSource: FoodChangeModeDataSource = getKoin().get()
-    val gameUseCase = IngredientGameUseCase(dataSource)
+    val gameUseCase = StartIngredientGameUseCase(dataSource)
     gameUseCase.resetGame()
     while (true) {
         try {
@@ -326,7 +327,7 @@ fun startIngredientGame() {
                     break
                 }
             }
-        } catch (e: InsufficientMealsException) {
+        } catch (e: NotEnoughMealsException) {
             println("You've answered all available meals!")
             break
         }
