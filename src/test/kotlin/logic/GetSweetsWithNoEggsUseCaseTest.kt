@@ -134,7 +134,16 @@ class GetSweetsWithNoEggsUseCaseTest() {
         //Then
         result.map { it.name }.shouldContainExactly("sweet With No Eggs")
     }
+
+    @Test
+    fun `should throw NoSweetsFoundException when there is no egg-free sweet to suggest`() {
+        // Given
+        every { datasource.getAllMeals() } returns getMealsItem().map {
+            it.copy(tags = it.tags - "sweet")
+        }
+        // When & Then
+        shouldThrow<NoSweetsFoundException> {
+            getSweetsWithNoEggsUseCase.suggestSweetsWithNoEgg()
+        }
+    }
 }
-
-
-

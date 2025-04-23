@@ -51,6 +51,7 @@ object Messages {
     const val NUMBER_OF_INGREDIENTS = "Invalid number of ingredients: cannot be negative"
     const val NUMBER_OF_PREPARATION_STEPS = "Invalid number of preparation steps: cannot be negative"
     const val NO_MEALS_FOR_LARGE_GROUP_FOND_FOR_COUNTRY = "No meals found for country: "
+    const val NO_EGG_FREE_SWEETS = "No egg-free sweets found "
 
     const val INVALID_MEAL_NAME ="name is empty or contains invalid characters"
     const val NO_MEALS_FOUND_FOR_NAME = "No meals found for this name"
@@ -62,4 +63,6 @@ object Messages {
 object Strings {
     const val FOR_LARGE_GROUP = "for-large-groups"
     const val ITALIAN = "italian"
+    const val SWEETS_KEYWORDS ="sweet"
+    const val EGGS_KEYWORDS ="eggs"
 }

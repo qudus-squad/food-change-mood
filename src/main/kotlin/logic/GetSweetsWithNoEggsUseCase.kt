@@ -9,16 +9,18 @@ import utils.Strings.SWEETS_KEYWORDS
 
 class GetSweetsWithNoEggsUseCase(private val dataSource: FoodChangeModeDataSource) {
 
-    fun getAllSweets() = dataSource.getAllMeals().filter { sweet ->
+    fun getAllSweets():List<MealItem>  {
+        return dataSource.getAllMeals().filter { sweet ->
         SWEETS_KEYWORDS in sweet.tags && EGGS_KEYWORDS !in sweet.ingredients
     }.orThrowIfEmpty { NoSweetsFoundException(NO_EGG_FREE_SWEETS) }
+    }
 
     fun suggestSweetsWithNoEgg(randomMealNumber: Int = 10): List<MealItem> {
         val suggestedRandomSweets = getAllSweets()
             .shuffled()
             .take(randomMealNumber)
         if (suggestedRandomSweets.isEmpty()) {
-            return emptyList()
+             throw NoSweetsFoundException(NO_EGG_FREE_SWEETS)
         }
         return suggestedRandomSweets
     }
