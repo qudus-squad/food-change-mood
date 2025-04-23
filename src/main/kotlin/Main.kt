@@ -31,15 +31,15 @@ fun main() {
         when (readlnOrNull()?.trim()) {
             "1" -> getFastHealthyMeals()
             "2" -> getIraqiMeals()
-            "3" -> getSweetsWithNoEggs() //not found
+            "3" -> getSweetsWithNoEggs()
             "4" -> getMealsWithPotatoes()
             "5" -> getMealsWith700Calories()
-            "6" -> getSeafoodMeals() // seafood
+            "6" -> getSeafoodMeals()
             "7" -> getItalianFoodForLargeGroups()
             "8" -> getMealsForGymHelper()
             "9" -> getKetoRandomMeal()
-            "10" -> getMealsSuggestions() //suggestion
-            "11" -> searchFood() // search food by country
+            "10" -> getMealsSuggestions()
+            "11" -> searchFood()
             "12" -> foodGames()
         }
     }

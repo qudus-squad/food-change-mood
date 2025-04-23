@@ -3,7 +3,9 @@ package logic
 import model.MealItem
 
 class GetSweetsWithNoEggsUseCase(dataSource: FoodChangeModeDataSource) {
-    private val allSweets = dataSource.getAllMeals().filter { mealItem -> "sweet" in mealItem.tags  && "eggs" !in mealItem.ingredients }
+    private val sweetsKeywords  = "sweets"
+    private val eggsKeywords = "eggs"
+    private val allSweets = dataSource.getAllMeals().filter { mealItem -> sweetsKeywords in mealItem.tags  && eggsKeywords !in mealItem.ingredients }
     private val suggestedSweetIds = mutableSetOf<Int>()
 
     fun suggestSweetsWithNoEgg(): MealItem? {
