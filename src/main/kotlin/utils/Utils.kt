@@ -4,7 +4,7 @@ import model.MealItem
 
 object Utils {
 
-    fun printMealDetails(meal: MealItem){
+    fun printMealDetails(meal: MealItem) {
         println("---- Meal Details ----")
         println("Name: ${meal.name}")
         println("Submitted on: ${meal.submitted}")
@@ -33,7 +33,7 @@ object Utils {
         println("Protein: ${meal.nutrition.protein}g")
     }
 
-    fun printMealNameAndDescription(meal: MealItem){
+    fun printMealNameAndDescription(meal: MealItem) {
         println("---- Meal Details ----")
         println("Name: ${meal.name}")
         println("Description:")
@@ -50,6 +50,9 @@ object Messages {
 
     const val No_meals_with_potato_found ="No meals with potato found"
     const val Meal_number_cannot_be_negative="Meal number cannot be negative"
+
+    const val INVALID_MEAL_NAME ="name is empty or contains invalid characters"
+    const val NO_MEALS_FOUND_FOR_NAME = "No meals found for this name"
 
 }
 
