@@ -2,10 +2,11 @@ package logic
 import model.MealItem
 
 class GuessGameUseCase(
-    private val dataSource: FoodChangeModeDataSource
+    dataSource: FoodChangeModeDataSource
 ) {
     val meals = dataSource.getAllMeals()
     val maxAttempts = 3
+    val selectedMeal = generateRandomMeal()
 
     fun hasMeals() : Boolean = meals.isNotEmpty()
 
@@ -14,12 +15,11 @@ class GuessGameUseCase(
     }
 
     fun runGuessingRound(guess : Int): Boolean {
-        val selectedMeal = generateRandomMeal()
 
         if (isCorrectGuess(guess, selectedMeal)) {
             return true
         } else {
-            displayHint(guess, selectedMeal.minutes)
+            displayHint(guess)
         }
         return false
     }
@@ -32,10 +32,10 @@ class GuessGameUseCase(
         return guess == selectedMeal.minutes
     }
 
-    private fun displayHint(guess: Int, correctTime: Int) : String {
+    fun displayHint(guess: Int) : String {
         return when {
-            guess > correctTime -> "Your guess is a bit higher."
-            guess < correctTime -> "Your guess is a bit lower."
+            guess > selectedMeal.minutes -> "Your guess is a bit higher."
+            guess < selectedMeal.minutes -> "Your guess is a bit lower."
             else -> ""
         }
     }
