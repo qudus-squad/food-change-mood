@@ -18,7 +18,7 @@ class SearchFoodByAddDateUseCaseTest {
 
     @BeforeEach
     fun setup() {
-        dataSource = mockk()
+        dataSource = mockk(relaxed = true)
         searchMealsByAddDateUseCase = SearchMealsByAddDateUseCase(dataSource)
     }
 
