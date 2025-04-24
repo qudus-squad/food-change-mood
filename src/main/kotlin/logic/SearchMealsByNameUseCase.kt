@@ -9,7 +9,6 @@ import utils.Messages.NO_MEALS_FOUND_FOR_NAME
 class SearchMealsByNameUseCase(private val dataSource: FoodChangeModeDataSource) {
     private val searchAlgorithm = SearchAlgorithm()
 
-
     fun searchMealsByName(searchInput: String): List<Pair<Int, String>> {
         if (searchInput.isEmpty())
             throw InvalidNameMealException(INVALID_MEAL_NAME)
@@ -44,4 +43,3 @@ class SearchMealsByNameUseCase(private val dataSource: FoodChangeModeDataSource)
         private const val MINIMUM_SIMILARITY = 30
     }
 }
-

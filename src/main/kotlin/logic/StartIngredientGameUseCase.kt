@@ -2,6 +2,7 @@ package logic
 
 import model.GameResult
 import model.IngredientGameRound
+import model.NotEnoughMealsException
 
 class StartIngredientGameUseCase(private val dataSource: FoodChangeModeDataSource) {
 
@@ -71,4 +72,3 @@ class StartIngredientGameUseCase(private val dataSource: FoodChangeModeDataSourc
     }
 }
 
-class NotEnoughMealsException(message: String) : Exception(message)

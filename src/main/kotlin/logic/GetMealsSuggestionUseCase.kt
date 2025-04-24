@@ -12,7 +12,6 @@ import utils.Messages.NUMBER_OF_SUGGESTIONS
 
 class GetMealsSuggestionUseCase(private val dataSource: FoodChangeModeDataSource) {
 
-
     fun suggestEasyMeals(
         numberOfSuggestions: Int = DEFAULT_NUMBER_OF_SUGGESTIONS,
         preparationTime: Int = DEFAULT_PREPARATION_TIME,

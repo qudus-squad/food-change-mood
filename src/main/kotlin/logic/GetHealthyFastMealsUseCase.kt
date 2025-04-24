@@ -2,7 +2,6 @@ package logic
 
 import model.MealItem
 
-
 class GetHealthyFastMealsUseCase(dataSource: FoodChangeModeDataSource) {
 
     private val meals = dataSource.getAllMeals()

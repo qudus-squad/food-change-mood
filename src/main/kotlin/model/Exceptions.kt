@@ -15,6 +15,4 @@ class NoSeafoodMealsFoundException(message: String) : Exception(message)
 
 class InvalidNameMealException(message: String) : Exception(message)
 
-class InvalidAddDateMealException(message: String) : Exception(message)
-
-
+class NotEnoughMealsException(message: String) : Exception(message)
