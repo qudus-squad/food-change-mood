@@ -13,14 +13,14 @@ class GetRandomMealsByCountryNameUseCase(private val dataSource: FoodChangeModeD
 
         return dataSource.getAllMeals()
             .filter { isMealRelatedToCountryName(it, formatCountryName(countryName)) }
-            .orThrowIfEmpty { NoMealsFoundException("$NO_MEALS_FOND_FOR_COUNTRY $countryName") }
-            .shuffled()
+            .orThrowIfEmpty { NoMealsFoundException("$NO_MEALS_FOND_FOR_COUNTRY $countryName") } // no exception
+            .shuffled() // don't use shuffle and use .take(randomnumber)
             .take(randomMealsNumber)
     }
-
+    // use formating in a different use case
     private fun formatCountryName(countryName: String): String {
         return countryName
-            .takeIf { it.isNotBlank() && it.matches(Regex("[a-zA-Z\\s]+")) }
+            .takeIf { it.isNotBlank() && it.matches(Regex("[a-zA-Z\\s]+")) } // annoyed him :(, previous note
             ?.trim()
             ?: throw InvalidCountryNameException(INVALID_COUNTRY_NAME)
     }

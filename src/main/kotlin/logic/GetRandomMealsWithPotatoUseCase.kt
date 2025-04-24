@@ -12,20 +12,20 @@ class GetRandomMealsWithPotatoUseCase(private val dataSource: FoodChangeModeData
     fun getPotatoMeals(
         randomMealsNumber: Int = MAXIMUM_MEALS_TO_SELECT,
         nameForMeal: String = POTATO
-    ): List<MealItem> {
-        if (randomMealsNumber < 0) {
+    ): List<MealItem> { // validation in different use case
+        if (randomMealsNumber < 0) { // randomMealsCount
             throw InvalidMealNumberException(MEALS_NUMBER_CANNOT_BE_NEGATIVE)
         }
         val potatoMeals = dataSource.getAllMeals()
             .filter { meal ->
-                meal.ingredients.any { it.contains(nameForMeal, ignoreCase = true) }
+                meal.ingredients.any { it.contains(nameForMeal, ignoreCase = true) } // extract it into private function
             }
 
         if (potatoMeals.isEmpty()) {
             throw NoMealsFoundException(NO_MEALS_WITH_POTATO_FOUND)
         }
         return potatoMeals
-            .shuffled()
+            .shuffled() // don't use shuffle, instead use .take(randomNumber)
             .take(randomMealsNumber)
     }
 

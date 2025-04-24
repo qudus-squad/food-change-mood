@@ -9,15 +9,15 @@ import utils.Strings.SEAFOOD_KEYWORDS
 class GetSeafoodMealsUseCase(private val dataSource: FoodChangeModeDataSource) {
 
     fun getSeafoodMeals(
-        randomMealsNumber: Int = MAXIMUM_MEALS_TO_SELECT,
+        randomMealsNumber: Int = MAXIMUM_MEALS_TO_SELECT, // rename to randomMealsCount
         seafoodKeywords: List<String> = SEAFOOD_KEYWORDS
     ): List<MealItem> {
         return dataSource.getAllMeals()
             .filter { isSeafoodMeal(it, seafoodKeywords) }
             .sortedByDescending { it.nutrition.protein }
-            .shuffled()
+            .shuffled() // don't use shuffle
             .take(randomMealsNumber)
-            .orThrowIfEmpty { NoSeafoodMealsFoundException(NO_SEAFOOD_MEALS_FOUND) }
+            .orThrowIfEmpty { NoSeafoodMealsFoundException(NO_SEAFOOD_MEALS_FOUND) } // no exception needed for empty
     }
 
     private fun isSeafoodMeal(meal: MealItem, seafoodKeywords: List<String>): Boolean {

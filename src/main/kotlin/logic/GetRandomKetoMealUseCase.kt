@@ -6,14 +6,14 @@ import utils.Messages.NO_MEALS_FOR_KETO_DIET
 
 class GetRandomKetoMealUseCase(private val dataSource: FoodChangeModeDataSource) {
 
-    private val suggestedMealsIds = mutableSetOf<Int>()
+    private val suggestedMealsIds = mutableSetOf<Int>() // no iteration, you just save it one time
 
     fun getRandomKetoMeal(): MealItem {
         val availableMeals = dataSource.getAllMeals()
             .filter { meal ->
                 isKetoFriendly(meal)
             }
-            .filterNot { it.id in suggestedMealsIds }
+            .filterNot { it.id in suggestedMealsIds } // mix them in a single filter
 
         if (availableMeals.isEmpty()) {
             throw NoMealsFoundException(NO_MEALS_FOR_KETO_DIET)

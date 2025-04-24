@@ -10,12 +10,12 @@ import utils.Strings.ITALIAN
 class GetItalianMealsForLargeGroupOfPeopleUseCase(private val dataSource: FoodChangeModeDataSource) {
 
     fun getItalianMealsForLargeGroupOfPeople(
-        countryName: String = ITALIAN, maxMealsToSelect: Int = MAXIMUM_MEALS_TO_SELECT
+            countryName: String = ITALIAN /* is independent of utils domain */, maxMealsToSelect: Int = MAXIMUM_MEALS_TO_SELECT
     ): List<MealItem> {
         val italianMeals = filterMealsByCountry(dataSource.getAllMeals(), countryName)
         return italianMeals.filter { isMealForLargeGroup(it) }
             .orThrowIfEmpty { NoMealsFoundException("$NO_MEALS_FOR_LARGE_GROUP_FOND_FOR_COUNTRY $countryName") }
-            .shuffled()
+            .shuffled() // replace shuffling with .take(randomnumber)
             .take(maxMealsToSelect)
     }
 

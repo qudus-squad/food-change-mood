@@ -16,7 +16,7 @@ class SearchMealsByNameUseCase(private val dataSource: FoodChangeModeDataSource)
         val bestMatches = mutableListOf<Pair<Int, String>>()
         val maxDistance = MAXIMUM_DISTANCE
         val minimumSimilarity = MINIMUM_SIMILARITY
-        dataSource.getAllMeals().forEach { meal ->
+        dataSource.getAllMeals().forEach { meal -> // split it into different function
             meal.name
             if (meal.name.isNotEmpty()) {
                 if (searchAlgorithm.knuthMorris(meal.name, searchInput)) {
@@ -33,7 +33,7 @@ class SearchMealsByNameUseCase(private val dataSource: FoodChangeModeDataSource)
             }
         }
         if (bestMatches.isEmpty())
-            throw NoMealsFoundException(NO_MEALS_FOUND_FOR_NAME)
+            throw NoMealsFoundException(NO_MEALS_FOUND_FOR_NAME) // return empty list, no exception needed
 
         return bestMatches
     }

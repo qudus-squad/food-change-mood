@@ -7,11 +7,11 @@ class GetHealthyFastMealsUseCase(dataSource: FoodChangeModeDataSource) {
     private val meals = dataSource.getAllMeals()
 
     fun getHealthyFastMeals(
-        limitForMinutesHealthyMeal: Int = HEALTHY_MEAL_MINIMUM_PREPARATION_TIME,
-        scoredMealsNumber: Int = MAXIMUM_MEALS_TO_SELECT
+        limitForMinutesHealthyMeal: Int = HEALTHY_MEAL_MINIMUM_PREPARATION_TIME, // rename to clarify -> preparationTimeLimit
+        scoredMealsNumber: Int = MAXIMUM_MEALS_TO_SELECT // rename to clarify -> mealsCount
     ): List<MealItem> {
 
-        val validMeals = meals.filter { meal ->
+        val validMeals = meals.filter { meal -> // rename to clarify -> filteredMeals
             meal.minutes <= limitForMinutesHealthyMeal
         }
         if (validMeals.isEmpty()) {

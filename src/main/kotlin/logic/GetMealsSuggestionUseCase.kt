@@ -16,9 +16,10 @@ class GetMealsSuggestionUseCase(private val dataSource: FoodChangeModeDataSource
         numberOfSuggestions: Int = DEFAULT_NUMBER_OF_SUGGESTIONS,
         preparationTime: Int = DEFAULT_PREPARATION_TIME,
         numberOfIngredients: Int = DEFAULT_NUMBER_OF_INGREDIENTS,
-        numberOfPreparationSteps: Int = DEFAULT_NUMBER_OF_PREPARATION_STEPS,
+        numberOfPreparationSteps: Int = DEFAULT_NUMBER_OF_PREPARATION_STEPS, // replace number with "count" -> preprationStepsCount
     ): List<MealItem> {
 
+        // use this in a different use case and inject it here
         if (numberOfSuggestions <= 0)
             throw InvalidInputSuggestEasyMealsException(NUMBER_OF_SUGGESTIONS)
 
@@ -44,7 +45,7 @@ class GetMealsSuggestionUseCase(private val dataSource: FoodChangeModeDataSource
                 "${NO_SUGGESTION_MEALS} " +
                         "for ${preparationTime} " +
                         ", ${numberOfSuggestions} " +
-                        ", ${numberOfPreparationSteps}"
+                        ", ${numberOfPreparationSteps}" // no exception in the case of empty, messages are combined in a constant message
             )
         }
             .take(numberOfSuggestions)
