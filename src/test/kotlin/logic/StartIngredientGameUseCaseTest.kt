@@ -8,6 +8,7 @@ import io.mockk.mockk
 import kotlinx.datetime.LocalDate
 import model.GameResult
 import model.MealItem
+import model.NotEnoughMealsException
 import model.Nutrition
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
