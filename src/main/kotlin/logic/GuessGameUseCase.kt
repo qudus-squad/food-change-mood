@@ -2,7 +2,7 @@ package logic
 import model.MealItem
 
 class GuessGameUseCase(
-    dataSource: FoodChangeModeDataSource
+    private val dataSource: FoodChangeModeDataSource
 ) {
     val meals = dataSource.getAllMeals()
     val maxAttempts = 3
