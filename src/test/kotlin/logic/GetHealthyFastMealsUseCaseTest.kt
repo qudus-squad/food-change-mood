@@ -354,8 +354,7 @@ class GetHealthyFastMealsUseCaseTest {
  fun `should return top 5 scoring meals when more than five are eligible`() {
 
   // Given
-  every { dataSource.getAllMeals() } returns getMealsItem().filter { meal ->
-  }
+  every { dataSource.getAllMeals() } returns getMealsItem().filter { meal -> meal.id > 6}
   useCase = GetHealthyFastMealsUseCase(dataSource)
   // When
     val result = useCase.getHealthyFastMeals()
