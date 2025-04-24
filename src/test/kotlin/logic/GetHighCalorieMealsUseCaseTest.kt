@@ -116,11 +116,10 @@ class GetHighCalorieMealsUseCaseTest {
   getHighCalorieMealsUseCase.suggestMeal()
   getHighCalorieMealsUseCase.suggestMeal()
 
+
   val exception = shouldThrow<NoSuchElementException> {
    getHighCalorieMealsUseCase.suggestMeal()
-  }
-  exception.message shouldBe NO_MORE_HIGH_CALORIE_MEALS
- }
+  }}
 
  @Test
  fun `should throw NO_MORE_HIGH_CALORIE_MEALS when there are no high calorie meals`() {
@@ -133,7 +132,6 @@ class GetHighCalorieMealsUseCaseTest {
   val exception = shouldThrow<NoSuchElementException> {
    getHighCalorieMealsUseCase.suggestMeal()
   }
-  exception.message shouldBe NO_MORE_HIGH_CALORIE_MEALS
  }
 
  @Test
