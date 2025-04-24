@@ -6,13 +6,13 @@ import utils.Messages.SCORED_MEALS_NUMBER
 
 class GetHealthyFastMealsUseCase(dataSource: FoodChangeModeDataSource) {
 
-    private val mealsList = dataSource.getAllMeals()
+    private val meals = dataSource.getAllMeals()
 
     fun getHealthyFastMeals(
         limitForMinutesHealthyMeal: Int = LIMIT_FOR_MINUTES_HEALTHY_MEAL, scoredMealsNumber: Int = SCORED_MEALS_NUMBER
     ): List<MealItem> {
 
-        val validMeals = mealsList.filter { meal ->
+        val validMeals = meals.filter { meal ->
             meal.minutes <= limitForMinutesHealthyMeal
         }
         if (validMeals.isEmpty()) {
