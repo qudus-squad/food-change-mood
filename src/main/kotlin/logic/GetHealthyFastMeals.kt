@@ -1,15 +1,19 @@
 package logic
 
 import model.MealItem
+import utils.Messages.LIMIT_FOR_MINUTES_HEALTHY_MEAL
+import utils.Messages.SCORED_MEALS_NUMBER
 
 class GetHealthyFastMealsUseCase(dataSource: FoodChangeModeDataSource) {
 
     private val mealsList = dataSource.getAllMeals()
 
-    fun getHealthyFastMeals(): List<MealItem> {
+    fun getHealthyFastMeals(
+        limitForMinutesHealthyMeal: Int = LIMIT_FOR_MINUTES_HEALTHY_MEAL, scoredMealsNumber: Int = SCORED_MEALS_NUMBER
+    ): List<MealItem> {
 
         val validMeals = mealsList.filter { meal ->
-            meal.minutes <= 15
+            meal.minutes <= limitForMinutesHealthyMeal
         }
         if (validMeals.isEmpty()) {
 
@@ -35,10 +39,8 @@ class GetHealthyFastMealsUseCase(dataSource: FoodChangeModeDataSource) {
         }
 
         val maxScore = scoredMeals.maxOfOrNull { it.second } ?: 0
-        return scoredMeals
-            .filter { it.second == maxScore && it.second >= 2 }
-            .map { it.first }
+        return scoredMeals.filter { it.second == maxScore && it.second >= 2 }.map { it.first }
             .sortedBy { it.nutrition.totalFat + it.nutrition.saturatedFat + it.nutrition.carbohydrates }
-            .take(5)
+            .take(scoredMealsNumber)
     }
 }
