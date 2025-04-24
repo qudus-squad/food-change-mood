@@ -69,4 +69,5 @@ object Strings {
     const val SWEETS_KEYWORDS ="sweet"
     const val EGGS_KEYWORDS ="eggs"
     val SEAFOOD_KEYWORDS :List<String> = listOf("fish", "shrimp", "crab", "lobster", "salmon", "tuna", "clam", "oyster", "scallop", "squid")
+    const val POTATO = "potato"
 }

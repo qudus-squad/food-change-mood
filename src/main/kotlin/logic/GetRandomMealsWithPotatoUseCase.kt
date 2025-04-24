@@ -5,16 +5,18 @@ import model.MealItem
 import model.NoMealsFoundException
 import utils.Messages.MEALS_NUMBER_CANNOT_BE_NEGATIVE
 import utils.Messages.NO_MEALS_WITH_POTATO_FOUND
+import utils.Strings.POTATO
+
 
 class GetRandomMealsWithPotatoUseCase(private val dataSource: FoodChangeModeDataSource) {
 
-    fun getPotatoMeals(RandomMealNumber: Int = 10, NameForMeal:String="potato"): List<MealItem> {
-        if (RandomMealNumber < 0) {
+    fun getPotatoMeals(randomMealNumber: Int = 10, nameForMeal: String = POTATO): List<MealItem> {
+        if (randomMealNumber < 0) {
             throw InvalidMealNumberException(MEALS_NUMBER_CANNOT_BE_NEGATIVE)
         }
         val potatoMeals = dataSource.getAllMeals()
             .filter { meal ->
-                meal.ingredients.any { it.contains(NameForMeal, ignoreCase = true) }
+                meal.ingredients.any { it.contains(nameForMeal, ignoreCase = true) }
             }
 
         if (potatoMeals.isEmpty()) {
@@ -22,7 +24,7 @@ class GetRandomMealsWithPotatoUseCase(private val dataSource: FoodChangeModeData
         }
         return potatoMeals
             .shuffled()
-            .take(RandomMealNumber)
+            .take(randomMealNumber)
     }
 
 }
