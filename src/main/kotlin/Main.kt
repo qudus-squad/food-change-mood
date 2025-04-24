@@ -306,7 +306,18 @@ fun foodGames() {
 fun startGuessGame() {
     val dataSource: FoodChangeModeDataSource = getKoin().get()
     val game = GuessGameUseCase(dataSource)
-    game.playGuessGame()
+    if(!game.hasMeals()) {
+        println("No meals available to play the game.")
+        return
+    }
+    for(attempt in 1 .. game.maxAttempts) {
+        val guess = game.getUserGuess() ?: continue
+        if(!game.runGuessingRound(guess)) {
+            println("Game Over!")
+        }
+    }
+    println("Congratulations, You have won the game")
+
 }
 
 fun startIngredientGame() {
