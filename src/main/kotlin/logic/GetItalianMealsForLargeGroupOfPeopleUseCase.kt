@@ -10,13 +10,13 @@ import utils.Strings.ITALIAN
 class GetItalianMealsForLargeGroupOfPeopleUseCase(private val dataSource: FoodChangeModeDataSource) {
 
     fun getItalianMealsForLargeGroupOfPeople(
-        countryName: String = ITALIAN, mealsNumber: Int = 10
+        countryName: String = ITALIAN, maxMealsToSelect: Int = MAXIMUM_MEALS_TO_SELECT
     ): List<MealItem> {
         val italianMeals = filterMealsByCountry(dataSource.getAllMeals(), countryName)
         return italianMeals.filter { isMealForLargeGroup(it) }
             .orThrowIfEmpty { NoMealsFoundException("$NO_MEALS_FOR_LARGE_GROUP_FOND_FOR_COUNTRY $countryName") }
             .shuffled()
-            .take(mealsNumber)
+            .take(maxMealsToSelect)
     }
 
     private fun filterMealsByCountry(mealItems: List<MealItem>, countryName: String): List<MealItem> {
@@ -31,4 +31,9 @@ class GetItalianMealsForLargeGroupOfPeopleUseCase(private val dataSource: FoodCh
     private fun isMealForLargeGroup(meal: MealItem): Boolean {
         return meal.tags.contains(FOR_LARGE_GROUP)
     }
+
+    companion object {
+        private const val MAXIMUM_MEALS_TO_SELECT = 10
+    }
+
 }

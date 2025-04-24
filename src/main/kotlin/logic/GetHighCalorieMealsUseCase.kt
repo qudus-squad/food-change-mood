@@ -6,7 +6,7 @@ import utils.Messages.NO_MORE_HIGH_CALORIE_MEALS
 class GetHighCalorieMealsUseCase(private val dataSource: FoodChangeModeDataSource) {
     private val suggestedMealIds = mutableSetOf<Int>()
 
-    fun suggestMeal(selectedCalorie: Double = 700.0): MealItem {
+    fun suggestMeal(selectedCalorie: Double = DEFAULT_CALORIES_AMOUNT): MealItem {
         val availableMeals = dataSource.getAllMeals()
             .filter { it.nutrition.calories >= selectedCalorie }
             .filterNot { it.id in suggestedMealIds }
@@ -17,5 +17,9 @@ class GetHighCalorieMealsUseCase(private val dataSource: FoodChangeModeDataSourc
         val suggestedMeal = availableMeals.random()
         suggestedMealIds.add(suggestedMeal.id)
         return suggestedMeal
+    }
+
+    companion object {
+        private const val DEFAULT_CALORIES_AMOUNT = 700.0
     }
 }

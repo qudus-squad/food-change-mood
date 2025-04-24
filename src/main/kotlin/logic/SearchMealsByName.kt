@@ -15,8 +15,8 @@ class SearchMealsByNameUseCase(private val dataSource: FoodChangeModeDataSource)
             throw InvalidNameMealException(INVALID_MEAL_NAME)
 
         val bestMatches = mutableListOf<Pair<Int, String>>()
-        val maxDistance = 3
-        val minimumSimilarity = 60
+        val maxDistance = MAXIMUM_DISTANCE
+        val minimumSimilarity = MINIMUM_SIMILARITY
         dataSource.getAllMeals().forEach { meal ->
             meal.name
             if (meal.name.isNotEmpty()) {
@@ -37,6 +37,11 @@ class SearchMealsByNameUseCase(private val dataSource: FoodChangeModeDataSource)
             throw NoMealsFoundException(NO_MEALS_FOUND_FOR_NAME)
 
         return bestMatches
+    }
+
+    companion object {
+        private const val MAXIMUM_DISTANCE = 3
+        private const val MINIMUM_SIMILARITY = 30
     }
 }
 
