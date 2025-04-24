@@ -9,7 +9,7 @@ import utils.Strings.SEAFOOD_KEYWORDS
 class GetSeafoodMealsUseCase(private val dataSource: FoodChangeModeDataSource) {
 
     fun getSeafoodMeals(
-        randomMealsNumber: Int = 10,
+        randomMealsNumber: Int = MAXIMUM_MEALS_TO_SELECT,
         seafoodKeywords: List<String> = SEAFOOD_KEYWORDS
     ): List<MealItem> {
         return dataSource.getAllMeals()
@@ -27,4 +27,9 @@ class GetSeafoodMealsUseCase(private val dataSource: FoodChangeModeDataSource) {
             }
         }
     }
+
+    companion object {
+        private const val MAXIMUM_MEALS_TO_SELECT = 10
+    }
+
 }

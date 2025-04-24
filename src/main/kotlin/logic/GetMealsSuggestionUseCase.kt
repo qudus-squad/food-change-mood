@@ -12,12 +12,11 @@ import utils.Messages.NUMBER_OF_SUGGESTIONS
 
 class GetMealsSuggestionUseCase(private val dataSource: FoodChangeModeDataSource) {
 
-
     fun suggestEasyMeals(
-        numberOfSuggestions: Int = 10,
-        preparationTime: Int = 30,
-        numberOfIngredients: Int = 5,
-        numberOfPreparationSteps: Int = 6,
+        numberOfSuggestions: Int = DEFAULT_NUMBER_OF_SUGGESTIONS,
+        preparationTime: Int = DEFAULT_PREPARATION_TIME,
+        numberOfIngredients: Int = DEFAULT_NUMBER_OF_INGREDIENTS,
+        numberOfPreparationSteps: Int = DEFAULT_NUMBER_OF_PREPARATION_STEPS,
     ): List<MealItem> {
 
         if (numberOfSuggestions <= 0)
@@ -60,5 +59,12 @@ class GetMealsSuggestionUseCase(private val dataSource: FoodChangeModeDataSource
         return meal.minutes <= preparationTime &&
                 meal.ingredientNumbers <= numberOfIngredients &&
                 meal.stepNumbers <= numberOfPreparationSteps
+    }
+
+    companion object {
+        private const val DEFAULT_NUMBER_OF_SUGGESTIONS = 10
+        private const val DEFAULT_PREPARATION_TIME = 30
+        private const val DEFAULT_NUMBER_OF_INGREDIENTS = 5
+        private const val DEFAULT_NUMBER_OF_PREPARATION_STEPS = 6
     }
 }

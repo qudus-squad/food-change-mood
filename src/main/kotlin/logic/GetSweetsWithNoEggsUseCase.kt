@@ -15,13 +15,17 @@ class GetSweetsWithNoEggsUseCase(private val dataSource: FoodChangeModeDataSourc
     }.orThrowIfEmpty { NoSweetsFoundException(NO_EGG_FREE_SWEETS) }
     }
 
-    fun suggestSweetsWithNoEgg(randomMealNumber: Int = 10): List<MealItem> {
+    fun suggestSweetsWithNoEgg(randomMealsNumber: Int = MAXIMUM_MEALS_TO_SELECT): List<MealItem> {
         val suggestedRandomSweets = getAllSweets()
             .shuffled()
-            .take(randomMealNumber)
+            .take(randomMealsNumber)
         if (suggestedRandomSweets.isEmpty()) {
              throw NoSweetsFoundException(NO_EGG_FREE_SWEETS)
         }
         return suggestedRandomSweets
+    }
+
+    companion object {
+        private const val MAXIMUM_MEALS_TO_SELECT = 10
     }
 }

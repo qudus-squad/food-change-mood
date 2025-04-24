@@ -62,8 +62,6 @@ object Messages {
     const val NO_MEALS_FOR_KETO_DIET = "There are no meals suitable for the keto diet."
     const val NO_MEALS_FOR_ADD_DATE = "No meals found for this date"
     const val INVALID_DATE_FORMAT = "invalid date format"
-    const val LIMIT_FOR_MINUTES_HEALTHY_MEAL = 15
-    const val SCORED_MEALS_NUMBER = 5
 }
 
 object Strings {

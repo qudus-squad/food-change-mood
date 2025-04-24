@@ -35,8 +35,8 @@ class GetRandomKetoMealUseCase(private val dataSource: FoodChangeModeDataSource)
     }
 
     companion object {
-        const val MAXIMUM_CARBOHYDRATES = 10.0
-        const val MINIMUM_FAT_TO_PROTEIN_RATIO = 2.0
+        private const val MAXIMUM_CARBOHYDRATES = 10.0
+        private const val MINIMUM_FAT_TO_PROTEIN_RATIO = 2.0
     }
 }
 
