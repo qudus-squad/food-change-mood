@@ -6,37 +6,37 @@ import utils.Messages.NO_MEALS_FOR_KETO_DIET
 
 class GetRandomKetoMealUseCase(private val dataSource: FoodChangeModeDataSource) {
 
-    private val suggestedMealIds = mutableSetOf<Int>()
+    private val suggestedMealsIds = mutableSetOf<Int>()
 
     fun getRandomKetoMeal(): MealItem {
         val availableMeals = dataSource.getAllMeals()
             .filter { meal ->
                 isKetoFriendly(meal)
             }
-            .filterNot { it.id in suggestedMealIds }
+            .filterNot { it.id in suggestedMealsIds }
 
         if (availableMeals.isEmpty()) {
             throw NoMealsFoundException(NO_MEALS_FOR_KETO_DIET)
         }
 
         val suggestedMeal = availableMeals.random()
-        suggestedMealIds.add(suggestedMeal.id)
+        suggestedMealsIds.add(suggestedMeal.id)
         return suggestedMeal
     }
 
     private fun isKetoFriendly(meal: MealItem): Boolean {
 
-        val carbohydrates = meal.nutrition.carbohydrates
+        val totalCarbohydrates = meal.nutrition.carbohydrates
         val totalFat = meal.nutrition.totalFat
-        val protein = meal.nutrition.protein
-        val fatToProteinCarbRatio = totalFat / (protein + carbohydrates)
+        val totalProtein = meal.nutrition.protein
+        val fatToProteinCarbRatio = totalFat / (totalProtein + totalCarbohydrates)
 
-        return carbohydrates < MAX_CARBS && fatToProteinCarbRatio >= MIN_FAT_TO_PROTEIN_RATIO
+        return totalCarbohydrates < MAXIMUM_CARBOHYDRATES && fatToProteinCarbRatio >= MINIMUM_FAT_TO_PROTEIN_RATIO
     }
 
     companion object {
-        const val MAX_CARBS = 10.0
-        const val MIN_FAT_TO_PROTEIN_RATIO = 2.0
+        const val MAXIMUM_CARBOHYDRATES = 10.0
+        const val MINIMUM_FAT_TO_PROTEIN_RATIO = 2.0
     }
 }
 
