@@ -195,7 +195,7 @@ fun getMealsForGymHelper() {
 
 fun getKetoRandomMeal() {
     val dataSource: FoodChangeModeDataSource = getKoin().get()
-    val meal = GetKetoRandomMeal(dataSource).getRandomKetoMealUseCase()
+    val meal = GetRandomKetoMealUseCase(dataSource).getRandomKetoMeal()
     if(meal == null){
         println("There is No keto meals")
         return
