@@ -2,46 +2,29 @@ package logic
 import model.MealItem
 
 class GuessGameUseCase(
-    private val dataSource: FoodChangeModeDataSource
+    dataSource: FoodChangeModeDataSource
 ) {
-    private val meals = dataSource.getAllMeals()
-    private val maxAttempts = 3
+    val meals = dataSource.getAllMeals()
+    val maxAttempts = 3
+    val selectedMeal = generateRandomMeal()
 
-    fun playGuessGame() {
-        if (meals.isEmpty()) {
-            println("No meals available to play the game.")
-            return
-        }
-        if (!runGuessingRound()) {
-            println("Game Over")
-        }
-    }
+    fun hasMeals() : Boolean = meals.isNotEmpty()
 
     private fun generateRandomMeal(): MealItem {
         return meals.random()
     }
 
-    private fun runGuessingRound(): Boolean {
-        val selectedMeal = generateRandomMeal()
-        println("Guess the preparation time for ${selectedMeal.name} to get prepared (You have $maxAttempts attempts)")
+    fun runGuessingRound(guess : Int): Boolean {
 
-        for (attemptsLeft in maxAttempts downTo 1) {
-            val guess = getUserGuess() ?: continue
-
-            if (isCorrectGuess(guess, selectedMeal)) {
-                println("Congratulations! Your guess is correct.")
-                return true
-            } else {
-                displayHint(guess, selectedMeal.minutes, attemptsLeft)
-            }
+        if (isCorrectGuess(guess, selectedMeal)) {
+            return true
+        } else {
+            displayHint(guess)
         }
-
-        println("You have run out of attempts. The correct preparation time was ${selectedMeal.minutes} minutes.")
         return false
     }
 
-    private fun getUserGuess(): Int? {
-        print("Enter your guess: ")
+    fun getUserGuess(): Int? {
         return readlnOrNull()?.toIntOrNull()
     }
 
@@ -49,12 +32,11 @@ class GuessGameUseCase(
         return guess == selectedMeal.minutes
     }
 
-    private fun displayHint(guess: Int, correctTime: Int, remainingAttempts: Int) {
-        val hint = when {
-            guess > correctTime -> "Your guess is a bit higher."
-            guess < correctTime -> "Your guess is a bit lower."
+    fun displayHint(guess: Int) : String {
+        return when {
+            guess > selectedMeal.minutes -> "Your guess is a bit higher."
+            guess < selectedMeal.minutes -> "Your guess is a bit lower."
             else -> ""
         }
-        println("$hint $remainingAttempts attempts remaining.")
     }
 }
