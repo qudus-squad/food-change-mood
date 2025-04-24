@@ -38,7 +38,7 @@ class GetHealthyFastMealsUseCase(dataSource: FoodChangeModeDataSource) {
         }
 
         val maxScore = scoredMeals.maxOfOrNull { it.second } ?: INITIAL_SCORE_VALUE
-        return scoredMeals.filter { it.second == maxScore && it.second >= 2 }.map { it.first }
+        return scoredMeals.filter { it.second == maxScore && it.second >= MAXIMUM_SCORE }.map { it.first }
             .sortedBy { it.nutrition.totalFat + it.nutrition.saturatedFat + it.nutrition.carbohydrates }
             .take(scoredMealsNumber)
     }
@@ -49,5 +49,6 @@ class GetHealthyFastMealsUseCase(dataSource: FoodChangeModeDataSource) {
         private const val THRESHOLD_PERCENTILE = 0.2
         private const val INITIAL_SCORE_VALUE = 0
         private const val ONE_SCORE_POINT = 1
+        private const val MAXIMUM_SCORE = 2
     }
 }
