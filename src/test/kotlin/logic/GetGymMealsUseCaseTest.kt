@@ -9,10 +9,10 @@ import model.Nutrition
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class GetMealsForGymUseCaseTest {
+class GetGymMealsUseCaseTest {
 
     private lateinit var dataSource: FoodChangeModeDataSource
-    private lateinit var getMealsForGymUseCase: GetMealsForGymUseCase
+    private lateinit var getMealsForGymUseCase: GetGymMealsUseCase
 
     private fun getMealItem() = listOf<MealItem>(
         MealItem(
@@ -98,7 +98,7 @@ class GetMealsForGymUseCaseTest {
     @BeforeEach
     fun setup() {
         dataSource = mockk(relaxed = true)
-        getMealsForGymUseCase = GetMealsForGymUseCase(dataSource)
+        getMealsForGymUseCase = GetGymMealsUseCase(dataSource)
     }
 
     @Test
