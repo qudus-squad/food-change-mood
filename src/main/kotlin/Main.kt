@@ -1,6 +1,6 @@
 import di.appModule
 import logic.*
-import logic.ValidationTestCases.ValidInputForGetMealsSuggestion
+import logic.validation_use_cases.ValidInputForGetMealsSuggestion
 import model.*
 import org.koin.core.context.startKoin
 import org.koin.mp.KoinPlatform.getKoin
@@ -194,7 +194,7 @@ fun getMealsForGymHelper() {
 fun getKetoRandomMeal() {
     val dataSource: FoodChangeModeDataSource = getKoin().get()
     val meal = GetRandomKetoMealUseCase(dataSource).getRandomKetoMeal()
-    if(meal == null){
+    if (meal == null) {
         println("There is No keto meals")
         return
     }
@@ -206,9 +206,10 @@ fun getKetoRandomMeal() {
 
 fun getMealsSuggestions() {
     val dataSource: FoodChangeModeDataSource = getKoin().get()
-    val  validInputForGymMeals = ValidInputForGetMealsSuggestion()
+    val validInputForGymMeals = ValidInputForGetMealsSuggestion()
     val getMealsSuggestionInputs = GetMealsSuggestionUseCase.GetMealsSuggestionInputs()
-    val easyMeals = GetMealsSuggestionUseCase(dataSource , validInputForGymMeals).suggestEasyMeals(getMealsSuggestionInputs)
+    val easyMeals =
+        GetMealsSuggestionUseCase(dataSource, validInputForGymMeals).suggestEasyMeals(getMealsSuggestionInputs)
 
     if (easyMeals.isEmpty()) {
         println("\n❗ No easy meals found.")
@@ -307,7 +308,7 @@ fun startGuessGame() {
     val dataSource: FoodChangeModeDataSource = getKoin().get()
     val game = GuessGameUseCase(dataSource)
     println("Guess the preparation time for ${game.selectedMeal}")
-    if(game.playGuessGame()) {
+    if (game.playGuessGame()) {
         println("Congratulations, you have won")
     } else {
         println("Game Over!")

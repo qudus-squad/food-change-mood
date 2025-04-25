@@ -65,7 +65,7 @@ class StartIngredientGameUseCase(private val dataSource: FoodChangeModeDataSourc
         private const val POINTS_PER_CORRECT_ANSWER = 1000
         private const val MAXIMUM_CORRECT_ANSWERS = 15
         private const val MINIMUM_INGREDIENTS_SIZE = 2
-        private const val NUMBER_OF_WRONG_INGREDIENTS = 10
+        private const val NUMBER_OF_WRONG_INGREDIENTS = 3
         private const val NOT_ENOUGH_MEALS_EXCEPTION_MESSAGE = "Not enough meals to start a round"
         private const val NOT_ENOUGH_WRONG_INGREDIENTS_EXCEPTION_MESSAGE =
             "Not enough wrong ingredients to generate options"

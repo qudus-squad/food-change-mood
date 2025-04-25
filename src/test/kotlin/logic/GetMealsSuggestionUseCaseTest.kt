@@ -7,7 +7,7 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlinx.datetime.LocalDate
 import logic.GetMealsSuggestionUseCase.GetMealsSuggestionInputs
-import logic.ValidationTestCases.ValidInputForGetMealsSuggestion
+import logic.validation_use_cases.ValidInputForGetMealsSuggestion
 import model.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
