@@ -43,15 +43,9 @@ object Utils {
 }
 
 object Messages {
-    const val NO_SUGGESTION_MEALS = "No meals found for suggestion meals"
     const val NO_MEALS_FOR_LARGE_GROUP_FOND_FOR_COUNTRY = "No meals found for country: "
     const val NO_EGG_FREE_SWEETS = "No egg-free sweets found "
-
-    const val INVALID_MEAL_NAME = "name is empty or contains invalid characters"
-    const val NO_MEALS_FOUND_FOR_NAME = "No meals found for this name"
     const val NO_MORE_HIGH_CALORIE_MEALS = "No more high-calorie meals available to suggest."
-    const val NO_SEAFOOD_MEALS_FOUND = "No more high-calorie meals available to suggest."
-    const val NO_MEALS_FOR_KETO_DIET = "There are no meals suitable for the keto diet."
     const val NO_MEALS_FOR_ADD_DATE = "No meals found for this date"
     const val INVALID_DATE_FORMAT = "invalid date format"
 }
