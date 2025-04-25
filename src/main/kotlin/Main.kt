@@ -1,5 +1,6 @@
 import di.appModule
 import logic.*
+import logic.ValidationTestCases.ValidInputForGetMealsSuggestion
 import model.*
 import org.koin.core.context.startKoin
 import org.koin.mp.KoinPlatform.getKoin
@@ -205,7 +206,9 @@ fun getKetoRandomMeal() {
 
 fun getMealsSuggestions() {
     val dataSource: FoodChangeModeDataSource = getKoin().get()
-    val easyMeals = GetMealsSuggestionUseCase(dataSource).suggestEasyMeals(countOfSuggestions = 10)
+    val  validInputForGymMeals = ValidInputForGetMealsSuggestion()
+    val getMealsSuggestionInputs = GetMealsSuggestionUseCase.GetMealsSuggestionInputs()
+    val easyMeals = GetMealsSuggestionUseCase(dataSource , validInputForGymMeals).suggestEasyMeals(getMealsSuggestionInputs)
 
     if (easyMeals.isEmpty()) {
         println("\n❗ No easy meals found.")
