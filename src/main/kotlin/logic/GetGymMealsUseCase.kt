@@ -13,13 +13,13 @@ class GetGymMealsUseCase(private val dataSource: FoodChangeModeDataSource) {
         caloriesTolerance: Int = CALORIES_TOLERANCE,
         proteinTolerance: Int = PROTEIN_TOLERANCE,
     ): List<MealItem> {
-        isValid(calories, protein, numberOfMeals, caloriesTolerance, proteinTolerance)
+        isValidInputForGymMeals(calories, protein, numberOfMeals, caloriesTolerance, proteinTolerance)
         return dataSource.getAllMeals().filter { meal ->
             isWithinGymRange(meal, calories, protein, caloriesTolerance, proteinTolerance)
         }.take(numberOfMeals)
     }
 
-    private fun isValid(
+    private fun isValidInputForGymMeals(
         calories: Double, protein: Double, numberOfMeals: Int, caloriesTolerance: Int, proteinTolerance: Int
     ) {
         if (calories <= 0.0) throw InvalidGetGymMealsException(INVALID_CALORIES_TOLERANCE_MEAL)
