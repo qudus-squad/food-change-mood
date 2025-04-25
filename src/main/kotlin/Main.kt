@@ -1,9 +1,6 @@
 import di.appModule
 import logic.*
-import model.GameResult
-import model.InvalidCountryNameException
-import model.MealItem
-import model.NoMealsFoundException
+import model.*
 import org.koin.core.context.startKoin
 import org.koin.mp.KoinPlatform.getKoin
 import utils.Utils.printMealDetails
@@ -169,7 +166,7 @@ fun getItalianFoodForLargeGroups() {
 
 fun getMealsForGymHelper() {
     val dataSource: FoodChangeModeDataSource = getKoin().get()
-    val getMealsForGymUseCase = GetMealsForGymUseCase(dataSource)
+    val getMealsForGymUseCase = GetGymMealsUseCase(dataSource)
     println("Gym Helper: Enter your desired meal parameters")
     print("Target Calories: ")
     val targetCalories = readlnOrNull()?.toDoubleOrNull() ?: 0.0
