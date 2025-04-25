@@ -46,10 +46,6 @@ object Messages {
     const val INVALID_COUNTRY_NAME = "Country name is empty or contains invalid characters"
     const val NO_MEALS_FOND_FOR_COUNTRY = "No meals found for country: "
     const val NO_SUGGESTION_MEALS = "No meals found for suggestion meals"
-    const val NUMBER_OF_SUGGESTIONS = "Invalid number of suggestions : must be greater than 0"
-    const val INVALID_PREPARATION_TIME = "Invalid meal preparation time: must be greater than 0"
-    const val NUMBER_OF_INGREDIENTS = "Invalid number of ingredients: cannot be negative"
-    const val NUMBER_OF_PREPARATION_STEPS = "Invalid number of preparation steps: cannot be negative"
     const val NO_MEALS_FOR_LARGE_GROUP_FOND_FOR_COUNTRY = "No meals found for country: "
     const val NO_EGG_FREE_SWEETS = "No egg-free sweets found "
 

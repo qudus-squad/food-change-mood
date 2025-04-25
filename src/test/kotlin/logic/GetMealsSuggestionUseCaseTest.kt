@@ -1,13 +1,13 @@
 package logic
 
 import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.datetime.LocalDate
 import model.InvalidInputSuggestEasyMealsException
 import model.MealItem
-import model.NoMealsFoundException
 import model.Nutrition
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -46,19 +46,14 @@ class GetMealsSuggestionUseCaseTest {
             ),
             stepNumbers = 5,
             steps = listOf(
-                "heat oil in wok",
-                "add chopped vegetables",
-                "stir fry for 5 minutes",
-                "add sauce and toss",
-                "serve hot"
+                "heat oil in wok", "add chopped vegetables", "stir fry for 5 minutes", "add sauce and toss", "serve hot"
             ),
             description = "A quick and healthy vegetable stir fry that's ready in 15 minutes.",
             ingredients = listOf(
                 "mixed vegetables", "soy sauce", "sesame oil", "garlic", "ginger"
             ),
             ingredientNumbers = 5
-        ),
-        MealItem(
+        ), MealItem(
             id = 8,
             name = "classic beef burger",
             minutes = 25,
@@ -85,12 +80,10 @@ class GetMealsSuggestionUseCaseTest {
             ),
             description = "Juicy classic beef burger with all the fixings.",
             ingredients = listOf(
-                "ground beef", "burger buns", "lettuce", "tomato",
-                "onion", "cheese", "ketchup", "mustard"
+                "ground beef", "burger buns", "lettuce", "tomato", "onion", "cheese", "ketchup", "mustard"
             ),
             ingredientNumbers = 8
-        ),
-        MealItem(
+        ), MealItem(
             id = 9,
             name = "creamy mushroom risotto",
             minutes = 40,
@@ -118,12 +111,10 @@ class GetMealsSuggestionUseCaseTest {
             ),
             description = "Creamy Italian risotto with earthy mushrooms.",
             ingredients = listOf(
-                "arborio rice", "mushrooms", "vegetable broth",
-                "white wine", "parmesan", "onion", "butter"
+                "arborio rice", "mushrooms", "vegetable broth", "white wine", "parmesan", "onion", "butter"
             ),
             ingredientNumbers = 7
-        ),
-        MealItem(
+        ), MealItem(
             id = 10,
             name = "simple green salad",
             minutes = 10,
@@ -141,18 +132,14 @@ class GetMealsSuggestionUseCaseTest {
             ),
             stepNumbers = 3,
             steps = listOf(
-                "wash and chop greens",
-                "prepare dressing",
-                "toss and serve"
+                "wash and chop greens", "prepare dressing", "toss and serve"
             ),
             description = "Fresh green salad with light vinaigrette.",
             ingredients = listOf(
-                "mixed greens", "cucumber", "tomato",
-                "olive oil", "lemon juice", "salt"
+                "mixed greens", "cucumber", "tomato", "olive oil", "lemon juice", "salt"
             ),
             ingredientNumbers = 6
-        ),
-        MealItem(
+        ), MealItem(
             id = 11,
             name = "chocolate chip cookies",
             minutes = 30,
@@ -179,8 +166,7 @@ class GetMealsSuggestionUseCaseTest {
             ),
             description = "Classic chewy chocolate chip cookies.",
             ingredients = listOf(
-                "flour", "butter", "sugar", "eggs",
-                "chocolate chips", "vanilla", "baking soda"
+                "flour", "butter", "sugar", "eggs", "chocolate chips", "vanilla", "baking soda"
             ),
             ingredientNumbers = 7
         )
@@ -198,10 +184,7 @@ class GetMealsSuggestionUseCaseTest {
         // When & Then
         shouldThrow<InvalidInputSuggestEasyMealsException> {
             getMealsSuggestionUseCase.suggestEasyMeals(
-                numberOfSuggestions,
-                preparationTime,
-                numberOfIngredients,
-                umberOfPreparationSteps
+                numberOfSuggestions, preparationTime, numberOfIngredients, umberOfPreparationSteps
             )
         }
     }
@@ -217,10 +200,7 @@ class GetMealsSuggestionUseCaseTest {
         // When & Then
         assertThrows<InvalidInputSuggestEasyMealsException> {
             getMealsSuggestionUseCase.suggestEasyMeals(
-                numberOfSuggestions,
-                preparationTime,
-                numberOfIngredients,
-                umberOfPreparationSteps
+                numberOfSuggestions, preparationTime, numberOfIngredients, umberOfPreparationSteps
             )
         }
     }
@@ -236,10 +216,7 @@ class GetMealsSuggestionUseCaseTest {
         // When & Then
         shouldThrow<InvalidInputSuggestEasyMealsException> {
             getMealsSuggestionUseCase.suggestEasyMeals(
-                numberOfSuggestions,
-                preparationTime,
-                numberOfIngredients,
-                umberOfPreparationSteps
+                numberOfSuggestions, preparationTime, numberOfIngredients, umberOfPreparationSteps
             )
         }
     }
@@ -255,18 +232,14 @@ class GetMealsSuggestionUseCaseTest {
         // When & Then
         shouldThrow<InvalidInputSuggestEasyMealsException> {
             getMealsSuggestionUseCase.suggestEasyMeals(
-                numberOfSuggestions,
-                preparationTime,
-                numberOfIngredients,
-                umberOfPreparationSteps
+                numberOfSuggestions, preparationTime, numberOfIngredients, umberOfPreparationSteps
             )
         }
     }
 
     @ParameterizedTest
     @CsvFileSource(
-        files = ["easy_meal_suggestions.csv"],
-        numLinesToSkip = 1
+        files = ["easy_meal_suggestions.csv"], numLinesToSkip = 1
     )
     fun `should return suggestions when inputs are valid`(
         numberOfSuggestions: Int,
@@ -281,10 +254,7 @@ class GetMealsSuggestionUseCaseTest {
 
         // When
         val result = dataSourceCsv.suggestEasyMeals(
-            numberOfSuggestions,
-            preparationTime,
-            numberOfIngredients,
-            numberOfPreparationSteps
+            numberOfSuggestions, preparationTime, numberOfIngredients, numberOfPreparationSteps
         )
 
         // Then
@@ -299,15 +269,12 @@ class GetMealsSuggestionUseCaseTest {
         val numberOfSuggestions = 1
         val preparationTime = 1
         val numberOfIngredients = 1
-        val umberOfPreparationSteps = 1
-        // When & Then
-        shouldThrow<NoMealsFoundException> {
-            getMealsSuggestionUseCase.suggestEasyMeals(
-                numberOfSuggestions,
-                preparationTime,
-                numberOfIngredients,
-                umberOfPreparationSteps
-            )
-        }
+        val countOfSuggestions = 1
+        // When
+        val result = getMealsSuggestionUseCase.suggestEasyMeals(
+            numberOfSuggestions, preparationTime, numberOfIngredients, countOfSuggestions
+        )
+        // Then
+        result.shouldBeEmpty()
     }
 }
