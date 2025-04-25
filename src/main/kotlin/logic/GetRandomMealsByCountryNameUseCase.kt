@@ -14,19 +14,23 @@ class GetRandomMealsByCountryNameUseCase(private val dataSource: FoodChangeModeD
         return dataSource.getAllMeals()
             .filter { isMealRelatedToCountryName(it, formatCountryName(countryName)) }
             .orThrowIfEmpty { NoMealsFoundException("$NO_MEALS_FOND_FOR_COUNTRY $countryName") }
-            .shuffled()
             .take(randomMealsNumber)
+    }
+
+    private fun isMealRelatedToCountryName(meal: MealItem, country: String): Boolean {
+        return meal.tags.any { tag ->
+            tag.contains(country, ignoreCase = true)
+        }
+                || meal.description.contains(country, ignoreCase = true)
     }
 
     private fun formatCountryName(countryName: String): String {
         return countryName
-            .takeIf { it.isNotBlank() && it.matches(Regex("[a-zA-Z\\s]+")) }
+            .takeIf { name ->
+                name.isNotBlank() &&
+                        name.all { char -> char.isLetter() || char.isWhitespace() }
+            }
             ?.trim()
             ?: throw InvalidCountryNameException(INVALID_COUNTRY_NAME)
-    }
-
-    private fun isMealRelatedToCountryName(meal: MealItem, country: String): Boolean {
-        return meal.tags.any { it.contains(country, ignoreCase = true) }
-                || meal.description.contains(country, ignoreCase = true)
     }
 }
