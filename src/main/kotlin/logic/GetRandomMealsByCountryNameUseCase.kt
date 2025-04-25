@@ -2,8 +2,7 @@ package logic
 
 import model.InvalidCountryNameException
 import model.MealItem
-import model.NoMealsFoundException
-import utils.ListUtils.orThrowIfEmpty
+
 
 class GetRandomMealsByCountryNameUseCase(private val dataSource: FoodChangeModeDataSource) {
 
@@ -11,12 +10,11 @@ class GetRandomMealsByCountryNameUseCase(private val dataSource: FoodChangeModeD
 
         return dataSource.getAllMeals()
             .filter { isMealRelatedToCountryName(it, formatCountryName(countryName)) }
-            .orThrowIfEmpty { NoMealsFoundException("$NO_MEALS_FOND_FOR_COUNTRY $countryName") }
             .take(randomMealsNumber)
     }
 
     private fun isMealRelatedToCountryName(meal: MealItem, country: String): Boolean {
-        return meal.tags.any { tag ->
+        return meal.mealTags.any { tag ->
             tag.contains(country, ignoreCase = true)
         }
                 || meal.description.contains(country, ignoreCase = true)
@@ -34,6 +32,5 @@ class GetRandomMealsByCountryNameUseCase(private val dataSource: FoodChangeModeD
 
     companion object {
         const val INVALID_COUNTRY_NAME = "Country name is empty or contains invalid characters"
-        const val NO_MEALS_FOND_FOR_COUNTRY = "No meals found for country: "
     }
 }

@@ -26,10 +26,10 @@ class GetItalianMealsForLargeGroupOfPeopleUseCaseTest {
         MealItem(
             id = 1,
             name = "baked squash italian style",
-            minutes = 15,
+            preparationTimeInMinutes = 15,
             contributorId = 47892,
             submitted = LocalDate.parse("2005-09-16"),
-            tags = listOf(
+            mealTags = listOf(
                 "60-minutes-or-less",
                 "time-to-make",
                 "course",
@@ -73,10 +73,10 @@ class GetItalianMealsForLargeGroupOfPeopleUseCaseTest {
         MealItem(
             id = 2,
             name = "arriba baked winter squash mexican style",
-            minutes = 15,
+            preparationTimeInMinutes = 15,
             contributorId = 47892,
             submitted = LocalDate.parse("2005-09-16"),
-            tags = listOf(
+            mealTags = listOf(
                 "60-minutes-or-less",
                 "time-to-make",
                 "course",
@@ -120,10 +120,10 @@ class GetItalianMealsForLargeGroupOfPeopleUseCaseTest {
         MealItem(
             id = 3,
             name = "italian pasta for large group",
-            minutes = 30,
+            preparationTimeInMinutes = 30,
             contributorId = 12345,
             submitted = LocalDate.parse("2023-03-01"),
-            tags = listOf(
+            mealTags = listOf(
                 "italian",
                 "time-to-make",
                 "course",

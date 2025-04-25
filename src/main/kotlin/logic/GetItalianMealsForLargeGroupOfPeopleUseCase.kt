@@ -24,12 +24,12 @@ class GetItalianMealsForLargeGroupOfPeopleUseCase(private val dataSource: FoodCh
             meal.description.contains(countryName, ignoreCase = true) || meal.name.contains(
                 countryName,
                 ignoreCase = true
-            ) || meal.tags.contains(countryName)
+            ) || meal.mealTags.contains(countryName)
         }
     }
 
     private fun isMealForLargeGroup(meal: MealItem): Boolean {
-        return meal.tags.contains(FOR_LARGE_GROUP)
+        return meal.mealTags.contains(FOR_LARGE_GROUP)
     }
 
     companion object {

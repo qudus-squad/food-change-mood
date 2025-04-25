@@ -12,7 +12,7 @@ class GetHealthyFastMealsUseCase(dataSource: FoodChangeModeDataSource) {
     ): List<MealItem> {
 
         val filteredMeals = meals.filter { meal ->
-            meal.minutes <= preparationTimeLimit
+            meal.preparationTimeInMinutes <= preparationTimeLimit
         }
         if (filteredMeals.isEmpty()) {
             return emptyList()

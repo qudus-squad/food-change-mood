@@ -2,12 +2,12 @@ package logic
 
 
 import io.kotest.matchers.collections.shouldContainExactly
+import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.datetime.LocalDate
 import model.InvalidCountryNameException
 import model.MealItem
-import model.NoMealsFoundException
 import model.Nutrition
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -27,10 +27,10 @@ class GetRandomMealsByCountryNameUseCaseTest {
         MealItem(
             id = 1,
             name = "arriba baked winter squash mexican style",
-            minutes = 15,
+            preparationTimeInMinutes = 15,
             contributorId = 47892,
             submitted = LocalDate.parse("2005-09-16"),
-            tags = listOf(
+            mealTags = listOf(
                 "60-minutes-or-less",
                 "time-to-make",
                 "course",
@@ -154,15 +154,17 @@ class GetRandomMealsByCountryNameUseCaseTest {
     }
 
     @Test
-    fun `should throw NoMealsFoundException when no meals found`() {
+    fun `should return empty list when no meals found`() {
         // Given
         every { dataSource.getAllMeals() } returns getMealsItem()
         val countryName = "italian"
         val randomMealsNumber = 1
 
-        // When & Then
-        assertThrows<NoMealsFoundException> {
-            getRandomMealsByCountryNameUseCase.getRandomMealsByCountry(countryName, randomMealsNumber)
-        }
+        // When
+        val result = getRandomMealsByCountryNameUseCase.getRandomMealsByCountry(countryName, randomMealsNumber)
+
+
+        // Then
+        result shouldBe emptyList()
     }
 }

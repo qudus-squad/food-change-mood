@@ -21,10 +21,10 @@ class GetGymMealsUseCaseTest {
         MealItem(
             id = 13773,
             name = "1",
-            minutes = 55,
+            preparationTimeInMinutes = 55,
             contributorId = 47892,
             submitted = LocalDate.parse("2002-06-17"),
-            tags = listOf("60-minutes-or-less", "vegetarian"),
+            mealTags = listOf("60-minutes-or-less", "vegetarian"),
             nutrition = Nutrition(
                 calories = 200.0,
                 totalFat = 0.0,
@@ -44,10 +44,10 @@ class GetGymMealsUseCaseTest {
         ), MealItem(
             id = 137739,
             name = "2",
-            minutes = 55,
+            preparationTimeInMinutes = 55,
             contributorId = 47892,
             submitted = LocalDate.parse("2002-06-17"),
-            tags = listOf("60-minutes-or-less", "vegetarian"),
+            mealTags = listOf("60-minutes-or-less", "vegetarian"),
             nutrition = Nutrition(
                 calories = 150.0,
                 totalFat = 0.0,
@@ -67,10 +67,10 @@ class GetGymMealsUseCaseTest {
         ), MealItem(
             id = 1377399,
             name = "3",
-            minutes = 55,
+            preparationTimeInMinutes = 55,
             contributorId = 47892,
             submitted = LocalDate.parse("2002-06-17"),
-            tags = listOf("60-minutes-or-less", "vegetarian"),
+            mealTags = listOf("60-minutes-or-less", "vegetarian"),
             nutrition = Nutrition(
                 calories = 100.0,
                 totalFat = 0.0,

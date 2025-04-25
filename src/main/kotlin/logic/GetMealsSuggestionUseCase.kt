@@ -27,6 +27,7 @@ class GetMealsSuggestionUseCase(
         meal: MealItem, getMealsSuggestionInputs: GetMealsSuggestionInputs
     ): Boolean {
         return meal.minutes <= getMealsSuggestionInputs.preparationTime && meal.ingredientNumbers <= getMealsSuggestionInputs.countOfIngredients && meal.stepNumbers <= getMealsSuggestionInputs.countOfPreparationSteps
+        return meal.preparationTimeInMinutes <= preparationTime && meal.ingredientNumbers <= numberOfIngredients && meal.stepNumbers <= numberOfPreparationSteps
     }
 
 
