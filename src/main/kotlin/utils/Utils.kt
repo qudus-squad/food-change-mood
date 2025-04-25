@@ -43,7 +43,6 @@ object Utils {
 }
 
 object Messages {
-    const val NO_MEALS_FOND_FOR_COUNTRY = "No meals found for country: "
     const val NO_SUGGESTION_MEALS = "No meals found for suggestion meals"
     const val NO_MEALS_FOR_LARGE_GROUP_FOND_FOR_COUNTRY = "No meals found for country: "
     const val NO_EGG_FREE_SWEETS = "No egg-free sweets found "

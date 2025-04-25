@@ -4,8 +4,6 @@ import model.InvalidCountryNameException
 import model.MealItem
 import model.NoMealsFoundException
 import utils.ListUtils.orThrowIfEmpty
-import utils.Messages.INVALID_COUNTRY_NAME
-import utils.Messages.NO_MEALS_FOND_FOR_COUNTRY
 
 class GetRandomMealsByCountryNameUseCase(private val dataSource: FoodChangeModeDataSource) {
 
@@ -32,5 +30,10 @@ class GetRandomMealsByCountryNameUseCase(private val dataSource: FoodChangeModeD
             }
             ?.trim()
             ?: throw InvalidCountryNameException(INVALID_COUNTRY_NAME)
+    }
+
+    companion object {
+        const val INVALID_COUNTRY_NAME = "Country name is empty or contains invalid characters"
+        const val NO_MEALS_FOND_FOR_COUNTRY = "No meals found for country: "
     }
 }
