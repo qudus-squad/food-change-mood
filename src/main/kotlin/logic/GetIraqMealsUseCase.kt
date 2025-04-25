@@ -21,6 +21,5 @@ class GetIraqMealsUseCase(private val dataSource: FoodChangeModeDataSource) {
     companion object {
         const val IRAQ = "iraq"
         const val INVALID_COUNTRY_NAME = "Country name is empty or contains invalid characters"
-
     }
 }
