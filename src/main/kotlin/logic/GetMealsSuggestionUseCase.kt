@@ -26,8 +26,9 @@ class GetMealsSuggestionUseCase(
     private fun isEasyMeal(
         meal: MealItem, getMealsSuggestionInputs: GetMealsSuggestionInputs
     ): Boolean {
-        return meal.minutes <= getMealsSuggestionInputs.preparationTime && meal.ingredientNumbers <= getMealsSuggestionInputs.countOfIngredients && meal.stepNumbers <= getMealsSuggestionInputs.countOfPreparationSteps
-        return meal.preparationTimeInMinutes <= preparationTime && meal.ingredientNumbers <= numberOfIngredients && meal.stepNumbers <= numberOfPreparationSteps
+        return  meal.preparationTimeInMinutes <= getMealsSuggestionInputs.preparationTime &&
+                meal.ingredientNumbers <= getMealsSuggestionInputs.countOfIngredients &&
+                meal.stepNumbers <= getMealsSuggestionInputs.countOfPreparationSteps
     }
 
 
