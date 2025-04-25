@@ -6,14 +6,12 @@ import utils.Messages.NO_MEALS_FOR_KETO_DIET
 
 class GetRandomKetoMealUseCase(private val dataSource: FoodChangeModeDataSource) {
 
-    private val suggestedMealsIds = mutableSetOf<Int>()
-
     fun getRandomKetoMeal(): MealItem {
+        val suggestedMealsIds = mutableSetOf<Int>()
         val availableMeals = dataSource.getAllMeals()
             .filter { meal ->
-                isKetoFriendly(meal)
+                isKetoFriendly(meal) && meal.id !in suggestedMealsIds
             }
-            .filterNot { it.id in suggestedMealsIds }
 
         if (availableMeals.isEmpty()) {
             throw NoMealsFoundException(NO_MEALS_FOR_KETO_DIET)
@@ -25,7 +23,6 @@ class GetRandomKetoMealUseCase(private val dataSource: FoodChangeModeDataSource)
     }
 
     private fun isKetoFriendly(meal: MealItem): Boolean {
-
         val totalCarbohydrates = meal.nutrition.carbohydrates
         val totalFat = meal.nutrition.totalFat
         val totalProtein = meal.nutrition.protein
@@ -39,4 +36,3 @@ class GetRandomKetoMealUseCase(private val dataSource: FoodChangeModeDataSource)
         private const val MINIMUM_FAT_TO_PROTEIN_RATIO = 2.0
     }
 }
-
