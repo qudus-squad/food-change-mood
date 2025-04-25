@@ -100,6 +100,19 @@ class GetRandomMealsByCountryNameUseCaseTest {
         result.map { it.name }.shouldContainExactly("arriba baked winter squash mexican style")
     }
 
+    @Test
+    fun `should return meals in searched country when search with a valid unformatted country name (has white spaces)`() {
+        // Given
+        every { dataSource.getAllMeals() } returns getMealsItem()
+        val countryName = "  mexican  "
+        val randomMealsNumber = 1
+
+        // When
+        val result = getRandomMealsByCountryNameUseCase.getRandomMealsByCountry(countryName, randomMealsNumber)
+
+        // Then
+        result.map { it.name }.shouldContainExactly("arriba baked winter squash mexican style")
+    }
 
     @Test
     fun `should throw InvalidCountryException when search with empty country name`() {
