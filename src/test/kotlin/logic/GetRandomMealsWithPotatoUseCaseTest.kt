@@ -1,12 +1,13 @@
 package logic
+
 import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.datetime.LocalDate
 import model.InvalidMealNumberException
 import model.MealItem
-import model.NoMealsFoundException
 import model.Nutrition
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.assertThrows
@@ -21,6 +22,7 @@ class GetRandomMealsWithPotatoUseCaseTest {
         dataSource = mockk(relaxed = true)
         getRandomMealsWithPotatoUseCase = GetRandomMealsWithPotatoUseCase(dataSource)
     }
+
     private fun getMealsItem() = listOf(
         MealItem(
             id = 1,
@@ -68,6 +70,7 @@ class GetRandomMealsWithPotatoUseCaseTest {
         )
 
     )
+
     @Test
     fun `should return requested number of potato meals`() {
         // Given
@@ -82,6 +85,7 @@ class GetRandomMealsWithPotatoUseCaseTest {
             meal.ingredients.any { it.contains("potato", ignoreCase = true) } shouldNotBe false
         }
     }
+
     @Test
     fun `should return all meals when available meals are fewer than requested`() {
         // Given
@@ -96,17 +100,20 @@ class GetRandomMealsWithPotatoUseCaseTest {
     }
 
     @Test
-    fun `should throw NoMealsFoundException when no meals contain potato`() {
+    fun `should return empty list when no meals contain potato`() {
         // Given
         val nonPotatoMeal = getMealsItem().first().copy(
             name = "grilled chicken",
             ingredients = listOf("chicken", "salt", "pepper")
         )
+        // Given
         every { dataSource.getAllMeals() } returns listOf(nonPotatoMeal)
-        // When & Then
-        assertThrows<NoMealsFoundException> {
-            getRandomMealsWithPotatoUseCase.getPotatoMeals()
-        }
+
+        // When
+        val result = getRandomMealsWithPotatoUseCase.getPotatoMeals(5)
+
+        // Then
+        result shouldBe emptyList()
     }
 
     @Test
