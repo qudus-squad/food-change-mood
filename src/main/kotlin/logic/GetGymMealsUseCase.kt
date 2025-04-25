@@ -1,50 +1,44 @@
 package logic
 
-import model.InvalidGetGymMealsException
+import logic.validation_use_cases.ValidInputForGetGymMeals
 import model.MealItem
 import kotlin.math.abs
 
-class GetGymMealsUseCase(private val dataSource: FoodChangeModeDataSource) {
+class GetGymMealsUseCase(
+    private val dataSource: FoodChangeModeDataSource, private val validInputForGetGymMeals: ValidInputForGetGymMeals
+) {
 
     fun getMealsForGym(
-        calories: Double,
-        protein: Double,
-        numberOfMeals: Int = NUMBER_OF_MEALS,
-        caloriesTolerance: Int = CALORIES_TOLERANCE,
-        proteinTolerance: Int = PROTEIN_TOLERANCE,
+        getGymMeals: GetMealForGymInputs
     ): List<MealItem> {
-        isValidInputForGymMeals(calories, protein, numberOfMeals, caloriesTolerance, proteinTolerance)
+        validInputForGetGymMeals.isValidInputForGymMeals(
+            getGymMeals
+        )
         return dataSource.getAllMeals().filter { meal ->
-            isWithinGymRange(meal, calories, protein, caloriesTolerance, proteinTolerance)
-        }.take(numberOfMeals)
+            isWithinGymRange(meal, getGymMeals)
+        }.take(getGymMeals.numberOfMeals)
     }
 
-    private fun isValidInputForGymMeals(
-        calories: Double, protein: Double, numberOfMeals: Int, caloriesTolerance: Int, proteinTolerance: Int
-    ) {
-        if (calories <= 0.0) throw InvalidGetGymMealsException(INVALID_CALORIES_TOLERANCE_MEAL)
-        if (protein <= 0.0) throw InvalidGetGymMealsException(INVALID_CALORIES_MEAL)
-        if (numberOfMeals <= 0) throw InvalidGetGymMealsException(INVALID_MEALS_NUMBER)
-        if (caloriesTolerance <= 0) throw InvalidGetGymMealsException(INVALID_PROTEIN_TOLERANCE_MEAL)
-        if (proteinTolerance <= 0) throw InvalidGetGymMealsException(INVALID_PROTEIN_MEAL)
-    }
 
     private fun isWithinGymRange(
-        meal: MealItem, calories: Double, protein: Double, caloriesTolerance: Int, proteinTolerance: Int
+        meal: MealItem, getGymMeals: GetMealForGymInputs
     ): Boolean {
-        val calorieDiff = abs(meal.nutrition.calories - calories)
-        val proteinDiff = abs(meal.nutrition.protein - protein)
-        return calorieDiff <= caloriesTolerance && proteinDiff <= proteinTolerance
+        val calorieDiff = abs(meal.nutrition.calories - getGymMeals.calories)
+        val proteinDiff = abs(meal.nutrition.protein - getGymMeals.protein)
+        return calorieDiff <= getGymMeals.caloriesTolerance && proteinDiff <= getGymMeals.proteinTolerance
     }
+
+    data class GetMealForGymInputs(
+        val calories: Double,
+        val protein: Double,
+        val numberOfMeals: Int = NUMBER_OF_MEALS,
+        val caloriesTolerance: Int = CALORIES_TOLERANCE,
+        val proteinTolerance: Int = PROTEIN_TOLERANCE,
+    )
 
     companion object {
         const val NUMBER_OF_MEALS = 10
         const val CALORIES_TOLERANCE = 50
         const val PROTEIN_TOLERANCE = 15
-        const val INVALID_CALORIES_TOLERANCE_MEAL = "Invalid calories tolerance for meal"
-        const val INVALID_CALORIES_MEAL = "Invalid calories for meal"
-        const val INVALID_PROTEIN_TOLERANCE_MEAL = "Invalid protein tolerance for meal"
-        const val INVALID_PROTEIN_MEAL = "Invalid protein for meal"
-        const val INVALID_MEALS_NUMBER = "Invalid number of meals"
     }
 }
