@@ -6,24 +6,25 @@ import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.datetime.LocalDate
-import model.InvalidInputSuggestEasyMealsException
-import model.MealItem
-import model.Nutrition
+import logic.GetMealsSuggestionUseCase.GetMealsSuggestionInputs
+import logic.ValidationTestCases.ValidInputForGetMealsSuggestion
+import model.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvFileSource
 
 class GetMealsSuggestionUseCaseTest {
 
     private lateinit var dataSource: FoodChangeModeDataSource
+    private lateinit var validInputForGetMealsSuggestion: ValidInputForGetMealsSuggestion
     private lateinit var getMealsSuggestionUseCase: GetMealsSuggestionUseCase
 
     @BeforeEach
     fun setup() {
         dataSource = mockk(relaxed = true)
-        getMealsSuggestionUseCase = GetMealsSuggestionUseCase(dataSource)
+        validInputForGetMealsSuggestion = ValidInputForGetMealsSuggestion()
+        getMealsSuggestionUseCase = GetMealsSuggestionUseCase(dataSource, validInputForGetMealsSuggestion)
     }
 
 
@@ -174,87 +175,83 @@ class GetMealsSuggestionUseCaseTest {
 
 
     @Test
-    fun `should throw InvalidCountryException when number Of suggestions is negative`() {
+    fun `should throw InvalidCountOfSuggestionsInput when number Of suggestions is negative`() {
         // Given
         every { dataSource.getAllMeals() } returns getMealsItem()
-        val numberOfSuggestions = -20
-        val preparationTime = 30
-        val numberOfIngredients = 5
-        val umberOfPreparationSteps = 6
+        val input = GetMealsSuggestionInputs(
+            countOfSuggestions = -20, preparationTime = 30, countOfIngredients = 5, countOfPreparationSteps = 6
+        )
         // When & Then
-        shouldThrow<InvalidInputSuggestEasyMealsException> {
+        shouldThrow<InvalidCountOfSuggestionsInput> {
             getMealsSuggestionUseCase.suggestEasyMeals(
-                numberOfSuggestions, preparationTime, numberOfIngredients, umberOfPreparationSteps
+                input
             )
         }
     }
 
     @Test
-    fun `should throw InvalidCountryException when preparation time is negative`() {
+    fun `should throw InvalidPreparationTimeInput when preparation time is negative`() {
         // Given
         every { dataSource.getAllMeals() } returns getMealsItem()
-        var numberOfSuggestions = 10
-        var preparationTime = -100
-        var numberOfIngredients = 5
-        var umberOfPreparationSteps = 6
+        val input = GetMealsSuggestionInputs(
+            countOfSuggestions = 10, preparationTime = -100, countOfIngredients = -5, countOfPreparationSteps = 6
+        )
         // When & Then
-        assertThrows<InvalidInputSuggestEasyMealsException> {
-            getMealsSuggestionUseCase.suggestEasyMeals(
-                numberOfSuggestions, preparationTime, numberOfIngredients, umberOfPreparationSteps
-            )
+        shouldThrow<InvalidPreparationTimeInput> {
+            getMealsSuggestionUseCase.suggestEasyMeals(input)
         }
     }
 
     @Test
-    fun `should throw InvalidCountryException when number Of ingredients is negative`() {
+    fun `should throw InvalidCountOfIngredientsInput when number Of ingredients is negative`() {
         // Given
         every { dataSource.getAllMeals() } returns getMealsItem()
-        var numberOfSuggestions = 10
-        var preparationTime = 30
-        var numberOfIngredients = -6
-        var umberOfPreparationSteps = 6
+        val input = GetMealsSuggestionInputs(
+            countOfSuggestions = 10, preparationTime = 30, countOfIngredients = -6, countOfPreparationSteps = 6
+        )
+
         // When & Then
-        shouldThrow<InvalidInputSuggestEasyMealsException> {
-            getMealsSuggestionUseCase.suggestEasyMeals(
-                numberOfSuggestions, preparationTime, numberOfIngredients, umberOfPreparationSteps
-            )
+        shouldThrow<InvalidCountOfIngredientsInput> {
+            getMealsSuggestionUseCase.suggestEasyMeals(input)
         }
     }
 
     @Test
-    fun `should throw InvalidCountryException when number of preparationSteps is negative`() {
+    fun `should throw InvalidCountOfPreparationStepsInput when number of preparationSteps is negative`() {
         // Given
         every { dataSource.getAllMeals() } returns getMealsItem()
-        var numberOfSuggestions = 10
-        var preparationTime = 30
-        var numberOfIngredients = 5
-        var umberOfPreparationSteps = -3
+        val input = GetMealsSuggestionInputs(
+            countOfSuggestions = 10, preparationTime = 30, countOfIngredients = 5, countOfPreparationSteps = -3
+        )
+
         // When & Then
-        shouldThrow<InvalidInputSuggestEasyMealsException> {
-            getMealsSuggestionUseCase.suggestEasyMeals(
-                numberOfSuggestions, preparationTime, numberOfIngredients, umberOfPreparationSteps
-            )
+        shouldThrow<InvalidCountOfPreparationStepsInput> {
+            getMealsSuggestionUseCase.suggestEasyMeals(input)
         }
     }
+
 
     @ParameterizedTest
     @CsvFileSource(
         files = ["easy_meal_suggestions.csv"], numLinesToSkip = 1
     )
     fun `should return suggestions when inputs are valid`(
-        numberOfSuggestions: Int,
+        countOfSuggestions: Int,
         preparationTime: Int,
-        numberOfIngredients: Int,
-        numberOfPreparationSteps: Int,
+        countOfIngredients: Int,
+        countOfPreparationSteps: Int,
         expectedMealNames: String
 
     ) {
         every { dataSource.getAllMeals() } returns getMealsItem()
-        val dataSourceCsv = GetMealsSuggestionUseCase(dataSource)
+        val dataSourceCsv = GetMealsSuggestionUseCase(dataSource, validInputForGetMealsSuggestion)
 
         // When
+
         val result = dataSourceCsv.suggestEasyMeals(
-            numberOfSuggestions, preparationTime, numberOfIngredients, numberOfPreparationSteps
+            GetMealsSuggestionInputs(
+                countOfSuggestions, preparationTime, countOfIngredients, countOfPreparationSteps
+            )
         )
 
         // Then
@@ -266,13 +263,12 @@ class GetMealsSuggestionUseCaseTest {
     fun `should throw NoMealsFoundException when all inputs not fitted for meals suggestion`() {
         // Given
         every { dataSource.getAllMeals() } returns getMealsItem()
-        val numberOfSuggestions = 1
-        val preparationTime = 1
-        val numberOfIngredients = 1
-        val countOfSuggestions = 1
+        val input = GetMealsSuggestionInputs(
+            countOfSuggestions = 1, preparationTime = 1, countOfIngredients = 1, countOfPreparationSteps = 1
+        )
         // When
         val result = getMealsSuggestionUseCase.suggestEasyMeals(
-            numberOfSuggestions, preparationTime, numberOfIngredients, countOfSuggestions
+            input
         )
         // Then
         result.shouldBeEmpty()
