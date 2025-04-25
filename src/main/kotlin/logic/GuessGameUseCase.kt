@@ -3,41 +3,58 @@ package logic
 import model.MealItem
 
 class GuessGameUseCase(
-    dataSource: FoodChangeModeDataSource
+    private val dataSource: FoodChangeModeDataSource
 ) {
-    val meals = dataSource.getAllMeals()
-    val maxAttempts = 3
+    private val meals = dataSource.getAllMeals()
     val selectedMeal = generateRandomMeal()
 
-    fun hasMeals(): Boolean = meals.isNotEmpty()
+    fun playGuessGame() : Boolean {
+        if(!hasMeals()) {
+            return false
+        }
+        for(attempt in 1 .. MAXIMUM_ATTEMPTS_COUNT) {
+            val guess = getUserGuess() ?: continue
+            if(!runGuessingRound(guess)) {
+                displayHint(guess)
+            } else {
+                return true
+            }
+        }
+        return false
+    }
+
+    private fun hasMeals(): Boolean = meals.isNotEmpty()
 
     private fun generateRandomMeal(): MealItem {
         return meals.random()
     }
 
-    fun runGuessingRound(guess: Int): Boolean {
-
-        if (isCorrectGuess(guess, selectedMeal)) {
-            return true
-        } else {
-            displayHint(guess)
-        }
-        return false
-    }
-
-    fun getUserGuess(): Int? {
+    private fun getUserGuess(): Int? {
         return readlnOrNull()?.toIntOrNull()
     }
 
-    private fun isCorrectGuess(guess: Int, selectedMeal: MealItem): Boolean {
+    private fun runGuessingRound(guess: Int): Boolean {
+        return when {
+            isCorrectGuess(guess) -> true
+            else -> false
+        }
+    }
+
+    private fun displayHint(guess: Int): String { // replace this with if statement
+        return if(guess > selectedMeal.minutes) {
+            YOUR_GUESS_IS_HIGHER
+        } else {
+            YOUR_GUESS_IS_LOWER
+        }
+    }
+
+    private fun isCorrectGuess(guess: Int): Boolean {
         return guess == selectedMeal.minutes
     }
 
-    fun displayHint(guess: Int): String {
-        return when {
-            guess > selectedMeal.minutes -> "Your guess is a bit higher."
-            guess < selectedMeal.minutes -> "Your guess is a bit lower."
-            else -> ""
-        }
+    companion object {
+        private const val MAXIMUM_ATTEMPTS_COUNT = 3
+        private const val YOUR_GUESS_IS_HIGHER = "Your guess is a bit higher than the actual number"
+        private const val YOUR_GUESS_IS_LOWER = "Your guess is a bit lower than the actual number"
     }
 }
