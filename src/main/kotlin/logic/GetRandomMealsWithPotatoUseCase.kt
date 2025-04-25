@@ -3,9 +3,6 @@ package logic
 import model.InvalidMealNumberException
 import model.MealItem
 import model.NoMealsFoundException
-import utils.Messages.MEALS_NUMBER_CANNOT_BE_NEGATIVE
-import utils.Messages.NO_MEALS_WITH_POTATO_FOUND
-import utils.Strings.POTATO
 
 class GetRandomMealsWithPotatoUseCase(private val dataSource: FoodChangeModeDataSource) {
 
@@ -35,6 +32,10 @@ class GetRandomMealsWithPotatoUseCase(private val dataSource: FoodChangeModeData
 
     companion object {
         private const val MAXIMUM_MEALS_TO_SELECT = 10
+        const val POTATO = "potato"
+        const val NO_MEALS_WITH_POTATO_FOUND = "No meals with potato found"
+        const val MEALS_NUMBER_CANNOT_BE_NEGATIVE = "Meal number cannot be negative"
+
     }
 
 }

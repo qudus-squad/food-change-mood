@@ -43,15 +43,12 @@ object Utils {
 }
 
 object Messages {
-    const val NO_MEALS_FOND_FOR_COUNTRY = "No meals found for country: "
     const val NO_SUGGESTION_MEALS = "No meals found for suggestion meals"
     const val NO_MEALS_FOR_LARGE_GROUP_FOND_FOR_COUNTRY = "No meals found for country: "
     const val NO_EGG_FREE_SWEETS = "No egg-free sweets found "
 
     const val INVALID_MEAL_NAME = "name is empty or contains invalid characters"
     const val NO_MEALS_FOUND_FOR_NAME = "No meals found for this name"
-    const val NO_MEALS_WITH_POTATO_FOUND = "No meals with potato found"
-    const val MEALS_NUMBER_CANNOT_BE_NEGATIVE = "Meal number cannot be negative"
     const val NO_MORE_HIGH_CALORIE_MEALS = "No more high-calorie meals available to suggest."
     const val NO_SEAFOOD_MEALS_FOUND = "No more high-calorie meals available to suggest."
     const val NO_MEALS_FOR_KETO_DIET = "There are no meals suitable for the keto diet."
@@ -66,5 +63,4 @@ object Strings {
     const val EGGS_KEYWORDS = "eggs"
     val SEAFOOD_KEYWORDS: List<String> =
         listOf("fish", "shrimp", "crab", "lobster", "salmon", "tuna", "clam", "oyster", "scallop", "squid")
-    const val POTATO = "potato"
 }
