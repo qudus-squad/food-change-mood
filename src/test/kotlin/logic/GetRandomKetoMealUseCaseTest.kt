@@ -1,6 +1,7 @@
 package logic
 
 import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
@@ -44,8 +45,7 @@ class GetRandomKetoMealUseCaseTest {
             description = "A keto-friendly high-protein, high-fat salmon salad",
             ingredients = listOf("Salmon", "Spinach", "Olive oil"),
             ingredientNumbers = 3
-        ),
-        MealItem(
+        ), MealItem(
             id = 2,
             name = "Chicken and Rice",
             minutes = 30,
@@ -66,8 +66,7 @@ class GetRandomKetoMealUseCaseTest {
             description = "A simple and hearty chicken and rice meal",
             ingredients = listOf("Chicken breast", "Rice", "Olive oil"),
             ingredientNumbers = 3
-        ),
-        MealItem(
+        ), MealItem(
             id = 3,
             name = "Grilled Chicken with Vegetables",
             minutes = 25,
@@ -100,12 +99,12 @@ class GetRandomKetoMealUseCaseTest {
         val result = getRandomKetoMealUseCase.getRandomKetoMeal()
 
         // Then
-        result.name shouldBe "Keto Salmon Salad"
+        result?.name shouldBe "Keto Salmon Salad"
 
     }
 
     @Test
-    fun `should throw NoMealsFoundException when no keto meals available`() {
+    fun `should return null when no keto meals available`() {
         // Given
         every { dataSource.getAllMeals() } returns getMeals().map {
             it.copy(
@@ -121,31 +120,34 @@ class GetRandomKetoMealUseCaseTest {
             )
         }
 
-        // When & Then
-        shouldThrow<NoMealsFoundException> {
-            getRandomKetoMealUseCase.getRandomKetoMeal()
-        }
+        // When
+        val result = getRandomKetoMealUseCase.getRandomKetoMeal()
+        // Then
+        result.shouldBeNull()
+
     }
 
     @Test
-    fun `should throw NoMealFoundException when carbohydrates greater that ten`() {
+    fun `should return null when carbohydrates greater that ten`() {
         // Given
         every { dataSource.getAllMeals() } returns listOf(getMeals()[1])
 
-        // When & Then
-        shouldThrow<NoMealsFoundException> {
-            getRandomKetoMealUseCase.getRandomKetoMeal()
-        }
+        // When
+        val result = getRandomKetoMealUseCase.getRandomKetoMeal()
+        // Then
+        result.shouldBeNull()
+
     }
 
     @Test
-    fun `should throw NoMealFoundException when fatToProteinCarbRatio less than two`() {
+    fun `should return null when fatToProteinCarbRatio less than two`() {
         // Given
         every { dataSource.getAllMeals() } returns listOf(getMeals()[2])
 
-        // When & Then
-        shouldThrow<NoMealsFoundException> {
-            getRandomKetoMealUseCase.getRandomKetoMeal()
-        }
+        // When
+        val result = getRandomKetoMealUseCase.getRandomKetoMeal()
+        // Then
+        result.shouldBeNull()
+
     }
 }
