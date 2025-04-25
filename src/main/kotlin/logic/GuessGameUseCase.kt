@@ -5,9 +5,7 @@ import model.MealItem
 class GuessGameUseCase(
     private val dataSource: FoodChangeModeDataSource
 ) {
-    private val meals = dataSource.getAllMeals()
     val selectedMeal = generateRandomMeal()
-
     fun playGuessGame() : Boolean {
         if(!hasMeals()) {
             return false
@@ -23,13 +21,13 @@ class GuessGameUseCase(
         return false
     }
 
-    private fun hasMeals(): Boolean = meals.isNotEmpty()
+    private fun hasMeals(): Boolean = dataSource.getAllMeals().isNotEmpty()
 
     private fun generateRandomMeal(): MealItem {
-        return meals.random()
+        return dataSource.getAllMeals().random()
     }
 
-    private fun getUserGuess(): Int? {
+    fun getUserGuess(): Int? {
         return readlnOrNull()?.toIntOrNull()
     }
 
