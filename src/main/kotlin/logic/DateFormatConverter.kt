@@ -1,7 +1,6 @@
 package logic
 
 import kotlinx.datetime.LocalDate
-import utils.Messages.INVALID_DATE_FORMAT
 
 class DateFormatConverter {
     fun convertDate(dateString: String): LocalDate {
@@ -10,5 +9,8 @@ class DateFormatConverter {
         } catch (e: Exception) {
             throw Exception(INVALID_DATE_FORMAT)
         }
+    }
+    companion object {
+        const val INVALID_DATE_FORMAT = "invalid date format"
     }
 }

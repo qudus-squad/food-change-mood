@@ -279,7 +279,9 @@ fun searchFoodByAddDate() {
     println("Enter Meal Submitted Date in : YY-MM-DD ")
     val inputDate = readlnOrNull()?.trim().toString()
     val dataSource: FoodChangeModeDataSource = getKoin().get()
-    val searchMealsByAddDateUseCase = SearchMealsByAddDateUseCase(dataSource)
+    val dateFormatConverter: DateFormatConverter = getKoin().get()
+    val searchMealsByAddDateUseCase = SearchMealsByAddDateUseCase(dataSource , dateFormatConverter)
+
     val result: List<MealItem> = searchMealsByAddDateUseCase.getSearchMealsByAddDate(inputDate)
     println(result)
 }

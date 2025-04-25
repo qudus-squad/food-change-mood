@@ -1,12 +1,12 @@
 package logic
 
 import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.datetime.LocalDate
 import model.MealItem
-import model.NoMealsFoundException
 import model.Nutrition
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -15,14 +15,16 @@ class SearchFoodByAddDateUseCaseTest {
 
     private lateinit var dataSource: FoodChangeModeDataSource
     private lateinit var searchMealsByAddDateUseCase: SearchMealsByAddDateUseCase
+    private lateinit var dateFormatConverter: DateFormatConverter
 
     @BeforeEach
     fun setup() {
-        dataSource = mockk(relaxed = true)
-        searchMealsByAddDateUseCase = SearchMealsByAddDateUseCase(dataSource)
+        dataSource = mockk()
+        dateFormatConverter = mockk()
+        searchMealsByAddDateUseCase = SearchMealsByAddDateUseCase(dataSource, dateFormatConverter)
     }
 
-    private fun getTestMeals() = listOf(
+    private fun getMealItems() = listOf(
         MealItem(
             id = 1,
             name = "classic mashed potatoes",
@@ -94,26 +96,41 @@ class SearchFoodByAddDateUseCaseTest {
     @Test
     fun `should return food matches when searched with the added date`() {
         // given
-        every { dataSource.getAllMeals() } returns getTestMeals()
+        every { dataSource.getAllMeals() } returns getMealItems()
+        every { dateFormatConverter.convertDate("2005-06-12") } returns LocalDate.parse("2005-06-12")
         val addDate = "2005-06-12"
 
         // When
         val result = searchMealsByAddDateUseCase.getSearchMealsByAddDate(addDate)
 
         // Then
-        result.shouldContainExactly(getTestMeals().first())
+        result.shouldContainExactly(getMealItems().first())
     }
 
     @Test
-    fun `should return throw NoMealsFoundException when no matches found`() {
+    fun `should return empty list when no matches found`() {
         // given
-        every { dataSource.getAllMeals() } returns getTestMeals()
+        every { dataSource.getAllMeals() } returns getMealItems()
+        every { dateFormatConverter.convertDate("2005-06-01") } returns LocalDate.parse("2005-06-01")
         val addDate = "2005-06-01"
 
-        // When & Then
-        shouldThrow<NoMealsFoundException> {
-            searchMealsByAddDateUseCase.getSearchMealsByAddDate(addDate)
-        }
+        // when
+        val result = searchMealsByAddDateUseCase.getSearchMealsByAddDate(addDate)
+
+        // Then
+        result.shouldBeEmpty()
     }
 
+    @Test
+    fun `should throw exception when invalid date format is provided`() {
+        // given
+        val invalidDate = "22344-456-21"
+        every { dateFormatConverter.convertDate(invalidDate) } throws
+                Exception(DateFormatConverter.INVALID_DATE_FORMAT)
+
+        // when & then
+        shouldThrow<Exception> {
+            searchMealsByAddDateUseCase.getSearchMealsByAddDate(invalidDate)
+        }
+    }
 }
