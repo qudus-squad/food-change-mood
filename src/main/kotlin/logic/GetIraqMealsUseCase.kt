@@ -8,9 +8,7 @@ class GetIraqMealsUseCase(private val dataSource: FoodChangeModeDataSource) {
     fun getIraqMeals(country: String = IRAQ): List<MealItem> {
         if (country.isEmpty()) throw InvalidCountryNameException(INVALID_COUNTRY_NAME)
 
-        val iraqMeals = dataSource.getAllMeals().filter { meal ->
-            isIraqMeals(meal, country)
-        }
+        val iraqMeals = dataSource.getAllMeals().filter { meal -> isIraqMeals(meal, country) }
         return iraqMeals
     }
 
