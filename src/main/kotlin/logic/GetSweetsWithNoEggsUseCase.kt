@@ -11,7 +11,7 @@ class GetSweetsWithNoEggsUseCase(private val dataSource: FoodChangeModeDataSourc
 
     fun getAllSweets():List<MealItem>  {
         return dataSource.getAllMeals().filter { sweet ->
-        SWEETS_KEYWORDS in sweet.tags && EGGS_KEYWORDS !in sweet.ingredients
+        SWEETS_KEYWORDS in sweet.mealTags && EGGS_KEYWORDS !in sweet.ingredients
     }.orThrowIfEmpty { NoSweetsFoundException(NO_EGG_FREE_SWEETS) }
     }
 

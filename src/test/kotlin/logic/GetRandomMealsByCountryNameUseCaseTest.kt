@@ -27,10 +27,10 @@ class GetRandomMealsByCountryNameUseCaseTest {
         MealItem(
             id = 1,
             name = "arriba baked winter squash mexican style",
-            minutes = 15,
+            preparationTimeInMinutes = 15,
             contributorId = 47892,
             submitted = LocalDate.parse("2005-09-16"),
-            tags = listOf(
+            mealTags = listOf(
                 "60-minutes-or-less",
                 "time-to-make",
                 "course",

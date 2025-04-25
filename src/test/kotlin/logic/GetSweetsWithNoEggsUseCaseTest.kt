@@ -27,10 +27,10 @@ class GetSweetsWithNoEggsUseCaseTest() {
         MealItem(
             id = 1,
             name = "sweet With No Eggs",
-            minutes = 15,
+            preparationTimeInMinutes = 15,
             contributorId = 47892,
             submitted = LocalDate.parse("2005-09-16"),
-            tags = listOf(
+            mealTags = listOf(
                 "sweet"
             ),
             nutrition = Nutrition(
@@ -56,10 +56,10 @@ class GetSweetsWithNoEggsUseCaseTest() {
         ), MealItem(
             id = 1,
             name = "Sweet With Eggs",
-            minutes = 15,
+            preparationTimeInMinutes = 15,
             contributorId = 47892,
             submitted = LocalDate.parse("2005-09-16"),
-            tags = listOf(
+            mealTags = listOf(
                 "sweet"
             ),
             nutrition = Nutrition(
@@ -93,7 +93,7 @@ class GetSweetsWithNoEggsUseCaseTest() {
 
         //Then
         result.forEach { sweet ->
-            assertTrue(sweet.tags.any { it.contains(SWEETS_KEYWORDS, ignoreCase = true) } &&
+            assertTrue(sweet.mealTags.any { it.contains(SWEETS_KEYWORDS, ignoreCase = true) } &&
                     sweet.ingredients.none { it.contains(EGGS_KEYWORDS, ignoreCase = true) })
         }
     }
@@ -106,7 +106,7 @@ class GetSweetsWithNoEggsUseCaseTest() {
         val result = getSweetsWithNoEggsUseCase.getAllSweets()
         //Then
         result.forEach { sweet ->
-            assertTrue(sweet.tags.any { it.contains(SWEETS_KEYWORDS, ignoreCase = true) } &&
+            assertTrue(sweet.mealTags.any { it.contains(SWEETS_KEYWORDS, ignoreCase = true) } &&
                     sweet.ingredients.none { it.contains(EGGS_KEYWORDS, ignoreCase = true) })
         }
     }
@@ -115,7 +115,7 @@ class GetSweetsWithNoEggsUseCaseTest() {
     fun `should throw NoSweetsFoundException when there is no egg-free sweet in meals list`() {
         // Given
         every { datasource.getAllMeals() } returns getMealsItem().map {
-            it.copy(tags = it.tags - "sweet")
+            it.copy(mealTags = it.mealTags - "sweet")
         }
         // When & Then
         shouldThrow<NoSweetsFoundException> {
@@ -139,7 +139,7 @@ class GetSweetsWithNoEggsUseCaseTest() {
     fun `should throw NoSweetsFoundException when there is no egg-free sweet to suggest`() {
         // Given
         every { datasource.getAllMeals() } returns getMealsItem().map {
-            it.copy(tags = it.tags - "sweet")
+            it.copy(mealTags = it.mealTags - "sweet")
         }
         // When & Then
         shouldThrow<NoSweetsFoundException> {

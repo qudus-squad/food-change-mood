@@ -93,7 +93,7 @@ fun getMealsWithPotatoes() {
     println("The best potato meals for you:")
     val randomPotatoMeals = potatoMeals.getPotatoMeals()
     randomPotatoMeals.forEach { meal ->
-        println("Name: ${meal.name}, Description: ${meal.description}, Preparation Time: ${meal.minutes} minutes")
+        println("Name: ${meal.name}, Description: ${meal.description}, Preparation Time: ${meal.preparationTimeInMinutes} minutes")
     }
 }
 

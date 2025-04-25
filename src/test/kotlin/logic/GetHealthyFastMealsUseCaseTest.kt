@@ -25,10 +25,10 @@ class GetHealthyFastMealsUseCaseTest {
         MealItem(
             id = 1,
             name = "Meal 1",
-            minutes = 15,
+            preparationTimeInMinutes = 15,
             contributorId = 100,
             submitted = LocalDate(2025, 4, 1),
-            tags = listOf("test", "slow"),
+            mealTags = listOf("test", "slow"),
             nutrition = Nutrition(
                 totalFat = 1.0,
                 saturatedFat = 10.0,
@@ -47,10 +47,10 @@ class GetHealthyFastMealsUseCaseTest {
         MealItem(
             id = 2,
             name = "Meal 2",
-            minutes = 15,
+            preparationTimeInMinutes = 15,
             contributorId = 100,
             submitted = LocalDate(2025, 4, 1),
-            tags = listOf("test", "slow"),
+            mealTags = listOf("test", "slow"),
             nutrition = Nutrition(
                 totalFat = 10.0,
                 saturatedFat = 1.0,
@@ -69,10 +69,10 @@ class GetHealthyFastMealsUseCaseTest {
         MealItem(
             id = 3,
             name = "Meal 3",
-            minutes = 15,
+            preparationTimeInMinutes = 15,
             contributorId = 100,
             submitted = LocalDate(2025, 4, 1),
-            tags = listOf("test", "slow"),
+            mealTags = listOf("test", "slow"),
             nutrition = Nutrition(
                 totalFat = 10.0,
                 saturatedFat = 10.0,
@@ -91,10 +91,10 @@ class GetHealthyFastMealsUseCaseTest {
         MealItem(
             id = 4,
             name = "Meal 4",
-            minutes = 16,
+            preparationTimeInMinutes = 16,
             contributorId = 100,
             submitted = LocalDate(2025, 4, 1),
-            tags = listOf("test", "slow"),
+            mealTags = listOf("test", "slow"),
             nutrition = Nutrition(
                 totalFat = 10.0,
                 saturatedFat = 5.0,
@@ -113,10 +113,10 @@ class GetHealthyFastMealsUseCaseTest {
         MealItem(
             id = 5,
             name = "Meal 5",
-            minutes = 17,
+            preparationTimeInMinutes = 17,
             contributorId = 100,
             submitted = LocalDate(2025, 4, 1),
-            tags = listOf("test", "slow"),
+            mealTags = listOf("test", "slow"),
             nutrition = Nutrition(
                 totalFat = 10.0,
                 saturatedFat = 5.0,
@@ -135,10 +135,10 @@ class GetHealthyFastMealsUseCaseTest {
         MealItem(
             id = 6,
             name = "Meal 6",
-            minutes = 18,
+            preparationTimeInMinutes = 18,
             contributorId = 100,
             submitted = LocalDate(2025, 4, 1),
-            tags = listOf("test", "slow"),
+            mealTags = listOf("test", "slow"),
             nutrition = Nutrition(
                 totalFat = 10.0,
                 saturatedFat = 5.0,
@@ -157,10 +157,10 @@ class GetHealthyFastMealsUseCaseTest {
         MealItem(
             id = 7,
             name = "Meal 7",
-            minutes = 10,
+            preparationTimeInMinutes = 10,
             contributorId = 100,
             submitted = LocalDate(2025, 4, 1),
-            tags = listOf("test", "slow"),
+            mealTags = listOf("test", "slow"),
             nutrition = Nutrition(
                 totalFat = 10.0,
                 saturatedFat = 5.0,
@@ -179,10 +179,10 @@ class GetHealthyFastMealsUseCaseTest {
         MealItem(
             id = 8,
             name = "Meal 8",
-            minutes = 10,
+            preparationTimeInMinutes = 10,
             contributorId = 100,
             submitted = LocalDate(2025, 4, 1),
-            tags = listOf("test", "slow"),
+            mealTags = listOf("test", "slow"),
             nutrition = Nutrition(
                 totalFat = 9.0,
                 saturatedFat = 4.5,
@@ -201,10 +201,10 @@ class GetHealthyFastMealsUseCaseTest {
         MealItem(
             id = 9,
             name = "Meal 9",
-            minutes = 10,
+            preparationTimeInMinutes = 10,
             contributorId = 100,
             submitted = LocalDate(2025, 4, 1),
-            tags = listOf("test", "slow"),
+            mealTags = listOf("test", "slow"),
             nutrition = Nutrition(
                 totalFat = 12.0,
                 saturatedFat = 5.5,
@@ -223,10 +223,10 @@ class GetHealthyFastMealsUseCaseTest {
         MealItem(
             id = 10,
             name = "Meal 10",
-            minutes = 10,
+            preparationTimeInMinutes = 10,
             contributorId = 100,
             submitted = LocalDate(2025, 4, 1),
-            tags = listOf("test", "slow"),
+            mealTags = listOf("test", "slow"),
             nutrition = Nutrition(
                 totalFat = 9.0,
                 saturatedFat = 5.5,
@@ -245,10 +245,10 @@ class GetHealthyFastMealsUseCaseTest {
         MealItem(
             id = 11,
             name = "Meal 11",
-            minutes = 10,
+            preparationTimeInMinutes = 10,
             contributorId = 100,
             submitted = LocalDate(2025, 4, 1),
-            tags = listOf("test", "slow"),
+            mealTags = listOf("test", "slow"),
             nutrition = Nutrition(
                 totalFat = 10.0,
                 saturatedFat = 5.0,
@@ -267,10 +267,10 @@ class GetHealthyFastMealsUseCaseTest {
         MealItem(
             id = 12,
             name = "Meal 12",
-            minutes = 10,
+            preparationTimeInMinutes = 10,
             contributorId = 100,
             submitted = LocalDate(2025, 4, 1),
-            tags = listOf("test", "slow"),
+            mealTags = listOf("test", "slow"),
             nutrition = Nutrition(
                 totalFat = 15.0,
                 saturatedFat = 4.0,
@@ -289,10 +289,10 @@ class GetHealthyFastMealsUseCaseTest {
         MealItem(
             id = 13,
             name = "Meal 13",
-            minutes = 10,
+            preparationTimeInMinutes = 10,
             contributorId = 100,
             submitted = LocalDate(2025, 4, 1),
-            tags = listOf("test", "slow"),
+            mealTags = listOf("test", "slow"),
             nutrition = Nutrition(
                 totalFat = 1.0,
                 saturatedFat = 5.0,
@@ -341,7 +341,7 @@ class GetHealthyFastMealsUseCaseTest {
     fun `should return empty list when all meals exceed 15 minutes preparation time`() {
 
         // Given
-        every { dataSource.getAllMeals() } returns getMealsItem().filter { time -> time.minutes > 15 }
+        every { dataSource.getAllMeals() } returns getMealsItem().filter { time -> time.preparationTimeInMinutes > 15 }
         useCase = GetHealthyFastMealsUseCase(dataSource)
 
         // When

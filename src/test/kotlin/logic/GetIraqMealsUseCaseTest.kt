@@ -26,10 +26,10 @@ class GetIraqMealsUseCaseTest {
         MealItem(
             id = 1,
             name = "baked squash italian style",
-            minutes = 15,
+            preparationTimeInMinutes = 15,
             contributorId = 47892,
             submitted = LocalDate.parse("2005-09-16"),
-            tags = listOf(
+            mealTags = listOf(
                 "60-minutes-or-less",
                 "time-to-make",
                 "course",
@@ -60,10 +60,10 @@ class GetIraqMealsUseCaseTest {
         ), MealItem(
             id = 2,
             name = "iraqi lamb stew",
-            minutes = 120,
+            preparationTimeInMinutes = 120,
             contributorId = 50231,
             submitted = LocalDate.parse("2012-03-21"),
-            tags = listOf(
+            mealTags = listOf(
                 "lamb", "stew", "iraqi", "middle-eastern", "dinner-party", "meat", "slow-cooker"
             ),
             nutrition = Nutrition(
@@ -83,10 +83,10 @@ class GetIraqMealsUseCaseTest {
         ), MealItem(
             id = 3,
             name = "falafel wrap",
-            minutes = 30,
+            preparationTimeInMinutes = 30,
             contributorId = 63481,
             submitted = LocalDate.parse("2010-07-05"),
-            tags = listOf("vegetarian", "middle-eastern", "quick-meal", "street-food"),
+            mealTags = listOf("vegetarian", "middle-eastern", "quick-meal", "street-food"),
             nutrition = Nutrition(
                 calories = 280.0,
                 totalFat = 10.0,

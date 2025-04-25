@@ -27,10 +27,10 @@ class GetRandomKetoMealUseCaseTest {
         MealItem(
             id = 1,
             name = "Keto Salmon Salad",
-            minutes = 20,
+            preparationTimeInMinutes = 20,
             contributorId = 101,
             submitted = LocalDate.parse("2023-01-15"),
-            tags = listOf("Keto", "Salad", "High Fat", "High Protein"),
+            mealTags = listOf("Keto", "Salad", "High Fat", "High Protein"),
             nutrition = Nutrition(
                 calories = 450.0,
                 totalFat = 70.0,
@@ -48,10 +48,10 @@ class GetRandomKetoMealUseCaseTest {
         ), MealItem(
             id = 2,
             name = "Chicken and Rice",
-            minutes = 30,
+            preparationTimeInMinutes = 30,
             contributorId = 102,
             submitted = LocalDate.parse("2022-07-10"),
-            tags = listOf("Chicken", "Rice", "Carbs"),
+            mealTags = listOf("Chicken", "Rice", "Carbs"),
             nutrition = Nutrition(
                 calories = 600.0,
                 totalFat = 15.0,
@@ -69,10 +69,10 @@ class GetRandomKetoMealUseCaseTest {
         ), MealItem(
             id = 3,
             name = "Grilled Chicken with Vegetables",
-            minutes = 25,
+            preparationTimeInMinutes = 25,
             contributorId = 103,
             submitted = LocalDate.parse("2024-06-20"),
-            tags = listOf("Chicken", "Grilled", "Low Fat"),
+            mealTags = listOf("Chicken", "Grilled", "Low Fat"),
             nutrition = Nutrition(
                 calories = 350.0,
                 totalFat = 15.0,
