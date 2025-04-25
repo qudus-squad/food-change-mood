@@ -1,4 +1,4 @@
-package logic.ValidationTestCases
+package logic.validation_use_cases
 
 import logic.GetMealsSuggestionUseCase.GetMealsSuggestionInputs
 import model.InvalidCountOfIngredientsInput

@@ -1,6 +1,6 @@
 package logic
 
-import logic.ValidationTestCases.ValidInputForGetMealsSuggestion
+import logic.validation_use_cases.ValidInputForGetMealsSuggestion
 import model.MealItem
 
 class GetMealsSuggestionUseCase(
