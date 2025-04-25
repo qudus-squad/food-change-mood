@@ -14,7 +14,7 @@ class GetRandomMealsByCountryNameUseCase(private val dataSource: FoodChangeModeD
     }
 
     private fun isMealRelatedToCountryName(meal: MealItem, country: String): Boolean {
-        return meal.tags.any { tag ->
+        return meal.mealTags.any { tag ->
             tag.contains(country, ignoreCase = true)
         }
                 || meal.description.contains(country, ignoreCase = true)

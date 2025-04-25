@@ -29,7 +29,7 @@ class GetMealsSuggestionUseCase(private val dataSource: FoodChangeModeDataSource
         numberOfIngredients: Int,
         numberOfPreparationSteps: Int,
     ): Boolean {
-        return meal.minutes <= preparationTime && meal.ingredientNumbers <= numberOfIngredients && meal.stepNumbers <= numberOfPreparationSteps
+        return meal.preparationTimeInMinutes <= preparationTime && meal.ingredientNumbers <= numberOfIngredients && meal.stepNumbers <= numberOfPreparationSteps
     }
 
 

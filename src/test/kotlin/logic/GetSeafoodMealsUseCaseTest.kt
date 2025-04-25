@@ -25,10 +25,10 @@ class GetSeafoodMealsUseCaseTest() {
         MealItem(
             id = 1,
             name = "sea food meal",
-            minutes = 15,
+            preparationTimeInMinutes = 15,
             contributorId = 47892,
             submitted = LocalDate.parse("2005-09-16"),
-            tags = listOf(
+            mealTags = listOf(
                 ""
             ),
             nutrition = Nutrition(
@@ -52,10 +52,10 @@ class GetSeafoodMealsUseCaseTest() {
         ), MealItem(
             id = 3,
             name = "ordinary meal",
-            minutes = 15,
+            preparationTimeInMinutes = 15,
             contributorId = 47892,
             submitted = LocalDate.parse("2005-09-16"),
-            tags = listOf(
+            mealTags = listOf(
                 ""
             ),
             nutrition = Nutrition(

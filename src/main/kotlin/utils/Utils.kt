@@ -8,7 +8,7 @@ object Utils {
         println("---- Meal Details ----")
         println("Name: ${meal.name}")
         println("Submitted on: ${meal.submitted}")
-        println("Preparation Time: ${meal.minutes} minutes")
+        println("Preparation Time: ${meal.preparationTimeInMinutes} minutes")
         println("\nDescription:")
         println(meal.description)
         println("\nIngredients (${meal.ingredientNumbers}):")
@@ -20,7 +20,7 @@ object Utils {
             println("${index + 1}. $step")
         }
         println("\nTags:")
-        meal.tags.forEach {
+        meal.mealTags.forEach {
             println("- $it")
         }
         println("\nNutrition Information:")

@@ -25,10 +25,10 @@ class GetHighCalorieMealsUseCaseTest {
   MealItem(
    id = 1,
    name = "Quinoa Salad",
-   minutes = 15,
+   preparationTimeInMinutes = 15,
    contributorId = 101,
    submitted = LocalDate.parse("2021-03-10"),
-   tags = listOf("healthy", "vegetarian", "low-calorie"),
+   mealTags = listOf("healthy", "vegetarian", "low-calorie"),
    nutrition = Nutrition(
     calories = 350.0,
     totalFat = 10.0,
@@ -47,10 +47,10 @@ class GetHighCalorieMealsUseCaseTest {
   MealItem(
    id = 2,
    name = "Steak with Fries",
-   minutes = 25,
+   preparationTimeInMinutes = 25,
    contributorId = 102,
    submitted = LocalDate.parse("2022-05-18"),
-   tags = listOf("main", "high-protein", "high-calorie"),
+   mealTags = listOf("main", "high-protein", "high-calorie"),
    nutrition = Nutrition(
     calories = 950.0,
     totalFat = 60.0,
@@ -69,10 +69,10 @@ class GetHighCalorieMealsUseCaseTest {
   MealItem(
    id = 3,
    name = "Chicken Alfredo Pasta",
-   minutes = 30,
+   preparationTimeInMinutes = 30,
    contributorId = 103,
    submitted = LocalDate.parse("2020-11-02"),
-   tags = listOf("pasta", "comfort-food", "high-calorie"),
+   mealTags = listOf("pasta", "comfort-food", "high-calorie"),
    nutrition = Nutrition(
     calories = 820.0,
     totalFat = 45.0,

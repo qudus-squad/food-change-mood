@@ -31,10 +31,10 @@ class GetMealsSuggestionUseCaseTest {
         MealItem(
             id = 7,
             name = "quick veggie stir fry",
-            minutes = 15,
+            preparationTimeInMinutes = 15,
             contributorId = 67890,
             submitted = LocalDate.parse("2021-05-15"),
-            tags = listOf("quick", "vegetarian", "asian", "healthy", "30-minutes-or-less"),
+            mealTags = listOf("quick", "vegetarian", "asian", "healthy", "30-minutes-or-less"),
             nutrition = Nutrition(
                 calories = 280.0,
                 totalFat = 12.0,
@@ -56,10 +56,10 @@ class GetMealsSuggestionUseCaseTest {
         ), MealItem(
             id = 8,
             name = "classic beef burger",
-            minutes = 25,
+            preparationTimeInMinutes = 25,
             contributorId = 54321,
             submitted = LocalDate.parse("2019-07-22"),
-            tags = listOf("american", "beef", "main-dish", "comfort-food"),
+            mealTags = listOf("american", "beef", "main-dish", "comfort-food"),
             nutrition = Nutrition(
                 calories = 550.0,
                 totalFat = 30.0,
@@ -86,10 +86,10 @@ class GetMealsSuggestionUseCaseTest {
         ), MealItem(
             id = 9,
             name = "creamy mushroom risotto",
-            minutes = 40,
+            preparationTimeInMinutes = 40,
             contributorId = 98765,
             submitted = LocalDate.parse("2020-11-30"),
-            tags = listOf("italian", "vegetarian", "comfort-food", "rice-dish"),
+            mealTags = listOf("italian", "vegetarian", "comfort-food", "rice-dish"),
             nutrition = Nutrition(
                 calories = 420.0,
                 totalFat = 15.0,
@@ -117,10 +117,10 @@ class GetMealsSuggestionUseCaseTest {
         ), MealItem(
             id = 10,
             name = "simple green salad",
-            minutes = 10,
+            preparationTimeInMinutes = 10,
             contributorId = 11223,
             submitted = LocalDate.parse("2022-02-14"),
-            tags = listOf("salad", "healthy", "vegan", "quick", "no-cook"),
+            mealTags = listOf("salad", "healthy", "vegan", "quick", "no-cook"),
             nutrition = Nutrition(
                 calories = 150.0,
                 totalFat = 10.0,
@@ -142,10 +142,10 @@ class GetMealsSuggestionUseCaseTest {
         ), MealItem(
             id = 11,
             name = "chocolate chip cookies",
-            minutes = 30,
+            preparationTimeInMinutes = 30,
             contributorId = 44556,
             submitted = LocalDate.parse("2018-09-05"),
-            tags = listOf("dessert", "baking", "cookies", "sweet"),
+            mealTags = listOf("dessert", "baking", "cookies", "sweet"),
             nutrition = Nutrition(
                 calories = 180.0,
                 totalFat = 9.0,

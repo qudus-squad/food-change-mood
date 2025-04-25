@@ -29,10 +29,10 @@ class SearchMealsByNameUseCaseTest {
         MealItem(
             id = 1,
             name = "classic mashed potatoes",
-            minutes = 20,
+            preparationTimeInMinutes = 20,
             contributorId = 12345,
             submitted = LocalDate.parse("2005-06-12"),
-            tags = listOf("side-dish", "vegetarian", "easy"),
+            mealTags = listOf("side-dish", "vegetarian", "easy"),
             nutrition = Nutrition(
                 calories = 110.0,
                 totalFat = 4.0,
@@ -51,10 +51,10 @@ class SearchMealsByNameUseCaseTest {
         MealItem(
             id = 2,
             name = "garlic mashed potatoes",
-            minutes = 25,
+            preparationTimeInMinutes = 25,
             contributorId = 12346,
             submitted = LocalDate.parse("2005-07-15"),
-            tags = listOf("side-dish", "vegetarian", "garlic"),
+            mealTags = listOf("side-dish", "vegetarian", "garlic"),
             nutrition = Nutrition(
                 calories = 120.0,
                 totalFat = 5.0,
@@ -73,10 +73,10 @@ class SearchMealsByNameUseCaseTest {
         MealItem(
             id = 3,
             name = "sweet potato mash",
-            minutes = 30,
+            preparationTimeInMinutes = 30,
             contributorId = 12347,
             submitted = LocalDate.parse("2005-08-20"),
-            tags = listOf("side-dish", "vegetarian", "sweet"),
+            mealTags = listOf("side-dish", "vegetarian", "sweet"),
             nutrition = Nutrition(
                 calories = 150.0,
                 totalFat = 3.0,
