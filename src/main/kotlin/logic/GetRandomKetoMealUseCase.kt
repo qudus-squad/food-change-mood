@@ -1,21 +1,16 @@
 package logic
 
 import model.MealItem
-import model.NoMealsFoundException
-import utils.Messages.NO_MEALS_FOR_KETO_DIET
 
 class GetRandomKetoMealUseCase(private val dataSource: FoodChangeModeDataSource) {
 
-    fun getRandomKetoMeal(): MealItem {
+    fun getRandomKetoMeal(): MealItem? {
         val suggestedMealsIds = mutableSetOf<Int>()
-        val availableMeals = dataSource.getAllMeals()
-            .filter { meal ->
-                isKetoFriendly(meal) && meal.id !in suggestedMealsIds
-            }
-
-        if (availableMeals.isEmpty()) {
-            throw NoMealsFoundException(NO_MEALS_FOR_KETO_DIET)
+        val availableMeals = dataSource.getAllMeals().filter { meal ->
+            isKetoFriendly(meal) && meal.id !in suggestedMealsIds
         }
+
+        if (availableMeals.isEmpty()) return null
 
         val suggestedMeal = availableMeals.random()
         suggestedMealsIds.add(suggestedMeal.id)
