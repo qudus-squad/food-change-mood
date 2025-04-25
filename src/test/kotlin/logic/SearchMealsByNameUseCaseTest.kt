@@ -8,7 +8,6 @@ import io.mockk.mockk
 import kotlinx.datetime.LocalDate
 import model.InvalidNameMealException
 import model.MealItem
-import model.NoMealsFoundException
 import model.Nutrition
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -101,7 +100,20 @@ class SearchMealsByNameUseCaseTest {
         val mealName = "classic mashed potatoes"
 
         // When
-        val result = searchMealsByNameUseCase.searchMealsByName("classic mashed potatoes")
+        val result = searchMealsByNameUseCase.searchMealsByName(mealName)
+
+        // Then
+        result.shouldContainExactly(1 to "classic mashed potatoes")
+    }
+
+    @Test
+    fun `should return exact matches when searched with full meal name regardless of case`() {
+        // given
+        every { dataSource.getAllMeals() } returns getTestMeals()
+        val mealName = "CLASSIC MASHED POTATOES"
+
+        // When
+        val result = searchMealsByNameUseCase.searchMealsByName(mealName)
 
         // Then
         result.shouldContainExactly(1 to "classic mashed potatoes")
@@ -124,6 +136,19 @@ class SearchMealsByNameUseCaseTest {
     }
 
     @Test
+    fun `should return matches even with leading or trailing whitespace in search input`() {
+        // given
+        every { dataSource.getAllMeals() } returns getTestMeals()
+        val mealName = "   classic mashed potatoes   "
+
+        // When
+        val result = searchMealsByNameUseCase.searchMealsByName(mealName.trim())
+
+        // Then
+        result.shouldContainExactly(1 to "classic mashed potatoes")
+    }
+
+    @Test
     fun `should throw InvalidNameMealException when search input is empty`() {
         // given
         every { dataSource.getAllMeals() } returns getTestMeals()
@@ -136,14 +161,29 @@ class SearchMealsByNameUseCaseTest {
     }
 
     @Test
-    fun `should throw NoMealsFoundException when no matches found`() {
+    fun `should return empty list when no matches found`() {
         // given
         every { dataSource.getAllMeals() } returns getTestMeals()
         val mealName = "nonexistent dish"
 
-        // When && then
-        shouldThrow<NoMealsFoundException> {
-            searchMealsByNameUseCase.searchMealsByName(mealName)
-        }
+        // When
+        val result = searchMealsByNameUseCase.searchMealsByName(mealName)
+
+        // Then
+        result shouldBe emptyList()
     }
+
+    @Test
+    fun `should not return matches when similarity is below threshold`() {
+        // given
+        every { dataSource.getAllMeals() } returns getTestMeals()
+        val mealName = "sweet potato fries"
+
+        // When
+        val result = searchMealsByNameUseCase.searchMealsByName(mealName)
+
+        // Then
+        result shouldBe emptyList()
+    }
+
 }
