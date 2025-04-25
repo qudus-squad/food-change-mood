@@ -1,9 +1,6 @@
 import di.appModule
 import logic.*
-import model.GameResult
-import model.InvalidCountryNameException
-import model.MealItem
-import model.NoMealsFoundException
+import model.*
 import org.koin.core.context.startKoin
 import org.koin.mp.KoinPlatform.getKoin
 import utils.Utils.printMealDetails
