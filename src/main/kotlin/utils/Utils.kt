@@ -43,7 +43,6 @@ object Utils {
 }
 
 object Messages {
-    const val INVALID_COUNTRY_NAME = "Country name is empty or contains invalid characters"
     const val NO_MEALS_FOND_FOR_COUNTRY = "No meals found for country: "
     const val NO_SUGGESTION_MEALS = "No meals found for suggestion meals"
     const val NUMBER_OF_SUGGESTIONS = "Invalid number of suggestions : must be greater than 0"
@@ -67,7 +66,6 @@ object Messages {
 object Strings {
     const val FOR_LARGE_GROUP = "for-large-groups"
     const val ITALIAN = "italian"
-    const val IRAQ = "iraq"
     const val SWEETS_KEYWORDS = "sweet"
     const val EGGS_KEYWORDS = "eggs"
     val SEAFOOD_KEYWORDS: List<String> =
