@@ -11,8 +11,8 @@ class GetSeafoodMealsUseCase(private val dataSource: FoodChangeModeDataSource) {
         seafoodKeywords: List<String> = SEAFOOD_KEYWORDS
     ): List<MealItem> {
         return dataSource.getAllMeals()
-            .filter { isSeafoodMeal(it, seafoodKeywords) }
-            .sortedByDescending { it.nutrition.protein }
+            .filter { meal-> isSeafoodMeal(meal, seafoodKeywords) }
+            .sortedByDescending { meal-> meal.nutrition.protein }
             .take(randomMealsCount)
     }
 
