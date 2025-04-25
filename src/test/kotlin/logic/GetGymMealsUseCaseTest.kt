@@ -6,6 +6,8 @@ import io.kotest.matchers.collections.shouldContain
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.datetime.LocalDate
+import logic.validation_use_cases.ValidInputForGetGymMeals
+import logic.validation_use_cases.ValidInputForGetMealsSuggestion
 import model.InvalidGetGymMealsException
 import model.MealItem
 import model.Nutrition
@@ -15,7 +17,16 @@ import org.junit.jupiter.api.Test
 class GetGymMealsUseCaseTest {
 
     private lateinit var dataSource: FoodChangeModeDataSource
-    private lateinit var getMealsForGymUseCase: GetGymMealsUseCase
+    private lateinit var getGymMealsUseCase: GetGymMealsUseCase
+    private lateinit var validInputForGetGymMeals: ValidInputForGetGymMeals
+
+    @BeforeEach
+    fun setup() {
+        dataSource = mockk(relaxed = true)
+        validInputForGetGymMeals = ValidInputForGetGymMeals()
+        validInputForGetGymMeals = ValidInputForGetGymMeals()
+        getGymMealsUseCase = GetGymMealsUseCase(dataSource, validInputForGetGymMeals)
+    }
 
     private fun getMealItem() = listOf<MealItem>(
         MealItem(
@@ -90,11 +101,6 @@ class GetGymMealsUseCaseTest {
         )
     )
 
-    @BeforeEach
-    fun setup() {
-        dataSource = mockk(relaxed = true)
-        getMealsForGymUseCase = GetGymMealsUseCase(dataSource)
-    }
 
     @Test
     fun `should return InvalidGetGymMealsException when calories is negative`() {
@@ -105,7 +111,11 @@ class GetGymMealsUseCaseTest {
 
         //When && Then
         shouldThrow<InvalidGetGymMealsException> {
-            getMealsForGymUseCase.getMealsForGym(calories, protein)
+            getGymMealsUseCase.getMealsForGym(
+                GetGymMealsUseCase.GetMealForGymInputs(
+                    calories = calories, protein = protein
+                )
+            )
         }
     }
 
@@ -118,7 +128,11 @@ class GetGymMealsUseCaseTest {
 
         //When && Then
         shouldThrow<InvalidGetGymMealsException> {
-            getMealsForGymUseCase.getMealsForGym(calories, protein)
+            getGymMealsUseCase.getMealsForGym(
+                GetGymMealsUseCase.GetMealForGymInputs(
+                    calories = calories, protein = protein
+                )
+            )
         }
     }
 
@@ -132,7 +146,12 @@ class GetGymMealsUseCaseTest {
 
         //When && Then
         shouldThrow<InvalidGetGymMealsException> {
-            getMealsForGymUseCase.getMealsForGym(calories, protein, numberOfMeals = numberOfMeals)
+
+            getGymMealsUseCase.getMealsForGym(
+                GetGymMealsUseCase.GetMealForGymInputs(
+                    calories = calories, protein, numberOfMeals = numberOfMeals
+                )
+            )
         }
     }
 
@@ -146,7 +165,11 @@ class GetGymMealsUseCaseTest {
 
         //When && Then
         shouldThrow<InvalidGetGymMealsException> {
-            getMealsForGymUseCase.getMealsForGym(calories, protein, caloriesTolerance = caloriesTolerance)
+            getGymMealsUseCase.getMealsForGym(
+                GetGymMealsUseCase.GetMealForGymInputs(
+                    calories = calories, protein, numberOfMeals = caloriesTolerance
+                )
+            )
         }
     }
 
@@ -160,7 +183,11 @@ class GetGymMealsUseCaseTest {
 
         //When && Then
         shouldThrow<InvalidGetGymMealsException> {
-            getMealsForGymUseCase.getMealsForGym(calories, protein, proteinTolerance = proteinTolerance)
+            getGymMealsUseCase.getMealsForGym(
+                GetGymMealsUseCase.GetMealForGymInputs(
+                    calories = calories, protein, numberOfMeals = proteinTolerance
+                )
+            )
         }
     }
 
@@ -171,7 +198,12 @@ class GetGymMealsUseCaseTest {
         every { dataSource.getAllMeals() } returns getMealItem()
 
         //When
-        val result = getMealsForGymUseCase.getMealsForGym(calories = 200.0, protein = 20.0)
+        val result = getGymMealsUseCase.getMealsForGym(
+            GetGymMealsUseCase.GetMealForGymInputs(
+                calories = 200.0,
+                protein = 20.0,
+            )
+        )
 
         //Then
         result.shouldContain(getMealItem().first())
@@ -184,8 +216,12 @@ class GetGymMealsUseCaseTest {
         every { dataSource.getAllMeals() } returns getMealItem()
 
         // When
-        val result = getMealsForGymUseCase.getMealsForGym(calories = 999.0, protein = 999.0)
-
+        val result = getGymMealsUseCase.getMealsForGym(
+            GetGymMealsUseCase.GetMealForGymInputs(
+                calories = 900.0,
+                protein = 900.0,
+            )
+        )
         // Then
         result.shouldBeEmpty()
     }
@@ -196,8 +232,12 @@ class GetGymMealsUseCaseTest {
         every { dataSource.getAllMeals() } returns getMealItem()
 
         // When
-        val result = getMealsForGymUseCase.getMealsForGym(calories = 200.0, protein = 1000.0)
-
+        val result = getGymMealsUseCase.getMealsForGym(
+            GetGymMealsUseCase.GetMealForGymInputs(
+                calories = 200.0,
+                protein = 1000.0,
+            )
+        )
         // Then
         result.shouldBeEmpty()
     }

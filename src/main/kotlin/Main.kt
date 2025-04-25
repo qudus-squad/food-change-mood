@@ -1,5 +1,6 @@
 import di.appModule
 import logic.*
+import logic.validation_use_cases.ValidInputForGetGymMeals
 import logic.validation_use_cases.ValidInputForGetMealsSuggestion
 import model.*
 import org.koin.core.context.startKoin
@@ -167,7 +168,10 @@ fun getItalianFoodForLargeGroups() {
 
 fun getMealsForGymHelper() {
     val dataSource: FoodChangeModeDataSource = getKoin().get()
-    val getMealsForGymUseCase = GetGymMealsUseCase(dataSource)
+    val validInputForGetGymMeals = ValidInputForGetGymMeals()
+    val getMealsSuggestionInputs = GetGymMealsUseCase.GetMealForGymInputs(100.0, 200.0)
+
+    val getMealsForGymUseCase = GetGymMealsUseCase(dataSource, validInputForGetGymMeals)
     println("Gym Helper: Enter your desired meal parameters")
     print("Target Calories: ")
     val targetCalories = readlnOrNull()?.toDoubleOrNull() ?: 0.0
@@ -177,7 +181,7 @@ fun getMealsForGymHelper() {
         println("Please enter valid positive numbers for calories and protein.")
         return
     }
-    val suggestions = getMealsForGymUseCase.getMealsForGym(calories = targetCalories, protein = targetProtein)
+    val suggestions = getMealsForGymUseCase.getMealsForGym(getMealsSuggestionInputs)
     if (suggestions.isEmpty()) {
         println("No meals found matching your criteria (within ±50 calories and protein). Try adjusting your targets.")
     } else {
@@ -206,10 +210,11 @@ fun getKetoRandomMeal() {
 
 fun getMealsSuggestions() {
     val dataSource: FoodChangeModeDataSource = getKoin().get()
-    val validInputForGymMeals = ValidInputForGetMealsSuggestion()
+    val validInputForGetMealsSuggestion = ValidInputForGetMealsSuggestion()
     val getMealsSuggestionInputs = GetMealsSuggestionUseCase.GetMealsSuggestionInputs()
-    val easyMeals =
-        GetMealsSuggestionUseCase(dataSource, validInputForGymMeals).suggestEasyMeals(getMealsSuggestionInputs)
+    val easyMeals = GetMealsSuggestionUseCase(
+        dataSource, validInputForGetMealsSuggestion
+    ).suggestEasyMeals(getMealsSuggestionInputs)
 
     if (easyMeals.isEmpty()) {
         println("\n❗ No easy meals found.")
