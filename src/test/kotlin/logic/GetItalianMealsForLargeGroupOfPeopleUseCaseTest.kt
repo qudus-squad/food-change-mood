@@ -1,13 +1,12 @@
 package logic
 
-import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
+import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.datetime.LocalDate
 import model.MealItem
-import model.NoMealsFoundException
 import model.Nutrition
 import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
@@ -208,13 +207,14 @@ class GetItalianMealsForLargeGroupOfPeopleUseCaseTest {
     }
 
     @Test
-    fun `should throw NoMealsFoundException when there are no large group meals for searched country`() {
+    fun `should return empty list when there are no large group meals for searched country`() {
         // Given
         every { datasource.getAllMeals() } returns getMealsItems()
 
-        // When & Then
-        shouldThrow<NoMealsFoundException> {
-            getItalianMealsForLargeGroupOfPeopleUseCase.getItalianMealsForLargeGroupOfPeople("American")
-        }
+        // When
+        val result = getItalianMealsForLargeGroupOfPeopleUseCase.getItalianMealsForLargeGroupOfPeople("American")
+
+        // Then
+        result shouldBe emptyList()
     }
 }
