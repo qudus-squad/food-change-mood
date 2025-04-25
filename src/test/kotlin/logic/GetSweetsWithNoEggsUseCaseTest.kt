@@ -1,11 +1,10 @@
 package logic
-import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.datetime.LocalDate
 import model.MealItem
-import model.NoSweetsFoundException
 import model.Nutrition
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -89,7 +88,7 @@ class GetSweetsWithNoEggsUseCaseTest() {
         every { datasource.getAllMeals() } returns getMealsItem()
 
         //When
-        val result = getSweetsWithNoEggsUseCase.getAllSweets()
+        val result = getSweetsWithNoEggsUseCase.suggestSweetsWithNoEgg()
 
         //Then
         result.forEach { sweet ->
@@ -103,7 +102,7 @@ class GetSweetsWithNoEggsUseCaseTest() {
         //Given
         every { datasource.getAllMeals() } returns getMealsItem()
         //When
-        val result = getSweetsWithNoEggsUseCase.getAllSweets()
+        val result = getSweetsWithNoEggsUseCase.suggestSweetsWithNoEgg()
         //Then
         result.forEach { sweet ->
             assertTrue(sweet.mealTags.any { it.contains(SWEETS_KEYWORDS, ignoreCase = true) } &&
@@ -117,11 +116,13 @@ class GetSweetsWithNoEggsUseCaseTest() {
         every { datasource.getAllMeals() } returns getMealsItem().map {
             it.copy(mealTags = it.mealTags - "sweet")
         }
-        // When & Then
-        shouldThrow<NoSweetsFoundException> {
-            getSweetsWithNoEggsUseCase.getAllSweets()
+        // When
+        val result = getSweetsWithNoEggsUseCase.suggestSweetsWithNoEgg()
+
+        //then
+        result.shouldBeEmpty()
         }
-    }
+
 
     @Test
     fun `should return available sweets when number is fewer than requested`() {
@@ -133,17 +134,5 @@ class GetSweetsWithNoEggsUseCaseTest() {
 
         //Then
         result.map { it.name }.shouldContainExactly("sweet With No Eggs")
-    }
-
-    @Test
-    fun `should throw NoSweetsFoundException when there is no egg-free sweet to suggest`() {
-        // Given
-        every { datasource.getAllMeals() } returns getMealsItem().map {
-            it.copy(mealTags = it.mealTags - "sweet")
-        }
-        // When & Then
-        shouldThrow<NoSweetsFoundException> {
-            getSweetsWithNoEggsUseCase.suggestSweetsWithNoEgg()
-        }
     }
 }
