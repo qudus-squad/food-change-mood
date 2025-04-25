@@ -1,7 +1,6 @@
 package logic
 
 import model.MealItem
-import utils.ListUtils.orThrowIfEmpty
 import utils.Strings.SEAFOOD_KEYWORDS
 
 class GetSeafoodMealsUseCase(private val dataSource: FoodChangeModeDataSource) {

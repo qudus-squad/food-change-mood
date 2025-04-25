@@ -1,17 +1,17 @@
 package logic
 
 import model.MealItem
+import utils.ListUtils.getRandomRangeFromList
 
-class GetHealthyFastMealsUseCase(dataSource: FoodChangeModeDataSource) {
+class GetHealthyFastMealsUseCase(private val dataSource: FoodChangeModeDataSource) {
 
-    private val meals = dataSource.getAllMeals()
 
     fun getHealthyFastMeals(
         preparationTimeLimit: Int = HEALTHY_MEAL_MINIMUM_PREPARATION_TIME,
         mealsCount: Int = MAXIMUM_MEALS_TO_SELECT
     ): List<MealItem> {
 
-        val filteredMeals = meals.filter { meal ->
+        val filteredMeals = dataSource.getAllMeals().filter { meal ->
             meal.preparationTimeInMinutes <= preparationTimeLimit
         }
         if (filteredMeals.isEmpty()) {
@@ -39,7 +39,7 @@ class GetHealthyFastMealsUseCase(dataSource: FoodChangeModeDataSource) {
         val maxScore = scoredMeals.maxOfOrNull { it.second } ?: INITIAL_SCORE_VALUE
         return scoredMeals.filter { it.second == maxScore && it.second >= MAXIMUM_SCORE }.map { it.first }
             .sortedBy { it.nutrition.totalFat + it.nutrition.saturatedFat + it.nutrition.carbohydrates }
-            .take(mealsCount)
+            .getRandomRangeFromList(mealsCount)
     }
 
     companion object {

@@ -1,18 +1,15 @@
 package logic
 
 import model.MealItem
-import utils.ListUtils.getRandomRangeFromList
-import utils.Strings.FOR_LARGE_GROUP
-import utils.Strings.ITALIAN
 
 class GetItalianMealsForLargeGroupOfPeopleUseCase(private val dataSource: FoodChangeModeDataSource) {
 
     fun getItalianMealsForLargeGroupOfPeople(
-        countryName: String = ITALIAN, maxMealsToSelect: Int = MAXIMUM_MEALS_TO_SELECT
+        countryName: String = ITALIAN, numberOfMeals: Int = DEFAULT_NUMBER_OF_MEALS
     ): List<MealItem> {
         val italianMeals = filterMealsByCountry(dataSource.getAllMeals(), countryName)
-        return italianMeals.filter { isMealForLargeGroup(it) }
-            .getRandomRangeFromList(maxMealsToSelect)
+        return italianMeals.filter { meal -> isMealForLargeGroup(meal) }
+            .take(numberOfMeals)
     }
 
     private fun filterMealsByCountry(mealItems: List<MealItem>, countryName: String): List<MealItem> {
@@ -29,7 +26,9 @@ class GetItalianMealsForLargeGroupOfPeopleUseCase(private val dataSource: FoodCh
     }
 
     companion object {
-        private const val MAXIMUM_MEALS_TO_SELECT = 10
+        private const val DEFAULT_NUMBER_OF_MEALS = 10
+        const val FOR_LARGE_GROUP = "for-large-groups"
+        const val ITALIAN = "italian"
     }
 
 }

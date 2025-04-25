@@ -15,11 +15,13 @@ import org.junit.jupiter.api.Test
 class SearchMealsByNameUseCaseTest {
     private lateinit var dataSource: FoodChangeModeDataSource
     private lateinit var searchMealsByNameUseCase: SearchMealsByNameUseCase
+    private lateinit var searchAlgorithm: SearchAlgorithm
 
     @BeforeEach
     fun setup() {
         dataSource = mockk()
-        searchMealsByNameUseCase = SearchMealsByNameUseCase(dataSource)
+        searchAlgorithm = SearchAlgorithm()
+        searchMealsByNameUseCase = SearchMealsByNameUseCase(dataSource, searchAlgorithm)
 
 
     }
