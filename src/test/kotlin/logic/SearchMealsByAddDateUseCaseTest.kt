@@ -11,7 +11,7 @@ import model.Nutrition
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class SearchFoodByAddDateUseCaseTest {
+class SearchMealsByAddDateUseCaseTest {
 
     private lateinit var dataSource: FoodChangeModeDataSource
     private lateinit var searchMealsByAddDateUseCase: SearchMealsByAddDateUseCase
@@ -115,5 +115,4 @@ class SearchFoodByAddDateUseCaseTest {
             searchMealsByAddDateUseCase.getSearchMealsByAddDate(addDate)
         }
     }
-
 }

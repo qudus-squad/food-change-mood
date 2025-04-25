@@ -1,7 +1,7 @@
 package logic
 
 import model.MealItem
-import utils.Strings.SEAFOOD_KEYWORDS
+
 
 class GetSeafoodMealsUseCase(private val dataSource: FoodChangeModeDataSource) {
 
@@ -10,8 +10,8 @@ class GetSeafoodMealsUseCase(private val dataSource: FoodChangeModeDataSource) {
         seafoodKeywords: List<String> = SEAFOOD_KEYWORDS
     ): List<MealItem> {
         return dataSource.getAllMeals()
-            .filter { meal-> isSeafoodMeal(meal, seafoodKeywords) }
-            .sortedByDescending { meal-> meal.nutrition.protein }
+            .filter { meal -> isSeafoodMeal(meal, seafoodKeywords) }
+            .sortedByDescending { meal -> meal.nutrition.protein }
             .take(randomMealsCount)
     }
 
@@ -24,6 +24,8 @@ class GetSeafoodMealsUseCase(private val dataSource: FoodChangeModeDataSource) {
     }
 
     companion object {
+        val SEAFOOD_KEYWORDS: List<String> =
+            listOf("fish", "shrimp", "crab", "lobster", "salmon", "tuna", "clam", "oyster", "scallop", "squid")
         private const val MAXIMUM_MEALS_TO_SELECT = 10
     }
 }
