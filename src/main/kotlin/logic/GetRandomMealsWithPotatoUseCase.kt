@@ -10,23 +10,27 @@ import utils.Strings.POTATO
 class GetRandomMealsWithPotatoUseCase(private val dataSource: FoodChangeModeDataSource) {
 
     fun getPotatoMeals(
-        randomMealsNumber: Int = MAXIMUM_MEALS_TO_SELECT,
-        nameForMeal: String = POTATO
+        randomMealsCount: Int = MAXIMUM_MEALS_TO_SELECT,
+        mealName: String = POTATO
     ): List<MealItem> {
-        if (randomMealsNumber < 0) {
+        if (randomMealsCount < 0) {
             throw InvalidMealNumberException(MEALS_NUMBER_CANNOT_BE_NEGATIVE)
         }
         val potatoMeals = dataSource.getAllMeals()
             .filter { meal ->
-                meal.ingredients.any { it.contains(nameForMeal, ignoreCase = true) }
+                hasPotato(meal, mealName)
             }
 
         if (potatoMeals.isEmpty()) {
             throw NoMealsFoundException(NO_MEALS_WITH_POTATO_FOUND)
         }
         return potatoMeals
-            .shuffled()
-            .take(randomMealsNumber)
+            .take(randomMealsCount)
+    }
+
+    private fun hasPotato(meal: MealItem, mealName: String): Boolean {
+        return meal.ingredients.any { it.contains(mealName, ignoreCase = true) }
+
     }
 
     companion object {
