@@ -1,22 +1,19 @@
 package logic
 
 import model.MealItem
-import utils.Messages.NO_MORE_HIGH_CALORIE_MEALS
 
 class GetHighCalorieMealsUseCase(private val dataSource: FoodChangeModeDataSource) {
-    private val suggestedMealIds = mutableSetOf<Int>()
 
-    fun suggestMeal(selectedCalorie: Double = DEFAULT_CALORIES_AMOUNT): MealItem {
-        val availableMeals = dataSource.getAllMeals()
-            .filter { it.nutrition.calories >= selectedCalorie }
-            .filterNot { it.id in suggestedMealIds }
+    fun suggestMeal(calorieLimit: Double = DEFAULT_CALORIES_AMOUNT): List<MealItem> {
+        val availableMeals = filterCalorie(calorieLimit)
+        if (availableMeals.isEmpty()) return emptyList()
+        return listOf((availableMeals.random()))
+    }
 
-        if (availableMeals.isEmpty()) {
-            throw NoSuchElementException(NO_MORE_HIGH_CALORIE_MEALS)
-        }
-        val suggestedMeal = availableMeals.random()
-        suggestedMealIds.add(suggestedMeal.id)
-        return suggestedMeal
+    private fun filterCalorie(calorieLimit: Double = DEFAULT_CALORIES_AMOUNT): List<MealItem> {
+        return dataSource.getAllMeals()
+            .filter { meal ->
+                meal.nutrition.calories >= calorieLimit }
     }
 
     companion object {
