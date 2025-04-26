@@ -1,15 +1,17 @@
 package logic
+
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.datetime.LocalDate
+import logic.GetSweetsWithNoEggsUseCase.Companion.EGGS_KEYWORDS
+import logic.GetSweetsWithNoEggsUseCase.Companion.SWEETS_KEYWORDS
 import model.MealItem
 import model.Nutrition
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import utils.Strings.EGGS_KEYWORDS
-import utils.Strings.SWEETS_KEYWORDS
+
 import kotlin.test.assertTrue
 
 class GetSweetsWithNoEggsUseCaseTest() {
@@ -81,7 +83,6 @@ class GetSweetsWithNoEggsUseCaseTest() {
         )
     )
 
-
     @Test
     fun `should return only sweets with no eggs in ingredients and when found in the meals list`() {
         //Given
@@ -98,20 +99,7 @@ class GetSweetsWithNoEggsUseCaseTest() {
     }
 
     @Test
-    fun `should exclude sweets with eggs in ingredients when found in meals list`() {
-        //Given
-        every { datasource.getAllMeals() } returns getMealsItem()
-        //When
-        val result = getSweetsWithNoEggsUseCase.suggestSweetsWithNoEgg()
-        //Then
-        result.forEach { sweet ->
-            assertTrue(sweet.mealTags.any { it.contains(SWEETS_KEYWORDS, ignoreCase = true) } &&
-                    sweet.ingredients.none { it.contains(EGGS_KEYWORDS, ignoreCase = true) })
-        }
-    }
-
-    @Test
-    fun `should throw NoSweetsFoundException when there is no egg-free sweet in meals list`() {
+    fun `should return empty list when there is no egg-free sweet in meals list`() {
         // Given
         every { datasource.getAllMeals() } returns getMealsItem().map {
             it.copy(mealTags = it.mealTags - "sweet")
@@ -121,8 +109,7 @@ class GetSweetsWithNoEggsUseCaseTest() {
 
         //then
         result.shouldBeEmpty()
-        }
-
+    }
 
     @Test
     fun `should return available sweets when number is fewer than requested`() {
