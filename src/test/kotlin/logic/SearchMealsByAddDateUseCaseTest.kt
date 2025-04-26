@@ -1,30 +1,28 @@
 package logic
 
 import io.kotest.assertions.throwables.shouldThrow
-import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.datetime.LocalDate
 import model.MealItem
+import model.NoMealsFoundException
 import model.Nutrition
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class SearchFoodByAddDateUseCaseTest {
+class SearchMealsByAddDateUseCaseTest {
 
     private lateinit var dataSource: FoodChangeModeDataSource
     private lateinit var searchMealsByAddDateUseCase: SearchMealsByAddDateUseCase
-    private lateinit var dateFormatConverter: DateFormatConverter
 
     @BeforeEach
     fun setup() {
-        dataSource = mockk()
-        dateFormatConverter = mockk()
-        searchMealsByAddDateUseCase = SearchMealsByAddDateUseCase(dataSource, dateFormatConverter)
+        dataSource = mockk(relaxed = true)
+        searchMealsByAddDateUseCase = SearchMealsByAddDateUseCase(dataSource)
     }
 
-    private fun getMealItems() = listOf(
+    private fun getTestMeals() = listOf(
         MealItem(
             id = 1,
             name = "classic mashed potatoes",
@@ -133,4 +131,5 @@ class SearchFoodByAddDateUseCaseTest {
             searchMealsByAddDateUseCase.getSearchMealsByAddDate(invalidDate)
         }
     }
+
 }
