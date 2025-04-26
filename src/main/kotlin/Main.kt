@@ -113,13 +113,13 @@ fun getMealsWith700Calories() {
             val userResponse = readln().toInt()
             when (userResponse) {
                 1 -> {
-                    println (suggestedMeal)
+                    println(suggestedMeal)
                     break
                 }
 
                 0 -> {
                     suggestedMeal = suggester.suggestMeal()
-                    if (suggestedMeal .isEmpty()) {
+                    if (suggestedMeal.isEmpty()) {
                         println("No more available meals .")
                     }
                 }
@@ -280,7 +280,7 @@ fun searchFoodByAddDate() {
     val inputDate = readlnOrNull()?.trim().toString()
     val dataSource: FoodChangeModeDataSource = getKoin().get()
     val dateFormatConverter: DateFormatConverter = getKoin().get()
-    val searchMealsByAddDateUseCase = SearchMealsByAddDateUseCase(dataSource , dateFormatConverter)
+    val searchMealsByAddDateUseCase = SearchMealsByAddDateUseCase(dataSource, dateFormatConverter)
 
     val result: List<MealItem> = searchMealsByAddDateUseCase.getSearchMealsByAddDate(inputDate)
     println(result)

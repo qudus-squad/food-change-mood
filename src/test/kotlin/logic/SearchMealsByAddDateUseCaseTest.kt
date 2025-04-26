@@ -1,6 +1,7 @@
 package logic
 
 import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import io.mockk.every
 import io.mockk.mockk
@@ -15,14 +16,16 @@ class SearchMealsByAddDateUseCaseTest {
 
     private lateinit var dataSource: FoodChangeModeDataSource
     private lateinit var searchMealsByAddDateUseCase: SearchMealsByAddDateUseCase
+    private lateinit var dateFormatConverter: DateFormatConverter
 
     @BeforeEach
     fun setup() {
-        dataSource = mockk(relaxed = true)
-        searchMealsByAddDateUseCase = SearchMealsByAddDateUseCase(dataSource)
+        dataSource = mockk()
+        dateFormatConverter = mockk()
+        searchMealsByAddDateUseCase = SearchMealsByAddDateUseCase(dataSource, dateFormatConverter)
     }
 
-    private fun getTestMeals() = listOf(
+    private fun getMealItems() = listOf(
         MealItem(
             id = 1,
             name = "classic mashed potatoes",
@@ -44,8 +47,7 @@ class SearchMealsByAddDateUseCaseTest {
             description = "Creamy and delicious mashed potatoes.",
             ingredients = listOf("potato", "butter", "salt"),
             ingredientNumbers = 3
-        ),
-        MealItem(
+        ), MealItem(
             id = 2,
             name = "garlic mashed potatoes",
             preparationTimeInMinutes = 25,
@@ -66,8 +68,7 @@ class SearchMealsByAddDateUseCaseTest {
             description = "Mashed potatoes with roasted garlic flavor.",
             ingredients = listOf("potato", "butter", "garlic", "salt"),
             ingredientNumbers = 4
-        ),
-        MealItem(
+        ), MealItem(
             id = 3,
             name = "sweet potato mash",
             preparationTimeInMinutes = 30,
@@ -123,8 +124,7 @@ class SearchMealsByAddDateUseCaseTest {
     fun `should throw exception when invalid date format is provided`() {
         // given
         val invalidDate = "22344-456-21"
-        every { dateFormatConverter.convertDate(invalidDate) } throws
-                Exception(DateFormatConverter.INVALID_DATE_FORMAT)
+        every { dateFormatConverter.convertDate(invalidDate) } throws Exception(DateFormatConverter.INVALID_DATE_FORMAT)
 
         // when & then
         shouldThrow<Exception> {

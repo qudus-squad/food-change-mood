@@ -11,8 +11,7 @@ class StartIngredientGameUseCase(private val dataSource: FoodChangeModeDataSourc
     private val playedMeals = mutableSetOf<Int>()
 
     fun startNewRound(): IngredientGameRound {
-        val availableMeals = dataSource.getAllMeals()
-            .filter { meal -> meal.ingredients.isNotEmpty() }
+        val availableMeals = dataSource.getAllMeals().filter { meal -> meal.ingredients.isNotEmpty() }
             .filter { meal -> meal.id !in playedMeals }
 
         if (availableMeals.isEmpty()) {
@@ -23,11 +22,9 @@ class StartIngredientGameUseCase(private val dataSource: FoodChangeModeDataSourc
         playedMeals.add(selectedMeal.id)
 
         val correctIngredient = selectedMeal.ingredients.random()
-        val otherIngredients = dataSource.getAllMeals()
-            .filter { meal -> meal.id != selectedMeal.id }
-            .flatMap { meal -> meal.ingredients }
-            .distinct()
-            .filter { ingredient -> ingredient != correctIngredient }
+        val otherIngredients =
+            dataSource.getAllMeals().filter { meal -> meal.id != selectedMeal.id }.flatMap { meal -> meal.ingredients }
+                .distinct().filter { ingredient -> ingredient != correctIngredient }
 
         if (otherIngredients.size < MINIMUM_INGREDIENTS_SIZE) {
             throw NotEnoughMealsException(NOT_ENOUGH_WRONG_INGREDIENTS_EXCEPTION_MESSAGE)
@@ -36,9 +33,7 @@ class StartIngredientGameUseCase(private val dataSource: FoodChangeModeDataSourc
         val wrongIngredients = otherIngredients.shuffled().take(NUMBER_OF_WRONG_INGREDIENTS)
         val options = (listOf(correctIngredient) + wrongIngredients).shuffled()
         return IngredientGameRound(
-            mealName = selectedMeal.name,
-            optionsOfIngredients = options,
-            correctIngredient = correctIngredient
+            mealName = selectedMeal.name, optionsOfIngredients = options, correctIngredient = correctIngredient
         )
     }
 

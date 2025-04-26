@@ -31,7 +31,6 @@ class GetMealsSuggestionUseCase(
                 meal.stepNumbers <= getMealsSuggestionInputs.countOfPreparationSteps
     }
 
-
     companion object {
         private const val DEFAULT_NUMBER_OF_SUGGESTIONS = 10
         private const val DEFAULT_PREPARATION_TIME = 30

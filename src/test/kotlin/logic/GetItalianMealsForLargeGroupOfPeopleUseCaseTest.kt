@@ -59,17 +59,10 @@ class GetItalianMealsForLargeGroupOfPeopleUseCaseTest {
             ),
             description = "Autumn is my favorite time of year to cook! This recipe can be prepared either spicy or sweet, your choice! Two of my posted italian-inspired seasoning mix recipes are offered as suggestions.",
             ingredients = listOf(
-                "winter squash",
-                "italian seasoning",
-                "mixed spice",
-                "honey",
-                "butter",
-                "olive oil",
-                "salt"
+                "winter squash", "italian seasoning", "mixed spice", "honey", "butter", "olive oil", "salt"
             ),
             ingredientNumbers = 7
-        ),
-        MealItem(
+        ), MealItem(
             id = 2,
             name = "arriba baked winter squash mexican style",
             preparationTimeInMinutes = 15,
@@ -106,17 +99,10 @@ class GetItalianMealsForLargeGroupOfPeopleUseCaseTest {
             ),
             description = "Autumn is my favorite time of year to cook! This recipe can be prepared either spicy or sweet, your choice! Two of my posted mexican-inspired seasoning mix recipes are offered as suggestions.",
             ingredients = listOf(
-                "winter squash",
-                "mexican seasoning",
-                "mixed spice",
-                "honey",
-                "butter",
-                "olive oil",
-                "salt"
+                "winter squash", "mexican seasoning", "mixed spice", "honey", "butter", "olive oil", "salt"
             ),
             ingredientNumbers = 7
-        ),
-        MealItem(
+        ), MealItem(
             id = 3,
             name = "italian pasta for large group",
             preparationTimeInMinutes = 30,
@@ -136,25 +122,15 @@ class GetItalianMealsForLargeGroupOfPeopleUseCaseTest {
                 "for-large-groups"
             ),
             nutrition = Nutrition(
-                100.0,
-                0.0,
-                10.0,
-                0.0,
-                5.0,
-                0.0,
-                20.0
+                100.0, 0.0, 10.0, 0.0, 5.0, 0.0, 20.0
             ),
             stepNumbers = 5,
             steps = listOf(
-                "boil water",
-                "cook pasta",
-                "add sauce"
+                "boil water", "cook pasta", "add sauce"
             ),
             description = "A big dish of italian pasta, perfect for large groups.",
             ingredients = listOf(
-                "pasta",
-                "tomato sauce",
-                "cheese"
+                "pasta", "tomato sauce", "cheese"
             ),
             ingredientNumbers = 6
         )
@@ -166,13 +142,11 @@ class GetItalianMealsForLargeGroupOfPeopleUseCaseTest {
         every { datasource.getAllMeals() } returns getMealsItems()
 
         // When
-        val result = getItalianMealsForLargeGroupOfPeopleUseCase
-            .getItalianMealsForLargeGroupOfPeople("italian")
+        val result = getItalianMealsForLargeGroupOfPeopleUseCase.getItalianMealsForLargeGroupOfPeople("italian")
 
         // Then
-        result.map { it.name }.shouldContainExactlyInAnyOrder(
-            "baked squash italian style",
-            "italian pasta for large group"
+        result.map { meal -> meal.name }.shouldContainExactlyInAnyOrder(
+            "baked squash italian style", "italian pasta for large group"
         )
     }
 
@@ -182,11 +156,10 @@ class GetItalianMealsForLargeGroupOfPeopleUseCaseTest {
         every { datasource.getAllMeals() } returns getMealsItems()
 
         // When
-        val result = getItalianMealsForLargeGroupOfPeopleUseCase
-            .getItalianMealsForLargeGroupOfPeople("MeXicaN")
+        val result = getItalianMealsForLargeGroupOfPeopleUseCase.getItalianMealsForLargeGroupOfPeople("MeXicaN")
 
         // Then
-        result.map { it.name }.shouldContainExactly(
+        result.map {  meal -> meal.name }.shouldContainExactly(
             "arriba baked winter squash mexican style"
         )
     }
@@ -200,9 +173,8 @@ class GetItalianMealsForLargeGroupOfPeopleUseCaseTest {
         val result = getItalianMealsForLargeGroupOfPeopleUseCase.getItalianMealsForLargeGroupOfPeople()
 
         // Then
-        result.map { it.name }.shouldContainExactlyInAnyOrder(
-            "baked squash italian style",
-            "italian pasta for large group"
+        result.map { meal -> meal.name }.shouldContainExactlyInAnyOrder(
+            "baked squash italian style", "italian pasta for large group"
         )
     }
 

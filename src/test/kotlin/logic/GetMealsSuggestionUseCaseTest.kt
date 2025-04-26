@@ -260,7 +260,7 @@ class GetMealsSuggestionUseCaseTest {
     }
 
     @Test
-    fun `should throw NoMealsFoundException when all inputs not fitted for meals suggestion`() {
+    fun `should throw empty list when all inputs not fitted for meals suggestion`() {
         // Given
         every { dataSource.getAllMeals() } returns getMealsItem()
         val input = GetMealsSuggestionInputs(

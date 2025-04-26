@@ -117,7 +117,7 @@ class GetIraqMealsUseCaseTest {
     }
 
     @Test
-    fun `should return NoMealsFoundException meals when didnt enter country and the data not contain iraq meals`() {
+    fun `should return empty list meals when didnt enter country and the data not contain iraq meals`() {
         // Given
         every { datasource.getAllMeals() } returns listOf(getMealsItems()[2])
 
@@ -142,7 +142,7 @@ class GetIraqMealsUseCaseTest {
     }
 
     @Test
-    fun `should return NoMealsFoundException when description notContains country name`() {
+    fun `should return empty list when description notContains country name`() {
         // Given
         every { datasource.getAllMeals() } returns getMealsItems()
         val countryName = "fsdgvlsdf"
@@ -154,7 +154,7 @@ class GetIraqMealsUseCaseTest {
     }
 
     @Test
-    fun `should return InvalidCountryNameException when country name is empty`() {
+    fun `should return empty list when country name is empty`() {
         // Given
         every { datasource.getAllMeals() } returns getMealsItems()
         val countryName = ""

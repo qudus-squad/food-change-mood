@@ -22,8 +22,6 @@ class SearchMealsByNameUseCaseTest {
         dataSource = mockk()
         searchAlgorithm = SearchAlgorithm()
         searchMealsByNameUseCase = SearchMealsByNameUseCase(dataSource, searchAlgorithm)
-
-
     }
 
     private fun getTestMeals() = listOf(
@@ -48,8 +46,7 @@ class SearchMealsByNameUseCaseTest {
             description = "Creamy and delicious mashed potatoes.",
             ingredients = listOf("potato", "butter", "salt"),
             ingredientNumbers = 3
-        ),
-        MealItem(
+        ), MealItem(
             id = 2,
             name = "garlic mashed potatoes",
             preparationTimeInMinutes = 25,
@@ -70,8 +67,7 @@ class SearchMealsByNameUseCaseTest {
             description = "Mashed potatoes with roasted garlic flavor.",
             ingredients = listOf("potato", "butter", "garlic", "salt"),
             ingredientNumbers = 4
-        ),
-        MealItem(
+        ), MealItem(
             id = 3,
             name = "sweet potato mash",
             preparationTimeInMinutes = 30,
@@ -132,8 +128,7 @@ class SearchMealsByNameUseCaseTest {
 
         // Then
         result.map { it.second } shouldBe listOf(
-            "classic mashed potatoes",
-            "garlic mashed potatoes"
+            "classic mashed potatoes", "garlic mashed potatoes"
         )
     }
 
@@ -187,5 +182,4 @@ class SearchMealsByNameUseCaseTest {
         // Then
         result shouldBe emptyList()
     }
-
 }
