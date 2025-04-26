@@ -4,8 +4,7 @@ import model.InvalidNameMealException
 import model.MealItem
 
 class SearchMealsByNameUseCase(
-    private val dataSource: FoodChangeModeDataSource,
-    private val searchAlgorithm: SearchAlgorithm
+    private val dataSource: FoodChangeModeDataSource, private val searchAlgorithm: SearchAlgorithm
 ) {
 
     fun searchMealsByName(searchInput: String): List<Pair<Int, String>> {

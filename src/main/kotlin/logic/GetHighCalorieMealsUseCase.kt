@@ -1,5 +1,4 @@
 package logic
-
 import model.MealItem
 
 class GetHighCalorieMealsUseCase(private val dataSource: FoodChangeModeDataSource) {
@@ -11,14 +10,12 @@ class GetHighCalorieMealsUseCase(private val dataSource: FoodChangeModeDataSourc
     }
 
     private fun filterCalorie(calorieLimit: Double = DEFAULT_CALORIES_AMOUNT): List<MealItem> {
-        return dataSource.getAllMeals()
-            .filter { meal ->
-                meal.nutrition.calories >= calorieLimit }
+        return dataSource.getAllMeals().filter { meal ->
+                meal.nutrition.calories >= calorieLimit
+            }
     }
 
     companion object {
         private const val DEFAULT_CALORIES_AMOUNT = 700.0
-        const val NO_MORE_HIGH_CALORIE_MEALS = "No more high-calorie meals available to suggest."
-
     }
 }

@@ -19,7 +19,6 @@ class GetGymMealsUseCase(
         }.take(getGymMeals.numberOfMeals)
     }
 
-
     private fun isWithinGymRange(
         meal: MealItem, getGymMeals: GetMealForGymInputs
     ): Boolean {

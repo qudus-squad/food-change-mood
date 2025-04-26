@@ -45,8 +45,7 @@ class GetRandomMealsWithPotatoUseCaseTest {
             description = "Creamy and delicious mashed potatoes.",
             ingredients = listOf("potato", "butter", "salt"),
             ingredientNumbers = 3
-        ),
-        MealItem(
+        ), MealItem(
             id = 1,
             name = "classic mashed potatoes",
             preparationTimeInMinutes = 20,
@@ -103,8 +102,7 @@ class GetRandomMealsWithPotatoUseCaseTest {
     fun `should return empty list when no meals contain potato`() {
         // Given
         val nonPotatoMeal = getMealsItem().first().copy(
-            name = "grilled chicken",
-            ingredients = listOf("chicken", "salt", "pepper")
+            name = "grilled chicken", ingredients = listOf("chicken", "salt", "pepper")
         )
         // Given
         every { dataSource.getAllMeals() } returns listOf(nonPotatoMeal)

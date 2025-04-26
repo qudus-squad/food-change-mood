@@ -38,7 +38,7 @@ class GuessGameUseCase(
         }
     }
 
-    private fun displayHint(guess: Int): String { // replace this with if statement
+    private fun displayHint(guess: Int): String {
         return if(guess > selectedMeal.preparationTimeInMinutes) {
             YOUR_GUESS_IS_HIGHER
         } else {

@@ -12,7 +12,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 
-class GetSeafoodMealsUseCaseTest() {
+class GetSeafoodMealsUseCaseTest {
     private lateinit var datasource: FoodChangeModeDataSource
     private lateinit var getSeafoodMealsUseCase: GetSeafoodMealsUseCase
 

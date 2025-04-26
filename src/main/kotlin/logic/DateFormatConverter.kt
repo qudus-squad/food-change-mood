@@ -10,6 +10,7 @@ class DateFormatConverter {
             throw Exception(INVALID_DATE_FORMAT)
         }
     }
+
     companion object {
         const val INVALID_DATE_FORMAT = "invalid date format"
     }

@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test
 
 import kotlin.test.assertTrue
 
-class GetSweetsWithNoEggsUseCaseTest() {
+class GetSweetsWithNoEggsUseCaseTest {
     private lateinit var datasource: FoodChangeModeDataSource
     private lateinit var getSweetsWithNoEggsUseCase: GetSweetsWithNoEggsUseCase
 
@@ -93,16 +93,20 @@ class GetSweetsWithNoEggsUseCaseTest() {
 
         //Then
         result.forEach { sweet ->
-            assertTrue(sweet.mealTags.any { it.contains(SWEETS_KEYWORDS, ignoreCase = true) } &&
-                    sweet.ingredients.none { it.contains(EGGS_KEYWORDS, ignoreCase = true) })
+            assertTrue(sweet.mealTags.any { meal ->
+                meal.contains(
+                    SWEETS_KEYWORDS,
+                    ignoreCase = true
+                )
+            } && sweet.ingredients.none { meal -> meal.contains(EGGS_KEYWORDS, ignoreCase = true) })
         }
     }
 
     @Test
     fun `should return empty list when there is no egg-free sweet in meals list`() {
         // Given
-        every { datasource.getAllMeals() } returns getMealsItem().map {
-            it.copy(mealTags = it.mealTags - "sweet")
+        every { datasource.getAllMeals() } returns getMealsItem().map { meal ->
+            meal.copy(mealTags = meal.mealTags - "sweet")
         }
         // When
         val result = getSweetsWithNoEggsUseCase.suggestSweetsWithNoEgg()
@@ -120,6 +124,6 @@ class GetSweetsWithNoEggsUseCaseTest() {
         val result = getSweetsWithNoEggsUseCase.suggestSweetsWithNoEgg()
 
         //Then
-        result.map { it.name }.shouldContainExactly("sweet With No Eggs")
+        result.map { meal -> meal.name }.shouldContainExactly("sweet With No Eggs")
     }
 }
