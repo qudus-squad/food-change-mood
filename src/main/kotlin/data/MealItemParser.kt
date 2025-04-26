@@ -17,10 +17,10 @@ class MealsCsvParser {
         return MealItem(
             name = fields[ColumnIndex.NAME.index],
             id = fields[ColumnIndex.ID.index].toInt(),
-            minutes = fields[ColumnIndex.MINUTES.index].toInt(),
+            preparationTimeInMinutes = fields[ColumnIndex.MINUTES.index].toInt(),
             contributorId = fields[ColumnIndex.CONTRIBUTOR_ID.index].toInt(),
             submitted = LocalDate.parse(fields[ColumnIndex.SUBMITTED.index]),
-            tags = constructListFromString(fields[ColumnIndex.TAGS.index]),
+            mealTags = constructListFromString(fields[ColumnIndex.TAGS.index]),
             nutrition = constructNutritionObject(fields[ColumnIndex.NUTRITION.index]),
             stepNumbers = fields[ColumnIndex.NUMBER_OF_STEPS.index].toInt(),
             steps = constructListFromString(fields[ColumnIndex.STEPS.index]),

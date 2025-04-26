@@ -1,70 +1,49 @@
 package logic
 
-import model.InvalidInputSuggestEasyMealsException
+import logic.validation_use_cases.ValidInputForGetMealsSuggestion
 import model.MealItem
-import model.NoMealsFoundException
-import utils.ListUtils.orThrowIfEmpty
-import utils.Messages.INVALID_PREPARATION_TIME
-import utils.Messages.NO_SUGGESTION_MEALS
-import utils.Messages.NUMBER_OF_INGREDIENTS
-import utils.Messages.NUMBER_OF_PREPARATION_STEPS
-import utils.Messages.NUMBER_OF_SUGGESTIONS
 
-class GetMealsSuggestionUseCase(private val dataSource: FoodChangeModeDataSource) {
+class GetMealsSuggestionUseCase(
+    private val dataSource: FoodChangeModeDataSource, private val validInputForGymMeals: ValidInputForGetMealsSuggestion
+) {
 
     fun suggestEasyMeals(
-        numberOfSuggestions: Int = DEFAULT_NUMBER_OF_SUGGESTIONS,
-        preparationTime: Int = DEFAULT_PREPARATION_TIME,
-        numberOfIngredients: Int = DEFAULT_NUMBER_OF_INGREDIENTS,
-        numberOfPreparationSteps: Int = DEFAULT_NUMBER_OF_PREPARATION_STEPS,
+        getMealsSuggestionInputs: GetMealsSuggestionInputs
     ): List<MealItem> {
 
-        if (numberOfSuggestions <= 0)
-            throw InvalidInputSuggestEasyMealsException(NUMBER_OF_SUGGESTIONS)
-
-        if (preparationTime <= 0)
-            throw InvalidInputSuggestEasyMealsException(INVALID_PREPARATION_TIME)
-
-        if (numberOfIngredients < 0)
-            throw InvalidInputSuggestEasyMealsException(NUMBER_OF_INGREDIENTS)
-
-        if (numberOfPreparationSteps < 0)
-            throw InvalidInputSuggestEasyMealsException(NUMBER_OF_PREPARATION_STEPS)
-
+        validInputForGymMeals.isValidInputSuggestMeals(
+            getMealsSuggestionInputs
+        )
 
         return dataSource.getAllMeals().filter { meal ->
             isEasyMeal(
-                meal = meal,
-                preparationTime,
-                numberOfIngredients,
-                numberOfPreparationSteps
+                meal = meal, getMealsSuggestionInputs = getMealsSuggestionInputs
             )
-        }.orThrowIfEmpty {
-            NoMealsFoundException(
-                "${NO_SUGGESTION_MEALS} " +
-                        "for ${preparationTime} " +
-                        ", ${numberOfSuggestions} " +
-                        ", ${numberOfPreparationSteps}"
-            )
-        }
-            .take(numberOfSuggestions)
+        }.take(getMealsSuggestionInputs.countOfSuggestions)
+
     }
 
     private fun isEasyMeal(
-        meal: MealItem,
-        preparationTime: Int,
-        numberOfIngredients: Int,
-        numberOfPreparationSteps: Int,
+        meal: MealItem, getMealsSuggestionInputs: GetMealsSuggestionInputs
     ): Boolean {
-        return meal.minutes <= preparationTime &&
-                meal.ingredientNumbers <= numberOfIngredients &&
-                meal.stepNumbers <= numberOfPreparationSteps
+        return  meal.preparationTimeInMinutes <= getMealsSuggestionInputs.preparationTime &&
+                meal.ingredientNumbers <= getMealsSuggestionInputs.countOfIngredients &&
+                meal.stepNumbers <= getMealsSuggestionInputs.countOfPreparationSteps
     }
+
 
     companion object {
         private const val DEFAULT_NUMBER_OF_SUGGESTIONS = 10
         private const val DEFAULT_PREPARATION_TIME = 30
         private const val DEFAULT_NUMBER_OF_INGREDIENTS = 5
         private const val DEFAULT_NUMBER_OF_PREPARATION_STEPS = 6
+
     }
+
+    data class GetMealsSuggestionInputs(
+        val countOfSuggestions: Int = DEFAULT_NUMBER_OF_SUGGESTIONS,
+        val preparationTime: Int = DEFAULT_PREPARATION_TIME,
+        val countOfIngredients: Int = DEFAULT_NUMBER_OF_INGREDIENTS,
+        val countOfPreparationSteps: Int = DEFAULT_NUMBER_OF_PREPARATION_STEPS,
+    )
 }

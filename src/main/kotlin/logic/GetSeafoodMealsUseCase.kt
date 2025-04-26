@@ -1,23 +1,18 @@
 package logic
 
 import model.MealItem
-import model.NoSeafoodMealsFoundException
-import utils.ListUtils.orThrowIfEmpty
-import utils.Messages.NO_SEAFOOD_MEALS_FOUND
-import utils.Strings.SEAFOOD_KEYWORDS
+
 
 class GetSeafoodMealsUseCase(private val dataSource: FoodChangeModeDataSource) {
 
     fun getSeafoodMeals(
-        randomMealsNumber: Int = MAXIMUM_MEALS_TO_SELECT,
+        randomMealsCount: Int = MAXIMUM_MEALS_TO_SELECT,
         seafoodKeywords: List<String> = SEAFOOD_KEYWORDS
     ): List<MealItem> {
         return dataSource.getAllMeals()
-            .filter { isSeafoodMeal(it, seafoodKeywords) }
-            .sortedByDescending { it.nutrition.protein }
-            .shuffled()
-            .take(randomMealsNumber)
-            .orThrowIfEmpty { NoSeafoodMealsFoundException(NO_SEAFOOD_MEALS_FOUND) }
+            .filter { meal -> isSeafoodMeal(meal, seafoodKeywords) }
+            .sortedByDescending { meal -> meal.nutrition.protein }
+            .take(randomMealsCount)
     }
 
     private fun isSeafoodMeal(meal: MealItem, seafoodKeywords: List<String>): Boolean {
@@ -29,7 +24,8 @@ class GetSeafoodMealsUseCase(private val dataSource: FoodChangeModeDataSource) {
     }
 
     companion object {
+        val SEAFOOD_KEYWORDS: List<String> =
+            listOf("fish", "shrimp", "crab", "lobster", "salmon", "tuna", "clam", "oyster", "scallop", "squid")
         private const val MAXIMUM_MEALS_TO_SELECT = 10
     }
-
 }

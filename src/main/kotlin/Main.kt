@@ -1,5 +1,7 @@
 import di.appModule
 import logic.*
+import logic.validation_use_cases.ValidInputForGetGymMeals
+import logic.validation_use_cases.ValidInputForGetMealsSuggestion
 import model.*
 import org.koin.core.context.startKoin
 import org.koin.mp.KoinPlatform.getKoin
@@ -93,7 +95,7 @@ fun getMealsWithPotatoes() {
     println("The best potato meals for you:")
     val randomPotatoMeals = potatoMeals.getPotatoMeals()
     randomPotatoMeals.forEach { meal ->
-        println("Name: ${meal.name}, Description: ${meal.description}, Preparation Time: ${meal.minutes} minutes")
+        println("Name: ${meal.name}, Description: ${meal.description}, Preparation Time: ${meal.preparationTimeInMinutes} minutes")
     }
 }
 
@@ -166,7 +168,10 @@ fun getItalianFoodForLargeGroups() {
 
 fun getMealsForGymHelper() {
     val dataSource: FoodChangeModeDataSource = getKoin().get()
-    val getMealsForGymUseCase = GetMealsForGymUseCase(dataSource)
+    val validInputForGetGymMeals = ValidInputForGetGymMeals()
+    val getMealsSuggestionInputs = GetGymMealsUseCase.GetMealForGymInputs(100.0, 200.0)
+
+    val getMealsForGymUseCase = GetGymMealsUseCase(dataSource, validInputForGetGymMeals)
     println("Gym Helper: Enter your desired meal parameters")
     print("Target Calories: ")
     val targetCalories = readlnOrNull()?.toDoubleOrNull() ?: 0.0
@@ -176,7 +181,7 @@ fun getMealsForGymHelper() {
         println("Please enter valid positive numbers for calories and protein.")
         return
     }
-    val suggestions = getMealsForGymUseCase.getMealsForGym(calories = targetCalories, protein = targetProtein)
+    val suggestions = getMealsForGymUseCase.getMealsForGym(getMealsSuggestionInputs)
     if (suggestions.isEmpty()) {
         println("No meals found matching your criteria (within ±50 calories and protein). Try adjusting your targets.")
     } else {
@@ -193,7 +198,7 @@ fun getMealsForGymHelper() {
 fun getKetoRandomMeal() {
     val dataSource: FoodChangeModeDataSource = getKoin().get()
     val meal = GetRandomKetoMealUseCase(dataSource).getRandomKetoMeal()
-    if(meal == null){
+    if (meal == null) {
         println("There is No keto meals")
         return
     }
@@ -205,7 +210,11 @@ fun getKetoRandomMeal() {
 
 fun getMealsSuggestions() {
     val dataSource: FoodChangeModeDataSource = getKoin().get()
-    val easyMeals = GetMealsSuggestionUseCase(dataSource).suggestEasyMeals(numberOfSuggestions = 10)
+    val validInputForGetMealsSuggestion = ValidInputForGetMealsSuggestion()
+    val getMealsSuggestionInputs = GetMealsSuggestionUseCase.GetMealsSuggestionInputs()
+    val easyMeals = GetMealsSuggestionUseCase(
+        dataSource, validInputForGetMealsSuggestion
+    ).suggestEasyMeals(getMealsSuggestionInputs)
 
     if (easyMeals.isEmpty()) {
         println("\n❗ No easy meals found.")
@@ -277,7 +286,8 @@ fun searchFoodByAddDate() {
 
 fun searchFoodByName() {
     val dataSource: FoodChangeModeDataSource = getKoin().get()
-    val searchMealsByNameUseCase = SearchMealsByNameUseCase(dataSource)
+    val searchAlgorithm = SearchAlgorithm()
+    val searchMealsByNameUseCase = SearchMealsByNameUseCase(dataSource, searchAlgorithm)
     val searchedName = readlnOrNull()?.trim() ?: ""
     val result = searchMealsByNameUseCase.searchMealsByName(searchedName)
     result.take(10).forEach { MealAndId -> println(MealAndId) }
@@ -303,20 +313,12 @@ fun foodGames() {
 fun startGuessGame() {
     val dataSource: FoodChangeModeDataSource = getKoin().get()
     val game = GuessGameUseCase(dataSource)
-    if(!game.hasMeals()) {
-        println("No meals available to play the game.")
-        return
+    println("Guess the preparation time for ${game.selectedMeal}")
+    if (game.playGuessGame()) {
+        println("Congratulations, you have won")
+    } else {
+        println("Game Over!")
     }
-    println("Lets Guess the preparation time for ${game.selectedMeal}, you have just ${game.maxAttempts}")
-    for(attempt in 1 .. game.maxAttempts) {
-        val guess = game.getUserGuess() ?: continue
-        if(!game.runGuessingRound(guess)) {
-            println("Game Over!")
-        }
-        println(game.displayHint(guess))
-    }
-    println("Congratulations, You have Won")
-
 }
 
 fun startIngredientGame() {

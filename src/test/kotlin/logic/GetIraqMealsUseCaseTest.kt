@@ -1,13 +1,13 @@
 package logic
 
 import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContain
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.datetime.LocalDate
 import model.InvalidCountryNameException
 import model.MealItem
-import model.NoMealsFoundException
 import model.Nutrition
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -26,10 +26,10 @@ class GetIraqMealsUseCaseTest {
         MealItem(
             id = 1,
             name = "baked squash italian style",
-            minutes = 15,
+            preparationTimeInMinutes = 15,
             contributorId = 47892,
             submitted = LocalDate.parse("2005-09-16"),
-            tags = listOf(
+            mealTags = listOf(
                 "60-minutes-or-less",
                 "time-to-make",
                 "course",
@@ -57,14 +57,13 @@ class GetIraqMealsUseCaseTest {
             steps = emptyList(),
             ingredientNumbers = 6,
             ingredients = emptyList(),
-        ),
-        MealItem(
+        ), MealItem(
             id = 2,
             name = "iraqi lamb stew",
-            minutes = 120,
+            preparationTimeInMinutes = 120,
             contributorId = 50231,
             submitted = LocalDate.parse("2012-03-21"),
-            tags = listOf(
+            mealTags = listOf(
                 "lamb", "stew", "iraqi", "middle-eastern", "dinner-party", "meat", "slow-cooker"
             ),
             nutrition = Nutrition(
@@ -81,14 +80,13 @@ class GetIraqMealsUseCaseTest {
             steps = emptyList(),
             ingredientNumbers = 6,
             ingredients = emptyList(),
-        ),
-        MealItem(
+        ), MealItem(
             id = 3,
             name = "falafel wrap",
-            minutes = 30,
+            preparationTimeInMinutes = 30,
             contributorId = 63481,
             submitted = LocalDate.parse("2010-07-05"),
-            tags = listOf("vegetarian", "middle-eastern", "quick-meal", "street-food"),
+            mealTags = listOf("vegetarian", "middle-eastern", "quick-meal", "street-food"),
             nutrition = Nutrition(
                 calories = 280.0,
                 totalFat = 10.0,
@@ -123,10 +121,10 @@ class GetIraqMealsUseCaseTest {
         // Given
         every { datasource.getAllMeals() } returns listOf(getMealsItems()[2])
 
-        // When && Then
-        shouldThrow<NoMealsFoundException> {
-            getIraqMealsUseCase.getIraqMeals()
-        }
+        // When
+        val result = getIraqMealsUseCase.getIraqMeals()
+        // Then
+        result.shouldBeEmpty()
     }
 
 
@@ -149,10 +147,10 @@ class GetIraqMealsUseCaseTest {
         every { datasource.getAllMeals() } returns getMealsItems()
         val countryName = "fsdgvlsdf"
 
-        //when && Then
-        shouldThrow<NoMealsFoundException> {
-            getIraqMealsUseCase.getIraqMeals(countryName)
-        }
+        // When
+        val result = getIraqMealsUseCase.getIraqMeals(countryName)
+        // Then
+        result.shouldBeEmpty()
     }
 
     @Test

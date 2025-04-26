@@ -18,5 +18,7 @@ class GetHighCalorieMealsUseCase(private val dataSource: FoodChangeModeDataSourc
 
     companion object {
         private const val DEFAULT_CALORIES_AMOUNT = 700.0
+        const val NO_MORE_HIGH_CALORIE_MEALS = "No more high-calorie meals available to suggest."
+
     }
 }

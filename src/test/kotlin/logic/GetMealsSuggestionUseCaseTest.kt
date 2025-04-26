@@ -1,29 +1,30 @@
 package logic
 
 import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.datetime.LocalDate
-import model.InvalidInputSuggestEasyMealsException
-import model.MealItem
-import model.NoMealsFoundException
-import model.Nutrition
+import logic.GetMealsSuggestionUseCase.GetMealsSuggestionInputs
+import logic.validation_use_cases.ValidInputForGetMealsSuggestion
+import model.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvFileSource
 
 class GetMealsSuggestionUseCaseTest {
 
     private lateinit var dataSource: FoodChangeModeDataSource
+    private lateinit var validInputForGetMealsSuggestion: ValidInputForGetMealsSuggestion
     private lateinit var getMealsSuggestionUseCase: GetMealsSuggestionUseCase
 
     @BeforeEach
     fun setup() {
         dataSource = mockk(relaxed = true)
-        getMealsSuggestionUseCase = GetMealsSuggestionUseCase(dataSource)
+        validInputForGetMealsSuggestion = ValidInputForGetMealsSuggestion()
+        getMealsSuggestionUseCase = GetMealsSuggestionUseCase(dataSource, validInputForGetMealsSuggestion)
     }
 
 
@@ -31,10 +32,10 @@ class GetMealsSuggestionUseCaseTest {
         MealItem(
             id = 7,
             name = "quick veggie stir fry",
-            minutes = 15,
+            preparationTimeInMinutes = 15,
             contributorId = 67890,
             submitted = LocalDate.parse("2021-05-15"),
-            tags = listOf("quick", "vegetarian", "asian", "healthy", "30-minutes-or-less"),
+            mealTags = listOf("quick", "vegetarian", "asian", "healthy", "30-minutes-or-less"),
             nutrition = Nutrition(
                 calories = 280.0,
                 totalFat = 12.0,
@@ -46,25 +47,20 @@ class GetMealsSuggestionUseCaseTest {
             ),
             stepNumbers = 5,
             steps = listOf(
-                "heat oil in wok",
-                "add chopped vegetables",
-                "stir fry for 5 minutes",
-                "add sauce and toss",
-                "serve hot"
+                "heat oil in wok", "add chopped vegetables", "stir fry for 5 minutes", "add sauce and toss", "serve hot"
             ),
             description = "A quick and healthy vegetable stir fry that's ready in 15 minutes.",
             ingredients = listOf(
                 "mixed vegetables", "soy sauce", "sesame oil", "garlic", "ginger"
             ),
             ingredientNumbers = 5
-        ),
-        MealItem(
+        ), MealItem(
             id = 8,
             name = "classic beef burger",
-            minutes = 25,
+            preparationTimeInMinutes = 25,
             contributorId = 54321,
             submitted = LocalDate.parse("2019-07-22"),
-            tags = listOf("american", "beef", "main-dish", "comfort-food"),
+            mealTags = listOf("american", "beef", "main-dish", "comfort-food"),
             nutrition = Nutrition(
                 calories = 550.0,
                 totalFat = 30.0,
@@ -85,18 +81,16 @@ class GetMealsSuggestionUseCaseTest {
             ),
             description = "Juicy classic beef burger with all the fixings.",
             ingredients = listOf(
-                "ground beef", "burger buns", "lettuce", "tomato",
-                "onion", "cheese", "ketchup", "mustard"
+                "ground beef", "burger buns", "lettuce", "tomato", "onion", "cheese", "ketchup", "mustard"
             ),
             ingredientNumbers = 8
-        ),
-        MealItem(
+        ), MealItem(
             id = 9,
             name = "creamy mushroom risotto",
-            minutes = 40,
+            preparationTimeInMinutes = 40,
             contributorId = 98765,
             submitted = LocalDate.parse("2020-11-30"),
-            tags = listOf("italian", "vegetarian", "comfort-food", "rice-dish"),
+            mealTags = listOf("italian", "vegetarian", "comfort-food", "rice-dish"),
             nutrition = Nutrition(
                 calories = 420.0,
                 totalFat = 15.0,
@@ -118,18 +112,16 @@ class GetMealsSuggestionUseCaseTest {
             ),
             description = "Creamy Italian risotto with earthy mushrooms.",
             ingredients = listOf(
-                "arborio rice", "mushrooms", "vegetable broth",
-                "white wine", "parmesan", "onion", "butter"
+                "arborio rice", "mushrooms", "vegetable broth", "white wine", "parmesan", "onion", "butter"
             ),
             ingredientNumbers = 7
-        ),
-        MealItem(
+        ), MealItem(
             id = 10,
             name = "simple green salad",
-            minutes = 10,
+            preparationTimeInMinutes = 10,
             contributorId = 11223,
             submitted = LocalDate.parse("2022-02-14"),
-            tags = listOf("salad", "healthy", "vegan", "quick", "no-cook"),
+            mealTags = listOf("salad", "healthy", "vegan", "quick", "no-cook"),
             nutrition = Nutrition(
                 calories = 150.0,
                 totalFat = 10.0,
@@ -141,24 +133,20 @@ class GetMealsSuggestionUseCaseTest {
             ),
             stepNumbers = 3,
             steps = listOf(
-                "wash and chop greens",
-                "prepare dressing",
-                "toss and serve"
+                "wash and chop greens", "prepare dressing", "toss and serve"
             ),
             description = "Fresh green salad with light vinaigrette.",
             ingredients = listOf(
-                "mixed greens", "cucumber", "tomato",
-                "olive oil", "lemon juice", "salt"
+                "mixed greens", "cucumber", "tomato", "olive oil", "lemon juice", "salt"
             ),
             ingredientNumbers = 6
-        ),
-        MealItem(
+        ), MealItem(
             id = 11,
             name = "chocolate chip cookies",
-            minutes = 30,
+            preparationTimeInMinutes = 30,
             contributorId = 44556,
             submitted = LocalDate.parse("2018-09-05"),
-            tags = listOf("dessert", "baking", "cookies", "sweet"),
+            mealTags = listOf("dessert", "baking", "cookies", "sweet"),
             nutrition = Nutrition(
                 calories = 180.0,
                 totalFat = 9.0,
@@ -179,8 +167,7 @@ class GetMealsSuggestionUseCaseTest {
             ),
             description = "Classic chewy chocolate chip cookies.",
             ingredients = listOf(
-                "flour", "butter", "sugar", "eggs",
-                "chocolate chips", "vanilla", "baking soda"
+                "flour", "butter", "sugar", "eggs", "chocolate chips", "vanilla", "baking soda"
             ),
             ingredientNumbers = 7
         )
@@ -188,103 +175,83 @@ class GetMealsSuggestionUseCaseTest {
 
 
     @Test
-    fun `should throw InvalidCountryException when number Of suggestions is negative`() {
+    fun `should throw InvalidCountOfSuggestionsInput when number Of suggestions is negative`() {
         // Given
         every { dataSource.getAllMeals() } returns getMealsItem()
-        val numberOfSuggestions = -20
-        val preparationTime = 30
-        val numberOfIngredients = 5
-        val umberOfPreparationSteps = 6
+        val input = GetMealsSuggestionInputs(
+            countOfSuggestions = -20, preparationTime = 30, countOfIngredients = 5, countOfPreparationSteps = 6
+        )
         // When & Then
-        shouldThrow<InvalidInputSuggestEasyMealsException> {
+        shouldThrow<InvalidCountOfSuggestionsInput> {
             getMealsSuggestionUseCase.suggestEasyMeals(
-                numberOfSuggestions,
-                preparationTime,
-                numberOfIngredients,
-                umberOfPreparationSteps
+                input
             )
         }
     }
 
     @Test
-    fun `should throw InvalidCountryException when preparation time is negative`() {
+    fun `should throw InvalidPreparationTimeInput when preparation time is negative`() {
         // Given
         every { dataSource.getAllMeals() } returns getMealsItem()
-        var numberOfSuggestions = 10
-        var preparationTime = -100
-        var numberOfIngredients = 5
-        var umberOfPreparationSteps = 6
+        val input = GetMealsSuggestionInputs(
+            countOfSuggestions = 10, preparationTime = -100, countOfIngredients = -5, countOfPreparationSteps = 6
+        )
         // When & Then
-        assertThrows<InvalidInputSuggestEasyMealsException> {
-            getMealsSuggestionUseCase.suggestEasyMeals(
-                numberOfSuggestions,
-                preparationTime,
-                numberOfIngredients,
-                umberOfPreparationSteps
-            )
+        shouldThrow<InvalidPreparationTimeInput> {
+            getMealsSuggestionUseCase.suggestEasyMeals(input)
         }
     }
 
     @Test
-    fun `should throw InvalidCountryException when number Of ingredients is negative`() {
+    fun `should throw InvalidCountOfIngredientsInput when number Of ingredients is negative`() {
         // Given
         every { dataSource.getAllMeals() } returns getMealsItem()
-        var numberOfSuggestions = 10
-        var preparationTime = 30
-        var numberOfIngredients = -6
-        var umberOfPreparationSteps = 6
+        val input = GetMealsSuggestionInputs(
+            countOfSuggestions = 10, preparationTime = 30, countOfIngredients = -6, countOfPreparationSteps = 6
+        )
+
         // When & Then
-        shouldThrow<InvalidInputSuggestEasyMealsException> {
-            getMealsSuggestionUseCase.suggestEasyMeals(
-                numberOfSuggestions,
-                preparationTime,
-                numberOfIngredients,
-                umberOfPreparationSteps
-            )
+        shouldThrow<InvalidCountOfIngredientsInput> {
+            getMealsSuggestionUseCase.suggestEasyMeals(input)
         }
     }
 
     @Test
-    fun `should throw InvalidCountryException when number of preparationSteps is negative`() {
+    fun `should throw InvalidCountOfPreparationStepsInput when number of preparationSteps is negative`() {
         // Given
         every { dataSource.getAllMeals() } returns getMealsItem()
-        var numberOfSuggestions = 10
-        var preparationTime = 30
-        var numberOfIngredients = 5
-        var umberOfPreparationSteps = -3
+        val input = GetMealsSuggestionInputs(
+            countOfSuggestions = 10, preparationTime = 30, countOfIngredients = 5, countOfPreparationSteps = -3
+        )
+
         // When & Then
-        shouldThrow<InvalidInputSuggestEasyMealsException> {
-            getMealsSuggestionUseCase.suggestEasyMeals(
-                numberOfSuggestions,
-                preparationTime,
-                numberOfIngredients,
-                umberOfPreparationSteps
-            )
+        shouldThrow<InvalidCountOfPreparationStepsInput> {
+            getMealsSuggestionUseCase.suggestEasyMeals(input)
         }
     }
+
 
     @ParameterizedTest
     @CsvFileSource(
-        files = ["easy_meal_suggestions.csv"],
-        numLinesToSkip = 1
+        files = ["easy_meal_suggestions.csv"], numLinesToSkip = 1
     )
     fun `should return suggestions when inputs are valid`(
-        numberOfSuggestions: Int,
+        countOfSuggestions: Int,
         preparationTime: Int,
-        numberOfIngredients: Int,
-        numberOfPreparationSteps: Int,
+        countOfIngredients: Int,
+        countOfPreparationSteps: Int,
         expectedMealNames: String
 
     ) {
         every { dataSource.getAllMeals() } returns getMealsItem()
-        val dataSourceCsv = GetMealsSuggestionUseCase(dataSource)
+        val dataSourceCsv = GetMealsSuggestionUseCase(dataSource, validInputForGetMealsSuggestion)
 
         // When
+
         val result = dataSourceCsv.suggestEasyMeals(
-            numberOfSuggestions,
-            preparationTime,
-            numberOfIngredients,
-            numberOfPreparationSteps
+            GetMealsSuggestionInputs(
+                countOfSuggestions, preparationTime, countOfIngredients, countOfPreparationSteps
+            )
         )
 
         // Then
@@ -296,18 +263,14 @@ class GetMealsSuggestionUseCaseTest {
     fun `should throw NoMealsFoundException when all inputs not fitted for meals suggestion`() {
         // Given
         every { dataSource.getAllMeals() } returns getMealsItem()
-        val numberOfSuggestions = 1
-        val preparationTime = 1
-        val numberOfIngredients = 1
-        val umberOfPreparationSteps = 1
-        // When & Then
-        shouldThrow<NoMealsFoundException> {
-            getMealsSuggestionUseCase.suggestEasyMeals(
-                numberOfSuggestions,
-                preparationTime,
-                numberOfIngredients,
-                umberOfPreparationSteps
-            )
-        }
+        val input = GetMealsSuggestionInputs(
+            countOfSuggestions = 1, preparationTime = 1, countOfIngredients = 1, countOfPreparationSteps = 1
+        )
+        // When
+        val result = getMealsSuggestionUseCase.suggestEasyMeals(
+            input
+        )
+        // Then
+        result.shouldBeEmpty()
     }
 }

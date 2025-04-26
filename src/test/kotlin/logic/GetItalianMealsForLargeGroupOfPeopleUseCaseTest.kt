@@ -1,13 +1,12 @@
 package logic
 
-import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
+import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.datetime.LocalDate
 import model.MealItem
-import model.NoMealsFoundException
 import model.Nutrition
 import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
@@ -26,10 +25,10 @@ class GetItalianMealsForLargeGroupOfPeopleUseCaseTest {
         MealItem(
             id = 1,
             name = "baked squash italian style",
-            minutes = 15,
+            preparationTimeInMinutes = 15,
             contributorId = 47892,
             submitted = LocalDate.parse("2005-09-16"),
-            tags = listOf(
+            mealTags = listOf(
                 "60-minutes-or-less",
                 "time-to-make",
                 "course",
@@ -73,10 +72,10 @@ class GetItalianMealsForLargeGroupOfPeopleUseCaseTest {
         MealItem(
             id = 2,
             name = "arriba baked winter squash mexican style",
-            minutes = 15,
+            preparationTimeInMinutes = 15,
             contributorId = 47892,
             submitted = LocalDate.parse("2005-09-16"),
-            tags = listOf(
+            mealTags = listOf(
                 "60-minutes-or-less",
                 "time-to-make",
                 "course",
@@ -120,10 +119,10 @@ class GetItalianMealsForLargeGroupOfPeopleUseCaseTest {
         MealItem(
             id = 3,
             name = "italian pasta for large group",
-            minutes = 30,
+            preparationTimeInMinutes = 30,
             contributorId = 12345,
             submitted = LocalDate.parse("2023-03-01"),
-            tags = listOf(
+            mealTags = listOf(
                 "italian",
                 "time-to-make",
                 "course",
@@ -208,13 +207,14 @@ class GetItalianMealsForLargeGroupOfPeopleUseCaseTest {
     }
 
     @Test
-    fun `should throw NoMealsFoundException when there are no large group meals for searched country`() {
+    fun `should return empty list when there are no large group meals for searched country`() {
         // Given
         every { datasource.getAllMeals() } returns getMealsItems()
 
-        // When & Then
-        shouldThrow<NoMealsFoundException> {
-            getItalianMealsForLargeGroupOfPeopleUseCase.getItalianMealsForLargeGroupOfPeople("American")
-        }
+        // When
+        val result = getItalianMealsForLargeGroupOfPeopleUseCase.getItalianMealsForLargeGroupOfPeople("American")
+
+        // Then
+        result shouldBe emptyList()
     }
 }

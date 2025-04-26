@@ -1,22 +1,44 @@
 package logic
 
+import logic.validation_use_cases.ValidInputForGetGymMeals
 import model.MealItem
 import kotlin.math.abs
 
-class GetMealsForGymUseCase(private val dataSource: FoodChangeModeDataSource) {
+class GetGymMealsUseCase(
+    private val dataSource: FoodChangeModeDataSource, private val validInputForGetGymMeals: ValidInputForGetGymMeals
+) {
 
     fun getMealsForGym(
-        calories: Double,
-        protein: Double,
-        numberOfMeals: Int = 10,
-        caloriesTolerance: Int = 50,
-        proteinTolerance: Int = 15
+        getGymMeals: GetMealForGymInputs
     ): List<MealItem> {
+        validInputForGetGymMeals.isValidInputForGymMeals(
+            getGymMeals
+        )
         return dataSource.getAllMeals().filter { meal ->
-            val calorieDiff = abs(meal.nutrition.calories - calories)
-            val proteinDiff = abs(meal.nutrition.protein - protein)
-            calorieDiff <= caloriesTolerance && proteinDiff <= proteinTolerance
-        }   .shuffled()
-            .take(numberOfMeals)
+            isWithinGymRange(meal, getGymMeals)
+        }.take(getGymMeals.numberOfMeals)
+    }
+
+
+    private fun isWithinGymRange(
+        meal: MealItem, getGymMeals: GetMealForGymInputs
+    ): Boolean {
+        val calorieDiff = abs(meal.nutrition.calories - getGymMeals.calories)
+        val proteinDiff = abs(meal.nutrition.protein - getGymMeals.protein)
+        return calorieDiff <= getGymMeals.caloriesTolerance && proteinDiff <= getGymMeals.proteinTolerance
+    }
+
+    data class GetMealForGymInputs(
+        val calories: Double,
+        val protein: Double,
+        val numberOfMeals: Int = NUMBER_OF_MEALS,
+        val caloriesTolerance: Int = CALORIES_TOLERANCE,
+        val proteinTolerance: Int = PROTEIN_TOLERANCE,
+    )
+
+    companion object {
+        const val NUMBER_OF_MEALS = 10
+        const val CALORIES_TOLERANCE = 50
+        const val PROTEIN_TOLERANCE = 15
     }
 }
