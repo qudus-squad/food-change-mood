@@ -1,6 +1,10 @@
 package logic
 
 import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.matchers.collections.shouldBeEmpty
+import io.kotest.matchers.collections.shouldContain
+import io.kotest.matchers.collections.shouldNotContain
+import io.kotest.matchers.doubles.shouldBeGreaterThanOrEqual
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
@@ -52,7 +56,7 @@ class GetHighCalorieMealsUseCaseTest {
    submitted = LocalDate.parse("2022-05-18"),
    mealTags = listOf("main", "high-protein", "high-calorie"),
    nutrition = Nutrition(
-    calories = 950.0,
+    calories = 650.0,
     totalFat = 60.0,
     sugar = 1.0,
     sodium = 800.0,
@@ -91,63 +95,36 @@ class GetHighCalorieMealsUseCaseTest {
  )
 
  @Test
- fun `should return meal When the calories more than or equal to 700`() {
+ fun `should return meal when calories are 700 or more`() {
   // Given
+  every { dataSource.getAllMeals() } returns getMealItems()
 
-  val suggestMeal = getMealItems()
-  every { dataSource.getAllMeals() } returns suggestMeal
   // When
-
   val result = getHighCalorieMealsUseCase.suggestMeal()
- // Then
 
-  result.id shouldBe 2
-  result.nutrition.calories shouldBe 950.0
+  // Then
+  result.map { it.name }.shouldContain("Chicken Alfredo Pasta")
+
  }
-
  @Test
- fun `should throws NO_MORE_HIGH_CALORIE_MEALS when all high calorie meals are already suggested`() {
-// Given
-
-  val suggestMeal = getMealItems()
-  every { dataSource.getAllMeals() } returns suggestMeal
-// When & Then
-
-  getHighCalorieMealsUseCase.suggestMeal()
-  getHighCalorieMealsUseCase.suggestMeal()
-
-
-  val exception = shouldThrow<NoSuchElementException> {
-   getHighCalorieMealsUseCase.suggestMeal()
-  }}
-
- @Test
- fun `should throw NO_MORE_HIGH_CALORIE_MEALS when there are no high calorie meals`() {
+ fun `should exclude meal when calories are less 700 or more`() {
   // Given
+  every { dataSource.getAllMeals() } returns getMealItems()
 
-  val lowCalorieMeals = getMealItems().filter { it.nutrition.calories < 700.0 }
-  every { dataSource.getAllMeals() } returns lowCalorieMeals
-// When & Then
+  // When
+  val result = getHighCalorieMealsUseCase.suggestMeal()
 
-  val exception = shouldThrow<NoSuchElementException> {
-   getHighCalorieMealsUseCase.suggestMeal()
-  }
+  // Then
+  result.map { it.name }.shouldNotContain("Steak with Fries")
+
  }
-
  @Test
- fun `should throw exception when meal calories are less than default 700`() {
-// Given
-
-  val suggestMeal = getMealItems()
-   .filter { it.nutrition.calories < 700.0 }
-  every { dataSource.getAllMeals() } returns suggestMeal
- // When & Then
-
-  val exception = shouldThrow<NoSuchElementException> {
-   getHighCalorieMealsUseCase.suggestMeal()
-  }
-  exception.message shouldBe NO_MORE_HIGH_CALORIE_MEALS
+ fun `should be empty when there no meals with default value `() {
+  // Given
+  val lowCalorieMeals = getMealItems().filter { it.nutrition.calories == 0.0 }
+  every { dataSource.getAllMeals() } returns lowCalorieMeals.toList()
+  // When & Then
+  val result = getHighCalorieMealsUseCase.suggestMeal()
+  result.shouldBeEmpty()
  }
-
 }
-

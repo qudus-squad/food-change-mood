@@ -107,19 +107,19 @@ fun getMealsWith700Calories() {
     val suggester = GetHighCalorieMealsUseCase(dataSource)
     var suggestedMeal = suggester.suggestMeal()
     try {
-        while (suggestedMeal != null) {
-            println("Suggested Meal: ${suggestedMeal.name} \n${suggestedMeal.description}")
+        while (suggestedMeal.isEmpty()) {
+            println("Suggested Meal: ${suggestedMeal[0].name} \n${suggestedMeal[0].description}")
             println("Press 1 for Like or 0 for Dislike")
             val userResponse = readln().toInt()
             when (userResponse) {
                 1 -> {
-                    printMealDetails(suggestedMeal)
+                    println (suggestedMeal)
                     break
                 }
 
                 0 -> {
                     suggestedMeal = suggester.suggestMeal()
-                    if (suggestedMeal == null) {
+                    if (suggestedMeal .isEmpty()) {
                         println("No more available meals .")
                     }
                 }
