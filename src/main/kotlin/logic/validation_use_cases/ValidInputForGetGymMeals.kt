@@ -10,7 +10,7 @@ class ValidInputForGetGymMeals {
         if (getGymMeals.calories <= 0.0) throw InvalidCaloriesInput(INVALID_CALORIES_TOLERANCE_MEAL)
         if (getGymMeals.protein <= 0.0) throw InvalidProteinInput(INVALID_CALORIES_MEAL)
         if (getGymMeals.numberOfMeals <= 0) throw InvalidNumberOfMealsInput(INVALID_MEALS_NUMBER)
-        if (getGymMeals.caloriesTolerance <= 0) throw InvalidGetGymMealsException(INVALID_PROTEIN_TOLERANCE_MEAL)
+        if (getGymMeals.caloriesTolerance <= 0) throw InvalidCaloriesToleranceInput(INVALID_PROTEIN_TOLERANCE_MEAL)
         if (getGymMeals.proteinTolerance <= 0) throw InvalidProteinToleranceInput(INVALID_PROTEIN_MEAL)
     }
 

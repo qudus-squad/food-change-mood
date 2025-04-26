@@ -94,25 +94,42 @@ class SearchMealsByAddDateUseCaseTest {
     @Test
     fun `should return food matches when searched with the added date`() {
         // given
-        every { dataSource.getAllMeals() } returns getTestMeals()
+        every { dataSource.getAllMeals() } returns getMealItems()
+        every { dateFormatConverter.convertDate("2005-06-12") } returns LocalDate.parse("2005-06-12")
         val addDate = "2005-06-12"
 
         // When
         val result = searchMealsByAddDateUseCase.getSearchMealsByAddDate(addDate)
 
         // Then
-        result.shouldContainExactly(getTestMeals().first())
+        result.shouldContainExactly(getMealItems().first())
     }
 
     @Test
-    fun `should return throw NoMealsFoundException when no matches found`() {
+    fun `should return empty list when no matches found`() {
         // given
-        every { dataSource.getAllMeals() } returns getTestMeals()
+        every { dataSource.getAllMeals() } returns getMealItems()
+        every { dateFormatConverter.convertDate("2005-06-01") } returns LocalDate.parse("2005-06-01")
         val addDate = "2005-06-01"
 
-        // When & Then
-        shouldThrow<NoMealsFoundException> {
-            searchMealsByAddDateUseCase.getSearchMealsByAddDate(addDate)
+        // when
+        val result = searchMealsByAddDateUseCase.getSearchMealsByAddDate(addDate)
+
+        // Then
+        result.shouldBeEmpty()
+    }
+
+    @Test
+    fun `should throw exception when invalid date format is provided`() {
+        // given
+        val invalidDate = "22344-456-21"
+        every { dateFormatConverter.convertDate(invalidDate) } throws
+                Exception(DateFormatConverter.INVALID_DATE_FORMAT)
+
+        // when & then
+        shouldThrow<Exception> {
+            searchMealsByAddDateUseCase.getSearchMealsByAddDate(invalidDate)
         }
     }
+
 }
